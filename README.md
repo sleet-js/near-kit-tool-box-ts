@@ -77,8 +77,13 @@ import {
   near_add_key_fun_json,
   // Staking pool
   pool_get_number_of_accounts_fun_json,
+  // INTEAR DEX engine + xyk sub-dex
+  intear_dex_engine_registered_assets_of_fun_json,
+  intear_dex_xyk_get_pool_fun_json,
+  intear_dex_xyk_get_pool_shares_fun_json,
   // Types
   AmountInput,
+  INTEAR_DEX_XYK_POOL_TYPE,
 } from "@near-kit-tool-box/fun";
 ```
 

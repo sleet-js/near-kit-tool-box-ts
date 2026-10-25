@@ -254,6 +254,25 @@ bun run bin/hello/hello_set.ts --greeting "Hello from near kit"
 bun run typecheck:bin
 ```
 
+### Unit tests
+
+`packages/fun/tests/` holds the `bun:test` suites. They mock the
+`Near` client, so they need no network access.
+
+```bash
+bun test packages/fun/tests/
+```
+
+### Live tests
+
+A suite named `*_live.test.ts` hits a real network. It reads
+`NEAR_KIT_NETWORK` and skips itself when the contract it needs is not
+on that network — the INTEAR DEX, for instance, is mainnet only.
+
+```bash
+NEAR_KIT_NETWORK=mainnet bun test packages/fun/tests/intear_dex_live.test.ts
+```
+
 ---
 
 ## Package Dependencies Overview

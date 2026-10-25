@@ -21,6 +21,10 @@ staking - pool
 
 - [pool.near.md](./pool.near.md)
 
+intear dex
+
+- [dex.intear.near.md](./dex.intear.near.md) — the engine and its sub-dexes (xyk, otc, simple-amm)
+
 ==========================
 <br/>
 copyright 2026 by sleet.near

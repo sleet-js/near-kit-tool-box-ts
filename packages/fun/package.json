@@ -21,7 +21,8 @@
   },
   "scripts": {
     "build": "rm -f .tsbuildinfo && bun run tsc --build --force",
-    "clean": "bun run tsc --build --clean && rm -rf dist .tsbuildinfo"
+    "clean": "bun run tsc --build --clean && rm -rf dist .tsbuildinfo",
+    "test": "bun test tests"
   },
   "files": [
     "dist/**/*",

@@ -16,9 +16,12 @@ import {
 } from "../../packages/env/src/index.js";
 import {
   greeting_contractid,
+  intear_dex_engine_contractid,
+  intear_dex_xyk_dex_id,
   near_tld_contractid,
   pumpopoly_world_contractid,
   rhea_ammv2_contractid,
+  rhea_dclv2_contractid,
   wrap_near_contractid,
 } from "../../packages/fun/src/index.js";
 import { failMissingSigner } from "./args.js";
@@ -28,9 +31,12 @@ export {
   NEAR_KIT_NETWORK,
   near_kit_env,
   greeting_contractid,
+  intear_dex_engine_contractid,
+  intear_dex_xyk_dex_id,
   near_tld_contractid,
   pumpopoly_world_contractid,
   rhea_ammv2_contractid,
+  rhea_dclv2_contractid,
   wrap_near_contractid,
 };
 
@@ -60,9 +66,19 @@ export function resolveContractId(
 
 // =================================================
 // Pretty-prints any JSON-serializable value before logging it.
+//
+// BigInt is not JSON-serializable, so it is stringified on the way
+// out — a 128-bit amount reads better as a string than as a number
+// anyway.
 export function logResult(label: string, value: unknown): void {
   console.log(`--- ${label} ---`);
-  console.log(JSON.stringify(value, null, 2));
+  console.log(
+    JSON.stringify(
+      value,
+      (_key, item) => (typeof item === "bigint" ? item.toString() : item),
+      2,
+    ),
+  );
 }
 // =================================================
 // copyright 2026 by sleet.near
