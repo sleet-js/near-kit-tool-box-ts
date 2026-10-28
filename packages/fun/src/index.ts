@@ -20,6 +20,7 @@ export { rhea_ammv2_add_simple_pool_fun_json } from "./fun/rhea_ammv2/rhea_ammv2
 export { rhea_ammv2_get_deposit_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_deposit_fun_json";
 export { rhea_ammv2_get_account_basic_info_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_account_basic_info_fun_json";
 export { rhea_ammv2_get_pool_shares_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_pool_shares_fun_json";
+export { rhea_ammv2_get_pool_shares_batch_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_pool_shares_batch_fun_json";
 export { rhea_ammv2_get_pool_total_shares_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_pool_total_shares_fun_json";
 export { rhea_ammv2_get_pool_share_price_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_pool_share_price_fun_json";
 export { rhea_ammv2_metadata_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_metadata_fun_json";
@@ -113,6 +114,39 @@ export { pool_get_accounts_fun_json } from "./fun/pool/pool_get_accounts_fun_jso
 export { pool_deposit_and_stake_fun_json } from "./fun/pool/pool_deposit_and_stake_fun_json";
 export { pool_ping_fun_json } from "./fun/pool/pool_ping_fun_json";
 
+// ---------- sputnik dao ----------
+// ===========================================
+export { sputnik_dao_get_config_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_config_fun_json";
+export { sputnik_dao_get_policy_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_policy_fun_json";
+export { sputnik_dao_get_proposals_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_proposals_fun_json";
+export { sputnik_dao_get_proposal_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_proposal_fun_json";
+export { sputnik_dao_get_last_proposal_id_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_last_proposal_id_fun_json";
+export { sputnik_dao_get_actions_log_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_actions_log_fun_json";
+export { sputnik_dao_get_bounties_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_bounties_fun_json";
+export { sputnik_dao_get_bounty_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_bounty_fun_json";
+export { sputnik_dao_get_bounty_claims_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_bounty_claims_fun_json";
+export { sputnik_dao_get_bounty_number_of_claims_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_bounty_number_of_claims_fun_json";
+export { sputnik_dao_get_last_bounty_id_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_last_bounty_id_fun_json";
+export { sputnik_dao_get_available_amount_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_available_amount_fun_json";
+export { sputnik_dao_get_locked_storage_amount_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_locked_storage_amount_fun_json";
+export { sputnik_dao_get_staking_contract_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_staking_contract_fun_json";
+export { sputnik_dao_get_factory_info_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_factory_info_fun_json";
+export { sputnik_dao_version_fun_json } from "./fun/sputnik_dao/sputnik_dao_version_fun_json";
+export { sputnik_dao_has_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_has_blob_fun_json";
+export { sputnik_dao_delegation_balance_of_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_of_fun_json";
+export { sputnik_dao_delegation_balance_ratio_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_ratio_fun_json";
+export { sputnik_dao_delegation_total_supply_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_total_supply_fun_json";
+
+// ---------- sputnik dao factory ----------
+// ===========================================
+export { sputnik_dao_factory_get_dao_list_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_dao_list_fun_json";
+export { sputnik_dao_factory_get_daos_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_daos_fun_json";
+export { sputnik_dao_factory_get_number_daos_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_number_daos_fun_json";
+export { sputnik_dao_factory_get_default_version_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_default_version_fun_json";
+export { sputnik_dao_factory_get_default_code_hash_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_default_code_hash_fun_json";
+export { sputnik_dao_factory_get_contracts_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_contracts_metadata_fun_json";
+export { sputnik_dao_factory_get_owner_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_owner_fun_json";
+
 // ---------- shared types ----------
 // ===========================================
 export type { AmountInput } from "./types/AmountInput";
@@ -122,6 +156,7 @@ export type { RHEA_AMMV2_GET_DEPOSITS_TYPE } from "./types/rhea_ammv2_get_deposi
 export type {
   RHEA_AMMV2_ACCOUNT_BASIC_INFO_TYPE,
   RHEA_AMMV2_METADATA_TYPE,
+  RHEA_AMMV2_POOL_SHARES_BATCH_TYPE,
   RHEA_AMMV2_POOL_SHARES_TYPE,
   RHEA_AMMV2_POOL_TOTAL_SHARES_TYPE,
 } from "./types/rhea_ammv2_view_types";
@@ -168,6 +203,28 @@ export type {
   INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE,
   INTEAR_DEX_SIMPLE_AMM_POOL_TYPE,
 } from "./types/intear_dex_simple_amm_types";
+
+// ---------- sputnik dao types ----------
+// ===========================================
+export type {
+  SPUTNIK_DAO_ACTION_LOG_TYPE,
+  SPUTNIK_DAO_BOUNTY_TYPE,
+  SPUTNIK_DAO_CONFIG_TYPE,
+  SPUTNIK_DAO_CONTRACT_METADATA_TYPE,
+  SPUTNIK_DAO_DELEGATION_BALANCE_RATIO_TYPE,
+  SPUTNIK_DAO_DELEGATION_BALANCE_TYPE,
+  SPUTNIK_DAO_FACTORY_INFO_TYPE,
+  SPUTNIK_DAO_FUNCTION_CALL_ACTION_TYPE,
+  SPUTNIK_DAO_LAST_ACTION_TYPE,
+  SPUTNIK_DAO_POLICY_TYPE,
+  SPUTNIK_DAO_PROPOSAL_KIND_TYPE,
+  SPUTNIK_DAO_PROPOSAL_STATUS_TYPE,
+  SPUTNIK_DAO_PROPOSAL_TYPE,
+  SPUTNIK_DAO_ROLE_KIND_TYPE,
+  SPUTNIK_DAO_ROLE_TYPE,
+  SPUTNIK_DAO_VOTE_POLICY_TYPE,
+  SPUTNIK_DAO_VOTE_TYPE,
+} from "./types/sputnik_dao_types";
 export type { greeting_args } from "./lib/args/greeting_args";
 export type { ft_args } from "./lib/args/ft_args";
 export type {
@@ -180,11 +237,13 @@ export type { intear_dex_engine_args } from "./lib/args/intear_dex_engine_args";
 export type { intear_dex_xyk_args } from "./lib/args/intear_dex_xyk_args";
 export type { intear_dex_otc_args } from "./lib/args/intear_dex_otc_args";
 export type { intear_dex_simple_amm_args } from "./lib/args/intear_dex_simple_amm_args";
+export type { sputnik_dao_args } from "./lib/args/sputnik_dao_args";
 export type { INTEAR_DEX_ASSET_ID } from "./lib/borsh/intear_dex_asset_id";
 export {
   parseIntearDexAssetId,
   readIntearDexAssetId,
   writeIntearDexAssetId,
+  intearDexAssetTokenId,
 } from "./lib/borsh/intear_dex_asset_id";
 export { intearDexAccountOrDexId } from "./lib/borsh/intear_dex_account_or_dex_id";
 export {
@@ -198,6 +257,13 @@ export {
 // ---------- shared method-name constants ----------
 // ===========================================
 export * from "./lib/methods";
+
+// ---------- generic contract view ----------
+// ===========================================
+export {
+  near_kit_contract_view_fun,
+  near_kit_contract_view_fun_json,
+} from "./lib/contract_view";
 
 // ---------- shared per-network contract id constants ----------
 // ===========================================

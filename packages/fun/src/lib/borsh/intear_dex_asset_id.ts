@@ -69,6 +69,25 @@ export function parseIntearDexAssetId(
 }
 
 // =================================================
+/**
+ * Returns the contract id used to look up token metadata for an
+ * INTEAR DEX asset id.
+ *
+ * The asset id names the contract the token lives on:
+ *   - `near`                            → `near` (native NEAR)
+ *   - `nep141:<contract_id>`            → `<contract_id>`
+ *   - `nep245:<contract_id>:<token_id>` → `<contract_id>`
+ *   - `nep171:<contract_id>:<token_id>` → `<contract_id>`
+ *
+ * This is the id the token registry is asked about, so it is how a
+ * balance held inside the engine is matched to the token's metadata.
+ */
+export function intearDexAssetTokenId(assetId: string): string {
+  const parsed = parseIntearDexAssetId(assetId);
+  if (parsed.kind === "near") return "near";
+  return parsed.contractId as string;
+}
+
 /** Writes an asset id in borsh form. */
 export function writeIntearDexAssetId(writer: BorshWriter, assetId: string): void {
   const parsed = parseIntearDexAssetId(assetId);

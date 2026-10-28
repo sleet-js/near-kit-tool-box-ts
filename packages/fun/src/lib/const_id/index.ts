@@ -20,5 +20,6 @@ export * from "./wrap_near_contract_id_const";
 export * from "./near_tld_contract_id_const";
 export * from "./greeting_contract_id_const";
 export * from "./pumpopoly_world_contract_id_const";
+export * from "./sputnik_dao_contract_id_const";
 // =================================================
 // copyright 2026 by sleet.near

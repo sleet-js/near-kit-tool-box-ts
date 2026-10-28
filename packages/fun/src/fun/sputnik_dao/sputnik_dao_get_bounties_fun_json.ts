@@ -1,0 +1,36 @@
+// =================================================
+// sputnik_dao_get_bounties_fun_json
+//
+// View: the DAO's `get_bounties`. Returns a page of bounties,
+// starting at `from_index`, at most `limit` of them.
+//
+// The list is paginated: paging through every bounty means repeating
+// the call with `from_index` moving on by `limit`.
+//
+// --- WHY --- the amount is in the token's own smallest unit, and the
+// contract does not say how many decimals that is. NEAR is 24
+// decimals and most other tokens are 18, so the decimals come from
+// the token registry — never from a guess.
+//
+// An empty token id means NEAR.
+// =================================================
+import type { Near } from "near-kit";
+import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";
+import type { sputnik_dao_args } from "../../lib/args/sputnik_dao_args";
+import type { SPUTNIK_DAO_BOUNTY_TYPE } from "../../types/sputnik_dao_types";
+// =================================================
+export async function sputnik_dao_get_bounties_fun_json(
+  near: Near,
+  daoContractId: string,
+  from_index: sputnik_dao_args["from_index"],
+  limit: sputnik_dao_args["limit"],
+): Promise<SPUTNIK_DAO_BOUNTY_TYPE[]> {
+  const result = await near.view(
+    daoContractId,
+    sputnik_dao_methods_const.get_bounties,
+    { from_index, limit },
+  );
+  return (result as SPUTNIK_DAO_BOUNTY_TYPE[] | undefined) ?? [];
+}
+// =================================================
+// copyright 2026 by sleet.near

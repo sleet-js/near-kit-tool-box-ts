@@ -96,6 +96,13 @@ bun run bin/rhea_ammv2/rhea_get_pool_shares.ts \
   --pool-id 2459 \
   --account-id sleet.testnet
 
+# view: LP shares held by an account in several pools at once
+# the batch is bounded by the rpc's view gas, not by the contract —
+# about 5000 pool ids answer on mainnet today, more runs out of gas
+bun run bin/rhea_ammv2/rhea_get_pool_shares_batch.ts \
+  --pool-ids 0,1,2 \
+  --account-id sleet.near
+
 # view: total LP shares and share prices for a pool
 bun run bin/rhea_ammv2/rhea_get_pool_total_shares.ts --pool-id 2459
 
@@ -340,6 +347,55 @@ bun run bin/intear_dex_simple_amm/intear_dex_simple_amm_get_pool.ts \
 
 ---
 
+## sputnik_dao — Sputnik DAO factory + daos
+
+There are two kinds of account and they are not interchangeable.
+
+The **factory** is `sputnik-dao.near`. It deploys the daos and lists
+them. It answers none of the dao methods.
+
+A **dao** is `<name>.sputnik-dao.near` — `huggies.sputnik-dao.near`,
+`onsocial.sputnik-dao.near`, `sleet.sputnik-dao.near`.
+
+> Calling the factory as if it were a dao fails with a misleading
+> `MethodResolveError(MethodNotFound)` for every method.
+
+Both exist on mainnet only.
+
+`--dao` takes either the name (`huggies`) or the whole account id
+(`huggies.sputnik-dao.near`) — both work.
+
+```sh
+# view: a dao's name, purpose and metadata
+bun run bin/sputnik_dao/dao_config.ts --dao huggies
+
+# view: a dao's roles and who is in them
+bun run bin/sputnik_dao/dao_policy.ts --dao huggies
+
+# view: a dao's proposals
+bun run bin/sputnik_dao/dao_proposals.ts --dao huggies --from-index 0 --limit 50
+
+# view: one proposal by its id — a proposal that is not there answers null
+bun run bin/sputnik_dao/dao_proposal.ts --dao huggies --proposal-id 0
+
+# view: a dao's balances, version and factory
+bun run bin/sputnik_dao/dao_info.ts --dao huggies
+
+# view: a dao's bounties
+bun run bin/sputnik_dao/dao_bounties.ts --dao huggies
+
+# view: a dao's actions log
+bun run bin/sputnik_dao/dao_actions_log.ts --dao huggies
+
+# view: the factory's daos — the whole list, or a page of it
+bun run bin/sputnik_dao/factory_daos.ts --from-index 0 --limit 50
+
+# view: the factory's own settings
+bun run bin/sputnik_dao/factory_info.ts
+```
+
+---
+
 ## layout
 
 ```
@@ -356,6 +412,7 @@ bin/
   pumpopoly_world/     # world game
   rhea_ammv2/          # AMM / ref-finance
   rhea_dclv2/          # concentrated-liquidity DEX
+  sputnik_dao/        # Sputnik DAO factory + daos
   wrap_near/           # wNEAR
 ```
 

@@ -22,6 +22,7 @@ import {
   pumpopoly_world_contractid,
   rhea_ammv2_contractid,
   rhea_dclv2_contractid,
+  sputnik_dao_factory_contractid,
   wrap_near_contractid,
 } from "../../packages/fun/src/index.js";
 import { failMissingSigner } from "./args.js";
@@ -37,6 +38,7 @@ export {
   pumpopoly_world_contractid,
   rhea_ammv2_contractid,
   rhea_dclv2_contractid,
+  sputnik_dao_factory_contractid,
   wrap_near_contractid,
 };
 

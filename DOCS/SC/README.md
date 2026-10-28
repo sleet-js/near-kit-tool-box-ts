@@ -25,6 +25,10 @@ intear dex
 
 - [dex.intear.near.md](./dex.intear.near.md) — the engine and its sub-dexes (xyk, otc, simple-amm)
 
+governance - sputnik dao
+
+- [sputnik-dao.near.md](./sputnik-dao.near.md) — the factory and the daos it deploys
+
 ==========================
 <br/>
 copyright 2026 by sleet.near

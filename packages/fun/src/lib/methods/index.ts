@@ -17,5 +17,6 @@ export * from "./methods_near";
 export * from "./methods_pool";
 export * from "./methods_pumpopoly_world";
 export * from "./methods_wrap_near";
+export * from "./methods_sputnik_dao";
 // =================================================
 // copyright 2026 by sleet.near

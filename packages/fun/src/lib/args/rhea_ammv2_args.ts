@@ -16,6 +16,8 @@ export interface rhea_ammv2_args {
   tokens: string[];
   // generic
   account_id: string;
+  // get_pool_shares_batch
+  pool_ids: number[];
   deposit: string;
   token_id: string;
   amount: string;

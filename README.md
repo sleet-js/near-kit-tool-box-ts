@@ -53,7 +53,7 @@ const id = rhea_ammv2_contractid(NEAR_KIT_NETWORK);
 ### @near-kit-tool-box/fun
 
 Contract functions (greeting, Rhea/Ref, FT, wrapNEAR, pumpopoly world,
-staking pool, NEAR TLD).
+staking pool, NEAR TLD, Sputnik DAO, INTEAR DEX).
 
 ```js
 import {
@@ -81,6 +81,12 @@ import {
   intear_dex_engine_registered_assets_of_fun_json,
   intear_dex_xyk_get_pool_fun_json,
   intear_dex_xyk_get_pool_shares_fun_json,
+  // Sputnik DAO — the factory and the daos it deploys
+  sputnik_dao_get_config_fun_json,
+  sputnik_dao_get_proposals_fun_json,
+  sputnik_dao_factory_get_dao_list_fun_json,
+  // Generic view — for any contract not in the toolbox
+  near_kit_contract_view_fun_json,
   // Types
   AmountInput,
   INTEAR_DEX_XYK_POOL_TYPE,
