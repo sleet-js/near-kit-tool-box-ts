@@ -9,7 +9,6 @@
 //     them. It has no DAO state of its own.
 //   - a DAO (`<name>.sputnik-dao.near`) holds the config, the policy,
 //     the proposals and the bounties.
-//
 // =================================================
 
 // =================================================

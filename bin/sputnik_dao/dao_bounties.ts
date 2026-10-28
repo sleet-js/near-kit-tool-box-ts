@@ -8,11 +8,10 @@
 // usage:
 //   bun run bin/sputnik_dao/dao_bounties.ts --dao <name|account-id> [--from-index <n>] [--limit <n>]
 //
-// --- WHY --- the amount is in the token's own smallest unit and the
-// contract does not say how many decimals that is. NEAR is 24
-// decimals and most other tokens are 18, so read the decimals from
-// the token registry — never from a guess. an empty token id means
-// NEAR.
+// The amount is in the token's own smallest unit and the contract does
+// not say how many decimals that is. NEAR is 24 decimals and most
+// other tokens are 18, so read the decimals from the token registry —
+// never from a guess. An empty token id means NEAR.
 // =================================================
 import { optionalNumber, parseArgs, requireString } from "../_shared/args.js";
 import { logResult, near_kit_env } from "../_shared/env.js";

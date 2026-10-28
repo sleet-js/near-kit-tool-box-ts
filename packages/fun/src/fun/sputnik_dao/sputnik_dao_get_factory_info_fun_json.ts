@@ -4,7 +4,6 @@
 // View: the DAO's `get_factory_info`. Returns the factory that
 // deployed the DAO and whether the DAO follows the factory's default
 // code.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

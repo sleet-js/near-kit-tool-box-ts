@@ -7,7 +7,6 @@
 // The only arg is `account_id` — the contract panics with
 // `missing field 'account_id'` without it, and ignores any other
 // field.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

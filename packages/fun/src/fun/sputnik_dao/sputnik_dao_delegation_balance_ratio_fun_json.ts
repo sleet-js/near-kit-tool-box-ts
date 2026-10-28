@@ -6,7 +6,6 @@
 // a pair of strings.
 //
 // The arg is `account_id`.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

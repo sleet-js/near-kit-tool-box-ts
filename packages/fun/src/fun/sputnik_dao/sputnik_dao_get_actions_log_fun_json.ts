@@ -6,7 +6,6 @@
 //
 // The actions are things like `AddProposal`, `VoteApprove` and
 // `ActProposal`.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

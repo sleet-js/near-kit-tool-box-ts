@@ -3,7 +3,6 @@
 //
 // View: the DAO's `get_locked_storage_amount`. Returns the NEAR the
 // DAO holds for storage, in yoctoNEAR, as a string.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

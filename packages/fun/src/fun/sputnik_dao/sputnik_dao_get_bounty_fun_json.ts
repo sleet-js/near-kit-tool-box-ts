@@ -5,7 +5,6 @@
 //
 // The arg is `id` — the contract panics with
 // `missing field 'id'` when it is called with `bounty_id`.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

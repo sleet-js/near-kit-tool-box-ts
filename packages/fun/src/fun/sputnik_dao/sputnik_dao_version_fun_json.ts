@@ -3,7 +3,6 @@
 //
 // View: the DAO's `version`. Returns the DAO contract's version, e.g.
 // `2.3.1`.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

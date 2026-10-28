@@ -3,7 +3,6 @@
 //
 // View: the FACTORY's `get_default_code_hash`. Returns the code hash
 // the factory deploys new DAOs with.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_factory_methods_const } from "../../lib/methods/methods_sputnik_dao";

@@ -9,9 +9,9 @@
 // usage:
 //   bun run bin/sputnik_dao/factory_info.ts [--contract-id <id>]
 //
-// --- WHY --- a dao can be pinned to an older version than the
-// factory's default, so the factory's defaults and a dao's own
-// `version` are worth reading together.
+// A dao can be pinned to an older version than the factory's default,
+// so the factory's defaults and a dao's own `version` are worth
+// reading together.
 // =================================================
 import { parseArgs } from "../_shared/args.js";
 import {

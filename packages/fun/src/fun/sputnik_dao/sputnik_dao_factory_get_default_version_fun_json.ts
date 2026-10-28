@@ -3,7 +3,6 @@
 //
 // View: the FACTORY's `get_default_version`. Returns the version the
 // factory deploys new DAOs with, as a `[major, minor]` pair.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_factory_methods_const } from "../../lib/methods/methods_sputnik_dao";

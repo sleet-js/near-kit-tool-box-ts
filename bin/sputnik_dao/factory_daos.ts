@@ -7,9 +7,9 @@
 // usage:
 //   bun run bin/sputnik_dao/factory_daos.ts [--from-index <n>] [--limit <n>] [--contract-id <id>]
 //
-// --- WHY --- without `--from-index` the whole list comes back, which
-// is every dao the factory has deployed — over two thousand. page it
-// with `--from-index` and `--limit`.
+// Without `--from-index` the whole list comes back, which is every dao
+// the factory has deployed — over two thousand. Page it with
+// `--from-index` and `--limit`.
 // =================================================
 import { optionalNumber, parseArgs } from "../_shared/args.js";
 import {

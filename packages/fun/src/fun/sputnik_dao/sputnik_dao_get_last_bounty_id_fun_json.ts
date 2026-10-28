@@ -3,7 +3,6 @@
 //
 // View: the DAO's `get_last_bounty_id`. Returns the id the DAO's
 // NEXT bounty will carry.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

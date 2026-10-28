@@ -7,7 +7,6 @@
 // The hash is a 32-byte crypto hash in **base58** — the contract
 // panics with `base58 decoding error` on anything else, and with
 // `invalid length of the crypto hash` on the wrong number of bytes.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

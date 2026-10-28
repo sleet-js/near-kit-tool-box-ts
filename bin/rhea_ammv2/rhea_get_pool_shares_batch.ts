@@ -5,10 +5,10 @@
 //   bun run bin/rhea_ammv2/rhea_get_pool_shares_batch.ts \
 //     --pool-ids <id,id,id> --account-id <id> [--contract-id <id>]
 //
-// --- WHY --- the batch is bounded by the rpc's view gas, not by the
-// contract. a batch of about 5000 pool ids answers on mainnet today;
-// a larger one fails with a wasm `GasLimitExceeded`. split a large
-// list into batches if it runs out of gas.
+// The batch is bounded by the rpc's view gas, not by the contract. A
+// batch of about 5000 pool ids answers on mainnet today; a larger one
+// fails with a wasm `GasLimitExceeded`. Split a large list into
+// batches if it runs out of gas.
 // =================================================
 import { parseArgs, requireString } from "../_shared/args.js";
 import {

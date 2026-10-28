@@ -4,7 +4,6 @@
 // Parameter type map for every Sputnik DAO view/call function
 // exported from this package. Each method gets its own slice of the
 // args it actually consumes.
-//
 // =================================================
 
 // =================================================

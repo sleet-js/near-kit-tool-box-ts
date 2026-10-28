@@ -8,8 +8,8 @@
 // usage:
 //   bun run bin/sputnik_dao/dao_proposals.ts --dao <name|account-id> [--from-index <n>] [--limit <n>]
 //
-// --- WHY --- a dao with no proposals answers with an empty list, not
-// with a failure, so the bin prints `[]` for an empty dao.
+// A dao with no proposals answers with an empty list, not with a
+// failure, so the bin prints `[]` for an empty dao.
 // =================================================
 import { optionalNumber, parseArgs, requireString } from "../_shared/args.js";
 import { logResult, near_kit_env } from "../_shared/env.js";

@@ -9,10 +9,10 @@
 // usage:
 //   bun run bin/sputnik_dao/dao_actions_log.ts --dao <name|account-id>
 //
-// --- WHY --- a proposal is not a transaction. the contract stores the
-// proposal's record and this trail of actions, but it does not store
-// the transaction hashes, so the log is the way back to what happened
-// on a proposal that is no longer in the list.
+// A proposal is not a transaction. The contract stores the proposal's
+// record and this trail of actions, but it does not store the
+// transaction hashes, so the log is the way back to what happened on a
+// proposal that is no longer in the list.
 // =================================================
 import { parseArgs, requireString } from "../_shared/args.js";
 import { logResult, near_kit_env } from "../_shared/env.js";

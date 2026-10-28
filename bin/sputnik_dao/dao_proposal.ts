@@ -8,8 +8,8 @@
 // usage:
 //   bun run bin/sputnik_dao/dao_proposal.ts --dao <name|account-id> --proposal-id <id>
 //
-// --- WHY --- a proposal that is not there answers with `null`, not
-// with a failure. that is what a removed proposal looks like.
+// A proposal that is not there answers with `null`, not with a
+// failure. That is what a removed proposal looks like.
 // =================================================
 import { parseArgs, requireNumber, requireString } from "../_shared/args.js";
 import { logResult, near_kit_env } from "../_shared/env.js";

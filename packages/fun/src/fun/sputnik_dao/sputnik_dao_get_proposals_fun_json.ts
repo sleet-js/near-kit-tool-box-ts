@@ -15,7 +15,6 @@
 // This helper reads both shapes as "no proposals" and throws for
 // every other error, so a DAO with no proposals is never mistaken for
 // a broken contract.
-//
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";
