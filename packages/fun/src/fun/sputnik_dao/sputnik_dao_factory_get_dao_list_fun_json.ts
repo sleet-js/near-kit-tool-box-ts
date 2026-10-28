@@ -3,11 +3,6 @@
 //
 // View: the FACTORY's `get_dao_list`. Returns every DAO's account id.
 //
-// --- WHY --- the factory is `sputnik-dao.near` and the DAOs are
-// `<name>.sputnik-dao.near`. Calling the factory as if it were a DAO
-// fails with a misleading `MethodResolveError(MethodNotFound)` for
-// every method, because none of the DAO methods exist there.
-//
 // The list is the whole list — there is no paging. Use
 // `get_daos` when the list is long and a page will do.
 // =================================================

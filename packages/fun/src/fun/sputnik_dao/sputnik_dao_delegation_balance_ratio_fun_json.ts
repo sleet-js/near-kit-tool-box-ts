@@ -7,8 +7,6 @@
 //
 // The arg is `account_id`.
 //
-// --- WHY --- the pair is `[balance, ratio]`, where the ratio is the
-// account's share of the DAO's delegated voting power.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

@@ -7,7 +7,6 @@
 // The metadata is base64-encoded JSON — it decodes to fields like
 // `{ primaryColor, flagLogo }`, the DAO's own site branding.
 //
-// --- WHY --- the config is the one place a DAO says what it is.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

@@ -7,11 +7,6 @@
 // The list is paginated: paging through every bounty means repeating
 // the call with `from_index` moving on by `limit`.
 //
-// --- WHY --- the amount is in the token's own smallest unit, and the
-// contract does not say how many decimals that is. NEAR is 24
-// decimals and most other tokens are 18, so the decimals come from
-// the token registry — never from a guess.
-//
 // An empty token id means NEAR.
 // =================================================
 import type { Near } from "near-kit";

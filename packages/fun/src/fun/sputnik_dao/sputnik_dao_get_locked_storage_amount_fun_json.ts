@@ -4,9 +4,6 @@
 // View: the DAO's `get_locked_storage_amount`. Returns the NEAR the
 // DAO holds for storage, in yoctoNEAR, as a string.
 //
-// --- WHY --- this is the money the DAO cannot spend. it is the
-// storage deposit the DAO's own state needs, and it is held apart
-// from the spendable amount.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

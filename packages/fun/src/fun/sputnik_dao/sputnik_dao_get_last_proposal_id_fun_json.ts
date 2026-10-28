@@ -4,8 +4,6 @@
 // View: the DAO's `get_last_proposal_id`. Returns the id the DAO's
 // NEXT proposal will carry.
 //
-// --- WHY --- this is the NEXT id, not the count of the proposals.
-//
 // The contract starts the counter at 0 and bumps it on every add, so
 // a DAO whose proposals were all removed still reports a non-zero id.
 // The number of proposals that exist is the length of `get_proposals`,

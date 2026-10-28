@@ -5,10 +5,6 @@
 // exported from this package. Each method gets its own slice of the
 // args it actually consumes.
 //
-// --- WHY --- the DAO contract is `#[near(serializers=[borsh, json])]`
-// and near-sdk's JSON mode is what a view call uses, so the args
-// arrive as JSON. Every shape here was confirmed against a live
-// mainnet DAO on 2026-10-28.
 // =================================================
 
 // =================================================

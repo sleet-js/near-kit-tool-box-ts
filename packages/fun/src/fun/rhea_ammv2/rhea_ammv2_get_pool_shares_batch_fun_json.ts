@@ -8,8 +8,6 @@
 // pool — the LP token balance, or `"0"` when the account holds
 // nothing in that pool.
 //
-// --- WHY --- there is no client-side cap on the batch size.
-//
 // The contract does not cap how many pool ids one call may carry.
 // The ceiling is the RPC's view gas: a batch of about 5000 pool ids
 // answers on mainnet today, and a larger one fails with a wasm

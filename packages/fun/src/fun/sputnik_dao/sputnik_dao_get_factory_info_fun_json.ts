@@ -5,9 +5,6 @@
 // deployed the DAO and whether the DAO follows the factory's default
 // code.
 //
-// --- WHY --- a DAO that is not on the factory's default code is
-// pinned to an older version, which is why the version and the
-// factory's defaults are worth reading together.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

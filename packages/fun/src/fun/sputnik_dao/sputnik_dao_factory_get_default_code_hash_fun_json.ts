@@ -4,9 +4,6 @@
 // View: the FACTORY's `get_default_code_hash`. Returns the code hash
 // the factory deploys new DAOs with.
 //
-// --- WHY --- the code hash identifies the exact contract build a DAO
-// runs, the same way `get_contracts_metadata` names the versions the
-// factory knows about.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_factory_methods_const } from "../../lib/methods/methods_sputnik_dao";

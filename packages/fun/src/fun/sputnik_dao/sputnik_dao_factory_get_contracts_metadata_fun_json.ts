@@ -5,9 +5,6 @@
 // of the DAO contract the factory knows about — the code hash, the
 // version, the source commit and the changelog url of each.
 //
-// --- WHY --- this is the list of builds a DAO can be pinned to. the
-// factory ships five: `[2,0]`, `[2,1]`, `[3,0]`, `[3,1]` and `[3,2]`.
-//
 // The pairs are `[code_hash, metadata]`, in the order the factory
 // lists them.
 // =================================================

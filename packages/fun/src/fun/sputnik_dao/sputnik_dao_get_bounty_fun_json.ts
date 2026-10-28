@@ -6,10 +6,6 @@
 // The arg is `id` — the contract panics with
 // `missing field 'id'` when it is called with `bounty_id`.
 //
-// --- WHY --- a bounty that is not there is a normal answer, not a
-// failure. the contract panics with `ERR_NO_BOUNTY` when the id names
-// no bounty, so this helper answers `null` for one and throws for
-// every other error.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

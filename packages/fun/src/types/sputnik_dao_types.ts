@@ -4,11 +4,6 @@
 // Every shape here was read off a live mainnet DAO
 // (`huggies.sputnik-dao.near`, sputnikdao2 v2.3.1) on 2026-10-28.
 //
-// --- WHY --- the DAO contract is `#[near(serializers=[borsh, json])]`
-// and near-sdk's JSON mode is what a view call uses, so these are the
-// JSON shapes as they arrive — externally tagged enums, numbers as
-// strings, and amounts in the token's own smallest unit.
-//
 // The contract's enums carry every variant, not only the ones seen
 // on one DAO, so a caller can pattern-match on them.
 // =================================================

@@ -4,8 +4,6 @@
 // View: the DAO's `get_last_bounty_id`. Returns the id the DAO's
 // NEXT bounty will carry.
 //
-// --- WHY --- this is the NEXT id, not the count of the bounties, the
-// same way `get_last_proposal_id` is the next proposal id.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

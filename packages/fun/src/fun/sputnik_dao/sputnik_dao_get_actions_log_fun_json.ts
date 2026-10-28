@@ -7,10 +7,6 @@
 // The actions are things like `AddProposal`, `VoteApprove` and
 // `ActProposal`.
 //
-// --- WHY --- a proposal is not a transaction. the contract stores the
-// proposal's record and this trail of actions, but it does not store
-// the transaction hashes, so the log is the way back to what happened
-// on a proposal that is no longer in the list.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

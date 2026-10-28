@@ -3,11 +3,6 @@
 //
 // View: the DAO's `get_policy`. Returns the roles and who is in them.
 //
-// --- WHY --- a role's `kind` is an enum with two shapes:
-//   - `{ "Group": ["a.near", "b.near"] }` — the accounts in the role
-//   - `"Everyone"` — a bare string, meaning any account may act in
-//     the role. it names no accounts, so it has no member list.
-//
 // There is NO method that lists every member of a DAO. The policy
 // holds role -> member lists, so the members are the union of the
 // roles' member lists.

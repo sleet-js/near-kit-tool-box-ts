@@ -10,10 +10,6 @@
 //   - a DAO (`<name>.sputnik-dao.near`) holds the config, the policy,
 //     the proposals and the bounties.
 //
-// --- WHY --- calling the factory as if it were a DAO fails with a
-// misleading `MethodResolveError(MethodNotFound)` for every method,
-// because none of the DAO methods exist there. Use the factory
-// helpers for the factory and the DAO helpers for a real DAO.
 // =================================================
 
 // =================================================

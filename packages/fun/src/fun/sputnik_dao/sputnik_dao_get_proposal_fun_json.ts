@@ -6,12 +6,6 @@
 // The arg is `id` — the contract panics with
 // `missing field 'id'` when it is called with `proposal_id`.
 //
-// --- WHY --- a proposal that is not there is a normal answer, not a
-// failure. the contract panics with `ERR_NO_PROPOSAL` when the id
-// names no proposal — which is what a removed proposal looks like,
-// since the DAO keeps the id in its counter and the record in the
-// actions log but drops the proposal itself.
-//
 // So this helper answers `null` for a proposal that is not there, and
 // throws for every other error. A broken DAO and a DAO with no such
 // proposal stay distinguishable.

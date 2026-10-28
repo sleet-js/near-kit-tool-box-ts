@@ -8,9 +8,6 @@
 // `missing field 'account_id'` without it, and ignores any other
 // field.
 //
-// --- WHY --- the claims are the DAO's record of who took what out of
-// a bounty. the number of claims on one bounty is a separate read,
-// `get_bounty_number_of_claims`.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

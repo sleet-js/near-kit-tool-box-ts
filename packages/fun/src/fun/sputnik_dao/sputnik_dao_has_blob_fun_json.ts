@@ -8,8 +8,6 @@
 // panics with `base58 decoding error` on anything else, and with
 // `invalid length of the crypto hash` on the wrong number of bytes.
 //
-// --- WHY --- blobs are the DAO's off-chain files. the contract keeps
-// the hashes and the sizes, and the files themselves live off-chain.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

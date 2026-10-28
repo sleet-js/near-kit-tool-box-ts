@@ -7,9 +7,6 @@
 // The list is paginated: paging through every DAO means repeating the
 // call with `from_index` moving on by `limit`.
 //
-// --- WHY --- the numbers are JSON numbers. the contract panics with
-// `invalid type: string "0", expected u64` when they are sent as
-// strings, so `"0"` is not the same as `0` here.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_factory_methods_const } from "../../lib/methods/methods_sputnik_dao";
