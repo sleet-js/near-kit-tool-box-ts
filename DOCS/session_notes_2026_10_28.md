@@ -236,12 +236,8 @@ the rhea_ammv2 drift survived.
 
 ## 5. Open risks
 
-1. **`RHEA_DCLV2_LIQUIDITY_TYPE` is still unverified.** The liquidity
-   views need an `lpt_id` that no known account holds, so its field
-   list (`lpt_id`, `owner_id`, `pool_id`, `left_point`, `right_point`,
-   `amount`) is still hand-written. `left_point` and `right_point` are
-   _required_ in the schema, so a name mismatch would throw. Every
-   other DCL v2 type is now verified — see below.
+1. **Nothing in the DCL v2 family is unverified any more.** The
+   liquidity views were the last one — see below.
 
 2. **Sputnik proposal-kind variants never seen live**:
    `SetStakingContract`, `FactoryInfoUpdate`, `ChangePolicyAddOrUpdateRole`,
@@ -277,6 +273,38 @@ verified against live mainnet responses:
 - `RHEA_DCLV2_METADATA_TYPE` is still lossy: `pool_count` and
   `user_count` land untyped in `extra`. The live `get_metadata`
   returns 11 fields; the type names one.
+
+### The DCL v2 id formats (the bit that was blocking us)
+
+The **contract** uses a composite id, not the website's format:
+
+```
+pool_id = <token_x>|<token_y>|<fee>
+         e.g. nearvember-337.meme-cooking.near|wrap.near|10000
+lpt_id  = <pool_id>#<liquidity index>
+         e.g. nearvember-337.meme-cooking.near|wrap.near|10000#17677
+```
+
+The website shows a different form
+(`batman-4.nearlytrade.near<>wrap.near@10000`) — that is the UI's own
+format, and passing it to the contract returns `null`.
+
+`list_pools` and `list_liquidities` are the views that reveal real
+ids. `list_liquidities` takes `account_id`; `sleet.near` holds 7
+positions.
+
+Two findings that changed the types:
+
+- `left_point` and `right_point` are **negative** below the current
+  point — the live answer is `-9400` and `-9200`.
+- `get_liquidity` and `get_liquidity_view` answer with **different
+  fields**: the former carries `unclaimed_fee_x`/`unclaimed_fee_y`,
+  the latter carries `token_x`/`token_y`/`fee_x`/`fee_y`.
+
+`RHEA_DCLV2_USER_ASSET_TYPE` was also confirmed: `get_user_asset`
+answers with a bare decimal string. Checked across 48 live calls
+(4 accounts x 12 tokens from the pool list) — every answer was a
+string, never an object.
 
 ---
 

@@ -29,16 +29,20 @@ import * as z from "zod";
 //   "7921") and `protocol_fee_rate` is a JSON number. The schema below
 //   names only `protocol_fee_rate` and keeps the rest in `extra`.
 //
-// NOT YET VERIFIED
-//   `RHEA_DCLV2_LIQUIDITY_TYPE` — the liquidity views need an `lpt_id`
-//   that no known account holds, so its field list is still
-//   hand-written.
-//
+//   `list_liquidities` answers with 10 fields:
+//   `lpt_id`, `owner_id`, `pool_id`, `left_point`, `right_point`,
+//   `amount`, `mft_id`, `v_liquidity`, `unclaimed_fee_x`,
+//   `unclaimed_fee_y`
+//   The `lpt_id` is the pool id plus the owner's liquidity index —
+//   `nearvember-337.meme-cooking.near|wrap.near|10000#17677` — and the
+//   `pool_id` is the same string without the `#index`.
+//   `left_point` and `right_point` are NEGATIVE below the current
+//   point: the live answer for `sleet.near` is `-9400` and `-9200`.
+
 // DCL v2 pool and liquidity responses include optional pool-specific
 // fields. The schemas preserve these in `extra`, so new contract fields
 // do not make a typed view fail.
 // =================================================
-
 export interface RHEA_DCLV2_POOL_TYPE {
   pool_id: string;
   token_x: string;
@@ -135,6 +139,21 @@ export const RHEA_DCLV2_POOLS_TYPE_Z_CONST = z.array(
   RHEA_DCLV2_POOL_TYPE_Z_CONST,
 );
 
+// One liquidity position — the LP tokens an account holds in a pool.
+//
+// The `lpt_id` is the pool id plus the owner's liquidity index:
+//   `nearvember-337.meme-cooking.near|wrap.near|10000#17677`
+// and the `pool_id` is the same string without the `#index` part.
+//
+// `left_point` and `right_point` are NEGATIVE for a position that is
+// below the current point — the live answer for `sleet.near` is
+// `-9400` and `-9200`. They are point indices, not balances.
+//
+// `get_liquidity` and `get_liquidity_view` answer with slightly
+// different fields: the former carries `unclaimed_fee_x` and
+// `unclaimed_fee_y`, the latter carries `token_x`, `token_y`, `fee_x`
+// and `fee_y`. Both are named below, so both land in `extra` for the
+// view that does not carry them.
 export interface RHEA_DCLV2_LIQUIDITY_TYPE {
   lpt_id?: string;
   owner_id?: string;
@@ -142,6 +161,13 @@ export interface RHEA_DCLV2_LIQUIDITY_TYPE {
   left_point: number;
   right_point: number;
   amount?: string;
+  // the mft id of the position, or `""` when it is a plain ft.
+  mft_id?: string;
+  // the virtual liquidity the position carries.
+  v_liquidity?: string;
+  // the fees the position has not claimed yet.
+  unclaimed_fee_x?: string;
+  unclaimed_fee_y?: string;
   extra: Record<string, unknown>;
 }
 
@@ -153,6 +179,10 @@ export const RHEA_DCLV2_LIQUIDITY_TYPE_Z_CONST = z
     left_point: z.number(),
     right_point: z.number(),
     amount: z.string().optional(),
+    mft_id: z.string().optional(),
+    v_liquidity: z.string().optional(),
+    unclaimed_fee_x: z.string().optional(),
+    unclaimed_fee_y: z.string().optional(),
   })
   .loose()
   .transform((value) => {
@@ -163,6 +193,10 @@ export const RHEA_DCLV2_LIQUIDITY_TYPE_Z_CONST = z
       "left_point",
       "right_point",
       "amount",
+      "mft_id",
+      "v_liquidity",
+      "unclaimed_fee_x",
+      "unclaimed_fee_y",
     ] as const;
     return {
       ...value,
