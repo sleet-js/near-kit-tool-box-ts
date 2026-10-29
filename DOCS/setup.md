@@ -1,12 +1,15 @@
 # SETUP
 
-## Install
+## Working on this repo
 
 ```bash
 bun install
 ```
 
 At the root this installs the dependencies for all three workspace packages.
+
+To install the published packages into your own project, see the
+[README](../README.md#installation).
 
 ## Updating dependencies
 

@@ -6,11 +6,12 @@ A monorepo containing three packages for NEAR development:
 - **@near-kit-tool-box/env** - Backend/environment NEAR KIT client setup with .env support
 - **@near-kit-tool-box/fun** - Reusable contract functions for common NEAR contracts
 
-## Install
+## Installation
 
 ```bash
-bun install
-bun run build
+bun add @near-kit-tool-box/web
+bun add @near-kit-tool-box/env
+bun add @near-kit-tool-box/fun
 ```
 
 ## Usage
