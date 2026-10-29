@@ -6,10 +6,11 @@ name: RELEASE
 # The git tag and the npm version are always the same string:
 #   tag v0.3.0  <->  npm @near-kit-tool-box/*@0.3.0
 #
-# The packages are pre-1.0, so the bump is `minor` or `patch` only — there is
-# no `major` option. A breaking change ships as a `minor` bump; a `major`
-# bump would take the packages to 1.0.0 and imply a stability promise they
-# do not make. No major bumps, whatever the change.
+# The packages are pre-1.0, so the bump is `patch` only — `patch` is the
+# smallest bump (0.2.2 -> 0.2.3). There is no `minor` and no `major` option.
+# A breaking change ships as a `patch`; a `major` bump would take the packages
+# to 1.0.0 and imply a stability promise they do not make.
+# No major bumps, whatever the change.
 #
 # First-time setup on npmjs.com (per package, once):
 #   Package Settings -> Trusted Publisher -> GitHub Actions
@@ -30,9 +31,8 @@ on:
         description: "Version bump type"
         type: choice
         required: true
-        default: minor
+        default: patch
         options:
-          - minor
           - patch
       version:
         description: "Exact version to release (leave blank to use the bump type)"
