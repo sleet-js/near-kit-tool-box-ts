@@ -15,7 +15,13 @@ near-kit-tool-box/
 │           ├── index.ts                      # Public barrel
 │           ├── fun/<contract>/<contract>_<method>_fun_json.ts   # one folder per contract, one file per function
 │           ├── lib/
-│           │   ├── contract_view.ts          # Generic view helper
+│           │   ├── generic/                 # Generic view and call helpers
+│           │   │   ├── README.md
+│           │   │   ├── generic_contract_view.ts
+│           │   │   ├── generic_contract_call_types.ts
+│           │   │   ├── generic_contract_call.ts
+│           │   │   ├── generic_contract_call_web.ts
+│           │   │   └── generic_contract_call_env.ts
 │           │   ├── methods/methods_<contract>.ts               # method-name constants (one file per contract)
 │           │   ├── const_id/<contract>_contract_id_const.ts    # testnet/mainnet contract id pairs + `*_contractid(network)` resolver
 │           │   ├── const_id/contract_id_const_type.ts          # CONTRACT_ID_CONST_TYPE / NETWORK_ID

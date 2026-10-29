@@ -85,8 +85,10 @@ import {
   sputnik_dao_get_config_fun_json,
   sputnik_dao_get_proposals_fun_json,
   sputnik_dao_factory_get_dao_list_fun_json,
-  // Generic view — for any contract not in the toolbox
-  near_kit_contract_view_fun_json,
+  // Generic view/call — for any contract not in the toolbox
+  generic_contract_view_fun_json,
+  generic_contract_call_web,
+  generic_contract_call_env,
   // Types
   AMOUNT_INPUT,
   INTEAR_DEX_XYK_POOL_TYPE,

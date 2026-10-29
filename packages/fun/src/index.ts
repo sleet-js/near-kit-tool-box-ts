@@ -359,12 +359,32 @@ export {
 // ===========================================
 export * from "./lib/methods";
 
-// ---------- generic contract view ----------
+// ---------- generic contract helpers ----------
 // ===========================================
 export {
-  near_kit_contract_view_fun,
-  near_kit_contract_view_fun_json,
-} from "./lib/contract_view";
+  generic_contract_view_fun,
+  generic_contract_view_fun_json,
+} from "./lib/generic/generic_contract_view";
+export {
+  generic_contract_call_web,
+  generic_contract_call_web_transactions,
+} from "./lib/generic/generic_contract_call_web";
+export {
+  generic_contract_call_env,
+  generic_contract_call_env_transactions,
+} from "./lib/generic/generic_contract_call_env";
+export {
+  send_generic_contract_transaction,
+  send_generic_contract_transactions,
+} from "./lib/generic/generic_contract_call";
+export type {
+  generic_contract_action_type,
+  generic_contract_call_result_type,
+  generic_contract_call_results_type,
+  generic_contract_function_call_action_type,
+  generic_contract_transaction_type,
+  generic_contract_transactions_type,
+} from "./lib/generic/generic_contract_call_types";
 
 // ---------- shared per-network contract id constants ----------
 // ===========================================
