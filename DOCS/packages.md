@@ -39,6 +39,17 @@ bun update
 bun update --latest
 ```
 
+To update every package at once, run it from the repo root with
+`--recursive`:
+
+```bash
+bun update --latest --recursive
+```
+
+Without `--recursive`, a root-level `bun update` only touches the root
+`package.json`'s dependencies and leaves the three packages' own
+dependencies alone.
+
 ### Common Dependencies by Package
 
 | Package | Key Dependencies                                                     |

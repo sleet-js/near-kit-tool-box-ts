@@ -30,6 +30,7 @@ bun run typecheck:bin                        # type-check the bins
 bun run version:dry-run                      # preview a version bump
 bun run version:sync                         # bump all packages
 bun run publish:all                          # publish env -> fun -> web
+bun update --latest --recursive              # update every package's deps
 ```
 
 ---

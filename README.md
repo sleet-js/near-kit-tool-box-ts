@@ -10,9 +10,11 @@ A monorepo containing three packages for NEAR development:
 
 ```bash
 bun install
-bun update --latest
 bun run build
 ```
+
+`bun install` at the root installs the dependencies for all three workspace
+packages.
 
 ## Documentation
 
@@ -123,6 +125,21 @@ cd packages/fun && bun run tsc --noEmit
 # Type-check the bins
 bun run typecheck:bin
 ```
+
+### Updating dependencies
+
+```bash
+# Update every workspace package to its latest dependency versions
+bun update --latest --recursive
+
+# Update one package
+cd packages/fun && bun update --latest
+```
+
+> **The `--recursive` flag matters.** A plain `bun update --latest` at the root
+> only updates the root `package.json`'s dependencies — it leaves the three
+> packages' own dependencies alone. The same goes for `bun update` without
+> `--latest`.
 
 ## Versioning
 
