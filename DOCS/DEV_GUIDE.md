@@ -4,6 +4,9 @@
 
 This is a **Bun workspace monorepo**. All packages share dependencies and build with TypeScript.
 
+The repo layout lives in the [`tree`](../tree) file at the repo root — see that for
+the folder map and the file naming conventions.
+
 ---
 
 ## Setup

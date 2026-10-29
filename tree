@@ -1,16 +1,36 @@
 near-kit-tool-box/
 ├── packages/
-│   ├── web/        # Browser client (Hot Wallet Connect, localStorage)
-│   ├── env/        # Backend client (.env configuration)
-│   └── fun/        # Reusable contract functions
+│   ├── web/                                  # Browser client (Hot Wallet Connect, localStorage)
+│   │   └── src/
+│   │       ├── index.ts                      # Public barrel
+│   │       ├── network.ts                    # Network selection
+│   │       ├── new-hot.ts                    # Hot Wallet Connect client
+│   │       └── new-archival.ts               # Archival network client
+│   ├── env/                                  # Backend client (.env configuration)
+│   │   └── src/
+│   │       ├── index.ts                      # Public barrel
+│   │       └── new-env.ts                    # .env-backed client
+│   └── fun/                                  # Reusable contract functions
 │       └── src/
-│           ├── index.ts                        # Public barrel
+│           ├── index.ts                      # Public barrel
 │           ├── fun/<contract>/<contract>_<method>_fun_json.ts   # one folder per contract, one file per function
-│           ├── lib/methods/methods_<contract>.ts               # method-name constants (one file per contract)
-│           ├── lib/const_id/<contract>_contract_id_const.ts    # testnet/mainnet contract id pairs + `*_contractid(network)` resolver
-│           ├── lib/args/<contract>_args.ts                     # parameter type maps
-│           └── types/<contract>_<response>_type.ts             # response type definitions
-├── bin/            # CLI test scripts
-├── scripts/        # Development utilities (version sync)
-├── DOCS/SC/        # Per-contract documentation, one .md per smart contract
-└── package.json    # Root workspace config
+│           ├── lib/
+│           │   ├── contract_view.ts          # Generic view helper
+│           │   ├── methods/methods_<contract>.ts               # method-name constants (one file per contract)
+│           │   ├── const_id/<contract>_contract_id_const.ts    # testnet/mainnet contract id pairs + `*_contractid(network)` resolver
+│           │   ├── const_id/contract_id_const_type.ts          # CONTRACT_ID_CONST_TYPE / NETWORK_ID
+│           │   ├── args/<contract>_args.ts                     # parameter type maps
+│           │   └── borsh/                    # borsh codec for the INTEAR DEX sub-dex views
+│           └── types/
+│               ├── <contract>_types.ts                       # response type definitions
+│               └── AmountInput.ts               # shared amount type, not contract-specific
+├── bin/                                      # CLI test scripts, one folder per contract family
+│   └── _shared/                              # shared bin helpers (args, env)
+├── scripts/                                  # Development utilities (version sync)
+├── DOCS/
+│   ├── SC/                                   # Per-contract documentation, one .md per smart contract
+│   ├── DEV_GUIDE.md                          # The full development guide
+│   ├── DEV_GUIDE_CONCISE.md                  # Command cheatsheet
+│   └── FILES.md                              # Top-level folder index
+├── package.json                              # Root workspace config
+└── tsconfig.bin.json                         # Type-check config for the bins
