@@ -6,7 +6,7 @@
 // `wrap_contractId` should be `wrap.testnet` or `wrap.near`.
 import type { FinalExecutionOutcome, Near } from "near-kit";
 import { wrap_near_methods_const } from "../../lib/methods/methods_wrap_near";
-import type { AMOUNT_INPUT } from "../../types/AmountInput";
+import type { AMOUNT_INPUT } from "../../types/amount_input_type";
 // =================================================
 export async function wrap_near_deposit_fun_json(
   near: Near,

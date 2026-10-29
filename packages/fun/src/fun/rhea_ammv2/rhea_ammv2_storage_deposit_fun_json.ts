@@ -6,7 +6,7 @@
 // `attachedDeposit` covers NEP-145 storage staking.
 import type { FinalExecutionOutcome, Near } from "near-kit";
 import { rhea_ammv2_methods_const } from "../../lib/methods/methods_rhea_ammv2";
-import type { AMOUNT_INPUT } from "../../types/AmountInput";
+import type { AMOUNT_INPUT } from "../../types/amount_input_type";
 // =================================================
 export async function rhea_ammv2_storage_deposit_fun_json(
   near: Near,

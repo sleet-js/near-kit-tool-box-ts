@@ -23,7 +23,7 @@ near-kit-tool-box/
 │           │   └── borsh/                    # borsh codec for the INTEAR DEX sub-dex views
 │           └── types/
 │               ├── <contract>_types.ts                       # response type definitions
-│               └── AmountInput.ts               # shared amount type, not contract-specific
+│               └── amount_input_type.ts       # shared amount type, not contract-specific
 ├── bin/                                      # CLI test scripts, one folder per contract family
 │   └── _shared/                              # shared bin helpers (args, env)
 ├── scripts/                                  # Development utilities (version sync)

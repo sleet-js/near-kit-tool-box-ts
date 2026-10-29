@@ -149,7 +149,7 @@ export { sputnik_dao_factory_get_owner_fun_json } from "./fun/sputnik_dao/sputni
 
 // ---------- shared types ----------
 // ===========================================
-export type { AMOUNT_INPUT } from "./types/AmountInput";
+export type { AMOUNT_INPUT } from "./types/amount_input_type";
 export type { FT_METADATA_TYPE } from "./types/ft_metadata_get_response_type";
 export type { RHEA_AMMV2_GET_POOL_TYPE } from "./types/rhea_ammv2_get_pool_type";
 export type { RHEA_AMMV2_GET_DEPOSITS_TYPE } from "./types/rhea_ammv2_get_deposits_type";

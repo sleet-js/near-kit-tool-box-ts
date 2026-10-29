@@ -6,7 +6,7 @@
 // the same transaction.
 import type { FinalExecutionOutcome, Near } from "near-kit";
 import { pool_methods_const } from "../../lib/methods/methods_pool";
-import type { AMOUNT_INPUT } from "../../types/AmountInput";
+import type { AMOUNT_INPUT } from "../../types/amount_input_type";
 // =================================================
 export async function pool_deposit_and_stake_fun_json(
   near: Near,
