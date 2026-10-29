@@ -165,19 +165,25 @@ jobs:
         run: |
           set -euo pipefail
           VERSION="${{ steps.version.outputs.version }}"
+          # Query the per-version registry endpoint rather than `npm view`:
+          # npm view reads a cached packument, so a freshly published version
+          # can stay invisible for minutes. This endpoint 404s until the
+          # version is really live, and never serves a stale copy.
           for pkg in "@near-kit-tool-box/env" "@near-kit-tool-box/fun" "@near-kit-tool-box/web"; do
-            # Give the registry a moment to settle after the publish.
-            published=""
-            for _ in $(seq 1 12); do
-              published="$(npm view "$pkg@$VERSION" version 2>/dev/null || true)"
-              if [ -n "$published" ]; then break; fi
+            ok=false
+            for _ in $(seq 1 30); do
+              if curl -sf -o /dev/null \
+                "https://registry.npmjs.org/${pkg/\//%2f}/$VERSION"; then
+                ok=true
+                break
+              fi
               sleep 5
             done
-            if [ "$published" != "$VERSION" ]; then
-              echo "::error::$pkg@$VERSION is not on the registry (got '$published')"
+            if [ "$ok" != "true" ]; then
+              echo "::error::$pkg@$VERSION is not on the registry"
               exit 1
             fi
-            echo "  OK  $pkg@$published"
+            echo "  OK  $pkg@$VERSION"
           done
 
       - name: Create the GitHub release
