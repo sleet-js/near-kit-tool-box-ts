@@ -10,6 +10,11 @@
 //
 // The dex variant carries the dex id in its string form — the
 // `<deployer>/<id>` shape — because `DexId` serializes as a string.
+//
+// NOT A BORSH SCHEMA.
+// Unlike the sub-dex views, the engine's own API is JSON — the
+// `AccountOrDexId` travels as a JSON object, not as borsh bytes. So
+// this is a plain builder and not a `@zorsh/zorsh` schema.
 // =================================================
 import type { INTEAR_DEX_ACCOUNT_OR_DEX_ID } from "../../types/intear_dex_engine_types";
 

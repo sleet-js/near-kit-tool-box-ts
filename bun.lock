@@ -6,13 +6,13 @@
       "name": "@near-kit-tool-box/root",
       "devDependencies": {
         "@types/bun": "^1.4.3",
-        "prettier": "3.9.10",
+        "prettier": "^3.9.10",
         "typescript": "^7.0.2",
       },
     },
     "packages/env": {
       "name": "@near-kit-tool-box/env",
-      "version": "0.2.1",
+      "version": "0.2.6",
       "dependencies": {
         "dotenv": "^18.0.9",
         "near-kit": "^0.20.2",
@@ -26,8 +26,9 @@
     },
     "packages/fun": {
       "name": "@near-kit-tool-box/fun",
-      "version": "0.2.2",
+      "version": "0.2.6",
       "dependencies": {
+        "@zorsh/zorsh": "0.5.2",
         "near-kit": "^0.20.2",
         "zod": "^4.6.7",
       },
@@ -40,7 +41,7 @@
     },
     "packages/web": {
       "name": "@near-kit-tool-box/web",
-      "version": "0.2.1",
+      "version": "0.2.6",
       "dependencies": {
         "@hot-labs/near-connect": "^0.12.0",
         "near-kit": "^0.20.2",
@@ -148,7 +149,7 @@
 
     "@typescript/typescript-win32-x64": ["@typescript/typescript-win32-x64@7.0.2", "", { "os": "win32", "cpu": "x64" }, "sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g=="],
 
-    "@zorsh/zorsh": ["@zorsh/zorsh@0.5.1", "", {}, "sha512-T/5vk0/XdrZEf0j7F8wByXibwNkaep6ASYTWNjhbE8L6LcKYfLAIFnzSPNL2eoGmCYoLzEkQB+oBcDXpckqjPg=="],
+    "@zorsh/zorsh": ["@zorsh/zorsh@0.5.2", "", {}, "sha512-U/YPwaTpmE0NQ5bhw4gD2i3xK77c6KwVVZSyLfi9DSxg/zqOtxN8q+YK8FOY+QGj5nxxGeowqFauH4mP1mC1gg=="],
 
     "bun-types": ["bun-types@1.4.3", "", { "dependencies": { "@types/node": "*", "undici-types": "*" } }, "sha512-tinRJNGOmUN+tEAsn2y2e942n9JHRHR42iUYzDH75NmhJqVBokGSQkkfSFdNWwsANIdrK6ACH9t01M452YyTwg=="],
 
@@ -179,5 +180,7 @@
     "@noble/post-quantum/@noble/hashes": ["@noble/hashes@2.2.0", "", {}, "sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg=="],
 
     "@types/node/undici-types": ["undici-types@8.9.0", "", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
+
+    "near-kit/@zorsh/zorsh": ["@zorsh/zorsh@0.5.1", "", {}, "sha512-T/5vk0/XdrZEf0j7F8wByXibwNkaep6ASYTWNjhbE8L6LcKYfLAIFnzSPNL2eoGmCYoLzEkQB+oBcDXpckqjPg=="],
   }
 }

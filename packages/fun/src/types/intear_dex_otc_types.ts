@@ -22,23 +22,29 @@
 // wire form is a borsh byte string and never a JSON document — so
 // these stay plain types and the helpers keep decoding.
 //
+// THE SCHEMA IS THE TYPE.
+// Every type below is read straight off the borsh schema with
+// `b.infer`. There is no hand-written interface that could drift away
+// from the wire format — the schema and the type are the same thing.
+//
 // The otc dex is an over-the-counter desk: two (or more) parties
 // sign trade intents, and a `match` call settles them against the
 // dex's internal balances.
 // =================================================
+import type {
+  INTEAR_DEX_OTC_STORAGE_BALANCE_TYPE,
+  INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE,
+  INTEAR_DEX_OTC_BALANCE_TYPE,
+} from "../lib/borsh/intear_dex_otc_decode";
 
 // ---------- storage balance ----------
 
 // The NEAR storage deposit an account has with the otc dex.
 //
 // VERIFIED: `total` is the deposited amount and `used` is the part of
-// it the account's entries take up. Both are yocto-NEAR amounts
-// carried as decimal strings, because a u128 does not fit a JS
-// number.
-export interface INTEAR_DEX_OTC_STORAGE_BALANCE_TYPE {
-  total: string;
-  used: string;
-}
+// it the account's entries take up. Both are u128, so they are
+// `bigint`s.
+export type { INTEAR_DEX_OTC_STORAGE_BALANCE_TYPE };
 
 // ---------- authorized key ----------
 
@@ -46,9 +52,9 @@ export interface INTEAR_DEX_OTC_STORAGE_BALANCE_TYPE {
 // `null` when the account has not authorized any key.
 //
 // VERIFIED: the `null` arm was observed live (3 accounts, all
-// unauthorized). The `Some` arm carries a NEAR public key string like
-// `ed25519:<base58>`; it was not observed live.
-export type INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE = string | null;
+// unauthorized). The `Some` arm carries the raw borsh bytes of a
+// near-crypto `PublicKey`; it was not observed live.
+export type { INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE };
 
 // ---------- balances ----------
 
@@ -56,8 +62,8 @@ export type INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE = string | null;
 // `null` when the account has no balance entry for that asset.
 //
 // VERIFIED: the `null` arm was observed live (3 account/asset pairs,
-// all empty). The `Some` arm is a decimal string, because the balance
-// is a u128; it was not observed live.
-export type INTEAR_DEX_OTC_BALANCE_TYPE = string | null;
+// all empty). The `Some` arm is a u128, so it is a `bigint`; it was
+// not observed live.
+export type { INTEAR_DEX_OTC_BALANCE_TYPE };
 // =================================================
 // copyright 2026 by sleet.near

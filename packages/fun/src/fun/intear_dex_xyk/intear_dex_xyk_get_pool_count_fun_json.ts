@@ -6,7 +6,7 @@
 // created, so valid pool ids run `0 .. count - 1`.
 // =================================================
 import type { Near } from "near-kit";
-import { borsh_reader } from "../../lib/borsh/intear_dex_borsh";
+import { b } from "@zorsh/zorsh";
 import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_xyk_methods_const } from "../../lib/methods/methods_intear_dex_xyk";
 // =================================================
@@ -21,7 +21,7 @@ export async function intear_dex_xyk_get_pool_count_fun_json(
     dex_id,
     intear_dex_xyk_methods_const.get_pool_count,
     new Uint8Array(),
-    (reader: borsh_reader) => reader.u32(),
+    b.u32(),
   );
 }
 // =================================================

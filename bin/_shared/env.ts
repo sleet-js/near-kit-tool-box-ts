@@ -72,15 +72,51 @@ export function resolve_contract_id(
 // BigInt is not JSON-serializable, so it is stringified on the way
 // out — a 128-bit amount reads better as a string than as a number
 // anyway.
+//
+// A Map is not JSON-serializable either — `JSON.stringify` turns one
+// into `{}` — so it is turned into an object of entries first. Its
+// keys are turned into their string form, because the decoded asset
+// id is an object.
 export function log_result(label: string, value: unknown): void {
   console.log(`--- ${label} ---`);
   console.log(
     JSON.stringify(
       value,
-      (_key, item) => (typeof item === "bigint" ? item.toString() : item),
+      (_key, item) => {
+        if (typeof item === "bigint") return item.toString();
+        if (item instanceof Map)
+          return Object.fromEntries(
+            [...item.entries()].map(([key, entry]) => [
+              log_key(key),
+              typeof entry === "bigint" ? entry.toString() : entry,
+            ]),
+          );
+        return item;
+      },
       2,
     ),
   );
+}
+
+// =================================================
+// Turns a Map key into something readable.
+//
+// The decoded asset id is an object like `{ Nep141: "ft.near" }`, so
+// it reads best as `nep141:ft.near`.
+function log_key(key: unknown): string {
+  if (typeof key === "string") return key;
+  if (key && typeof key === "object") {
+    const [tag, payload] = Object.entries(
+      key as Record<string, unknown>,
+    )[0] as [string, unknown];
+    if (tag === "Near") return "near";
+    if (tag === "Nep141") return `nep141:${payload as string}`;
+    if (tag === "Nep245" || tag === "Nep171") {
+      const body = payload as { contract_id: string; token_id: string };
+      return `${tag.toLowerCase()}:${body.contract_id}:${body.token_id}`;
+    }
+  }
+  return String(key);
 }
 // =================================================
 // copyright 2026 by sleet.near

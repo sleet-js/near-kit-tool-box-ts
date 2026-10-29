@@ -4,3 +4,6 @@ dist
 *.log
 .DS_Store
 # bun.lock
+
+# the unit tests and their live mainnet capture are not kept in the repo
+packages/fun/test/

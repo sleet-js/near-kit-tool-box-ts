@@ -38,30 +38,30 @@
 // wire form is a borsh byte string and never a JSON document — so
 // these stay plain types and the helpers keep casting.
 //
+// THE SCHEMA IS THE TYPE.
+// Every type below is read straight off the borsh schema with
+// `b.infer`. There is no hand-written interface that could drift away
+// from the wire format — the schema and the type are the same thing.
+//
 // The simple-amm dex is the smallest working AMM: one liquidity
 // provider per pool, constant-product math, no shares.
 // =================================================
+import type {
+  INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE,
+  INTEAR_DEX_SIMPLE_AMM_POOL_TYPE,
+} from "../lib/borsh/intear_dex_simple_amm_decode";
 
 // One asset of a pool, with the balance the pool holds of it.
 //
 // ASSUMED (see the header): same shape as the xyk dex's asset, so
-// `asset_id` is the asset id string and `balance` is a decimal
-// string, because the balance is a u128.
-export interface INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE {
-  asset_id: string;
-  balance: string;
-}
+// `asset_id` is the asset id and `balance` is the balance. The balance
+// is a u128, so it is a `bigint`.
+export type { INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE };
 
 // A simple-amm pool.
 //
 // ASSUMED (see the header): the pool's two assets and its single
 // liquidity provider.
-export interface INTEAR_DEX_SIMPLE_AMM_POOL_TYPE {
-  assets: [
-    INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE,
-    INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE,
-  ];
-  owner_id: string;
-}
+export type { INTEAR_DEX_SIMPLE_AMM_POOL_TYPE };
 // =================================================
 // copyright 2026 by sleet.near

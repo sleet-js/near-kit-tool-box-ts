@@ -15,11 +15,8 @@
 // the engine's `swap_simple` / `dex_call` paths instead.
 // =================================================
 import type { Near } from "near-kit";
-import {
-  borsh_reader,
-  base64_to_bytes,
-  bytes_to_base64,
-} from "./intear_dex_borsh";
+import type { Schema } from "@zorsh/zorsh";
+import { base64_to_bytes, bytes_to_base64 } from "./intear_dex_borsh";
 import { intear_dex_engine_methods_const } from "../methods/methods_intear_dex_engine";
 
 // =================================================
@@ -62,14 +59,14 @@ export async function intear_dex_view_raw(
 
 // =================================================
 // Calls a sub-dex view through the engine and decodes the borsh
-// response with `decode`.
+// response with `schema`.
 export async function intear_dex_view<T>(
   near: Near,
   engine_contract_id: string,
   dex_id: string,
   method: string,
   args: Uint8Array,
-  decode: (reader: borsh_reader) => T,
+  schema: Schema<T>,
 ): Promise<T> {
   const bytes = await intear_dex_view_raw(
     near,
@@ -78,7 +75,7 @@ export async function intear_dex_view<T>(
     method,
     args,
   );
-  return decode(new borsh_reader(bytes));
+  return schema.deserialize(bytes);
 }
 // =================================================
 // copyright 2026 by sleet.near

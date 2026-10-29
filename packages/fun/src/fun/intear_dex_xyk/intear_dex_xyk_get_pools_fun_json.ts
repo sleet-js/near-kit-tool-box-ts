@@ -6,11 +6,14 @@
 //
 // The page holds up to `limit` pools, so paging through every pool
 // means repeating the call with `start_index` moving on by `limit`.
+//
+// The borsh schema is the single source of truth for the shape — see
+// `lib/borsh/intear_dex_xyk_decode.ts`.
 // =================================================
 import type { Near } from "near-kit";
-import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";
+import { b } from "@zorsh/zorsh";
 import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
-import { decode_pool_view } from "../../lib/borsh/intear_dex_xyk_decode";
+import { intear_dex_xyk_pool_schema } from "../../lib/borsh/intear_dex_xyk_decode";
 import { intear_dex_xyk_methods_const } from "../../lib/methods/methods_intear_dex_xyk";
 import type { intear_dex_xyk_args } from "../../lib/args/intear_dex_xyk_args";
 import type { INTEAR_DEX_XYK_POOL_TYPE } from "../../types/intear_dex_xyk_types";
@@ -22,14 +25,22 @@ export async function intear_dex_xyk_get_pools_fun_json(
   start_index: intear_dex_xyk_args["start_index"],
   limit: intear_dex_xyk_args["limit"],
 ): Promise<INTEAR_DEX_XYK_POOL_TYPE[]> {
-  const args = new borsh_writer().u32(start_index).u32(limit).to_bytes();
+  // The dex's `get_pools` takes the two u32s one after the other —
+  // a borsh struct encodes its fields the same way, back to back and
+  // with no length prefix.
+  const args = b
+    .struct({
+      start_index: b.u32(),
+      limit: b.u32(),
+    })
+    .serialize({ start_index: start_index, limit: limit });
   return intear_dex_view(
     near,
     engine_contract_id,
     dex_id,
     intear_dex_xyk_methods_const.get_pools,
     args,
-    (reader: borsh_reader) => reader.vec((item) => decode_pool_view(item)),
+    b.vec(intear_dex_xyk_pool_schema),
   );
 }
 // =================================================

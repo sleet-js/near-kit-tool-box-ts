@@ -7,9 +7,11 @@
 //
 // Community fee receivers are only supported in launch pools, and the
 // amount is NEAR even when the pool trades another quote asset.
+//
+// The amount is a u128, so it is a `bigint`.
 // =================================================
 import type { Near } from "near-kit";
-import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";
+import { b } from "@zorsh/zorsh";
 import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_xyk_methods_const } from "../../lib/methods/methods_intear_dex_xyk";
 import type { intear_dex_xyk_args } from "../../lib/args/intear_dex_xyk_args";
@@ -19,15 +21,15 @@ export async function intear_dex_xyk_get_community_owned_fees_fun_json(
   engine_contract_id: string,
   dex_id: string,
   account_id: intear_dex_xyk_args["community_account_id"],
-): Promise<string> {
-  const args = new borsh_writer().string(account_id).to_bytes();
+): Promise<bigint> {
+  const args = b.string().serialize(account_id);
   return intear_dex_view(
     near,
     engine_contract_id,
     dex_id,
     intear_dex_xyk_methods_const.get_community_owned_fees,
     args,
-    (reader: borsh_reader) => reader.u128().toString(),
+    b.u128(),
   );
 }
 // =================================================

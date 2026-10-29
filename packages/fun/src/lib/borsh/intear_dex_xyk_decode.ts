@@ -1,10 +1,18 @@
 // =================================================
 // intear_dex_xyk_decode
 //
-// Borsh decoders for the INTEAR DEX `xyk` sub-dex view responses.
+// Borsh schemas for the INTEAR DEX `xyk` sub-dex view responses.
 //
 // The shapes mirror `xyk_dex_types` in the INTEAR DEX source:
 //   https://github.com/INTEARnear/dex/tree/main/dexes/xyk/types
+//
+// These are [`@zorsh/zorsh`](https://www.npmjs.com/package/@zorsh/zorsh)
+// schemas, so the schema *is* the type: `b.infer` reads the decoded
+// shape straight off the schema, and there is no second, hand-written
+// TypeScript interface that can drift away from it.
+//
+// Amounts are u128 and are carried as `bigint` — Zorsh's native form
+// for a u128, so nothing is converted and no precision is lost.
 //
 // VERIFIED against live mainnet data (2026-10-29)
 //   All 303 pools of `slimedragon.near/xyk` were fetched with
@@ -16,216 +24,178 @@
 //     - fee receiver      : `Account`, `Pool`, `Community`
 //     - fee amount        : `Fixed`, `Scheduled`
 //   The `Dynamic` fee amount never appears: the dex refuses to use it.
+//
+//   The capture is committed as a test fixture, and the fixture test
+//   re-checks all 303 pools against these schemas.
 // =================================================
-import { borsh_reader } from "./intear_dex_borsh";
-import { read_intear_dex_asset_id } from "./intear_dex_asset_id";
-import type {
-  INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
-  INTEAR_DEX_XYK_CURRENT_FEES_TYPE,
-  INTEAR_DEX_XYK_FEE_AMOUNT_TYPE,
-  INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE,
-  INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
-  INTEAR_DEX_XYK_POOL_TYPE,
-  INTEAR_DEX_XYK_POOL_SHARE_TYPE,
-} from "../../types/intear_dex_xyk_types";
+import { b } from "@zorsh/zorsh";
+import { intear_dex_asset_id_schema } from "./intear_dex_asset_id";
 
-// =================================================
-// Reads a `FeeReceiver`.
-export function decode_fee_receiver(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_FEE_RECEIVER_TYPE {
-  const variant = reader.u8();
-  switch (variant) {
-    case 0:
-      return { Account: reader.string() };
-    case 1:
-      return "Pool";
-    case 2:
-      return { Community: reader.string() };
-    default:
-      throw new Error(
-        `intear dex xyk: unknown fee receiver variant ${variant}`,
-      );
-  }
-}
+// ---------- fees ----------
 
-// =================================================
-// Reads a `CurrentFees` — the pool's fees at the current block.
-export function decode_current_fees(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_CURRENT_FEES_TYPE {
-  const receivers = reader.vec(
-    (item) =>
-      [decode_fee_receiver(item), item.u32()] as [
-        INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
-        number,
-      ],
-  );
-  return { receivers };
-}
+// Where a pool's fee goes.
+//
+// VERIFIED: all three variants occur on mainnet. `Account` and `Pool`
+// are the usual ones; `Community` shows up on the launch-v2 pools,
+// where the community account collects the launch fee.
+//
+// The variant order IS the wire format: variant 0 is `Account`,
+// variant 1 is `Pool`, variant 2 is `Community`.
+export const intear_dex_xyk_fee_receiver_schema = b.enum({
+  Account: b.string(),
+  Pool: b.unit(),
+  Community: b.string(),
+});
 
-// =================================================
-// Reads a `FeeAmount` — the v2 per-receiver fee rule.
-export function decode_fee_amount(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_FEE_AMOUNT_TYPE {
-  const variant = reader.u8();
-  switch (variant) {
-    case 0:
-      return { Fixed: reader.u32() };
-    case 1: {
-      // The schedule's timestamps are nanoseconds since the epoch. They
-      // do not fit a JS number, so they stay decimal strings.
-      const start: [string, number] = [reader.u64().toString(), reader.u32()];
-      const end: [string, number] = [reader.u64().toString(), reader.u32()];
-      // `ScheduledFeeCurve` has exactly one variant, `Linear`.
-      // VERIFIED live: every scheduled fee the mainnet pools carry
-      // uses it.
-      const curve = reader.u8();
-      if (curve !== 0) {
-        throw new Error(`intear dex xyk: unknown scheduled fee curve ${curve}`);
-      }
-      return {
-        Scheduled: {
-          start,
-          end,
-          curve: "Linear",
-        },
-      };
-    }
-    case 2:
-      return { Dynamic: { min: reader.u32(), max: reader.u32() } };
-    default:
-      throw new Error(`intear dex xyk: unknown fee amount variant ${variant}`);
-  }
-}
+// The only curve the contract has. VERIFIED live: every scheduled fee
+// the mainnet pools carry uses it.
+export const intear_dex_xyk_scheduled_fee_curve_schema = b.enum({
+  Linear: b.unit(),
+});
 
-// =================================================
-// Reads a `FeeConfiguration`.
-export function decode_fee_configuration(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE {
-  const variant = reader.u8();
-  switch (variant) {
-    case 0:
-      return { V1: decode_current_fees(reader) };
-    case 1: {
-      const receivers = reader.vec(
-        (item) =>
-          [decode_fee_receiver(item), decode_fee_amount(item)] as [
-            INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
-            INTEAR_DEX_XYK_FEE_AMOUNT_TYPE,
-          ],
-      );
-      return { V2: { receivers } };
-    }
-    default:
-      throw new Error(
-        `intear dex xyk: unknown fee configuration variant ${variant}`,
-      );
-  }
-}
+// A scheduled fee's window: a nanosecond timestamp and the fee
+// fraction in force from then on.
+//
+// The timestamps are nanoseconds since the epoch, so they are u64.
+export const intear_dex_xyk_scheduled_fee_window_schema = b.tuple(
+  b.u64(),
+  b.u32(),
+);
 
-// =================================================
-// Reads an `AssetWithBalance`.
-export function decode_asset_with_balance(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE {
-  const asset_id = read_intear_dex_asset_id(reader);
-  const balance = reader.u128().toString();
-  return { asset_id: asset_id, balance };
-}
+// How much of a swap goes to a receiver.
+//
+// VERIFIED: `Fixed` and `Scheduled` occur on mainnet. `Dynamic` is in
+// the union because the contract's borsh encoding has the variant,
+// but the dex refuses to use it — it answers `DynamicFeeNotImplemented`
+// and its fee maths is `unimplemented!()`. So `Dynamic` never appears
+// in a decoded mainnet response.
+export const intear_dex_xyk_fee_amount_schema = b.enum({
+  Fixed: b.u32(),
+  Scheduled: b.struct({
+    start: intear_dex_xyk_scheduled_fee_window_schema,
+    end: intear_dex_xyk_scheduled_fee_window_schema,
+    curve: intear_dex_xyk_scheduled_fee_curve_schema,
+  }),
+  Dynamic: b.struct({ min: b.u32(), max: b.u32() }),
+});
 
-// =================================================
-// Reads a `PoolView`.
-export function decode_pool_view(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_POOL_TYPE {
-  const variant = reader.u8();
-  switch (variant) {
-    case 0: {
-      // Private
-      const assets = [
-        decode_asset_with_balance(reader),
-        decode_asset_with_balance(reader),
-      ] as [
-        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
-        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
-      ];
-      const fees = decode_current_fees(reader);
-      const fee_configuration = decode_fee_configuration(reader);
-      const owner_id = reader.string();
-      const locked = reader.u8() === 1;
-      return {
-        kind: "Private",
-        assets,
-        fees,
-        fee_configuration: fee_configuration,
-        owner_id: owner_id,
-        locked,
-      };
-    }
-    case 1: {
-      // Public
-      const assets = [
-        decode_asset_with_balance(reader),
-        decode_asset_with_balance(reader),
-      ] as [
-        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
-        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
-      ];
-      const fees = decode_current_fees(reader);
-      const fee_configuration = decode_fee_configuration(reader);
-      const total_shares = reader.option((item) => item.u128().toString());
-      return {
-        kind: "Public",
-        assets,
-        fees,
-        fee_configuration: fee_configuration,
-        total_shares: total_shares,
-      };
-    }
-    case 2: {
-      // Launch
-      const near_amount = reader.u128().toString();
-      const launched_asset = decode_asset_with_balance(reader);
-      const fees = decode_current_fees(reader);
-      const fee_configuration = decode_fee_configuration(reader);
-      const phantom_liquidity_near = reader.u128().toString();
-      return {
-        kind: "Launch",
-        near_amount: near_amount,
-        launched_asset: launched_asset,
-        fees,
-        fee_configuration: fee_configuration,
-        phantom_liquidity_near: phantom_liquidity_near,
-      };
-    }
-    case 3: {
-      // LaunchV2
-      const quote_asset = decode_asset_with_balance(reader);
-      const launched_asset = decode_asset_with_balance(reader);
-      const fees = decode_current_fees(reader);
-      const fee_configuration = decode_fee_configuration(reader);
-      const phantom_liquidity = reader.u128().toString();
-      return {
-        kind: "LaunchV2",
-        quote_asset: quote_asset,
-        launched_asset: launched_asset,
-        fees,
-        fee_configuration: fee_configuration,
-        phantom_liquidity: phantom_liquidity,
-      };
-    }
-    default:
-      throw new Error(`intear dex xyk: unknown pool view variant ${variant}`);
-  }
-}
+// The fees a pool charges right now, in force parts per million.
+//
+// VERIFIED: `receivers` is a list of `(receiver, fee fraction)` pairs.
+export const intear_dex_xyk_current_fees_schema = b.struct({
+  receivers: b.vec(b.tuple(intear_dex_xyk_fee_receiver_schema, b.u32())),
+});
 
-// =================================================
-// Reads one element of the `Vec<Option<U128>>` that
-// `get_pool_shares` returns.
-// The dex answers with one `Option` per pool:
+// A v2 fee configuration: a fee rule per receiver.
+//
+// VERIFIED: `receivers` is a list of `(receiver, fee amount)` pairs.
+export const intear_dex_xyk_v2_fee_configuration_schema = b.struct({
+  receivers: b.vec(
+    b.tuple(
+      intear_dex_xyk_fee_receiver_schema,
+      intear_dex_xyk_fee_amount_schema,
+    ),
+  ),
+});
+
+// A pool's fee configuration.
+//
+// VERIFIED: both variants occur on mainnet — `V1` on the older pools
+// and `V2` on the newer ones.
+export const intear_dex_xyk_fee_configuration_schema = b.enum({
+  V1: intear_dex_xyk_current_fees_schema,
+  V2: intear_dex_xyk_v2_fee_configuration_schema,
+});
+
+// ---------- assets ----------
+
+// One asset of a pool, with the balance the pool holds of it.
+//
+// VERIFIED: `asset_id` is the asset id and `balance` is the balance.
+// The balance is a u128, so it is a `bigint`.
+export const intear_dex_xyk_asset_with_balance_schema = b.struct({
+  asset_id: intear_dex_asset_id_schema,
+  balance: b.u128(),
+});
+
+// ---------- pools ----------
+
+// A pool with a single owner.
+//
+// VERIFIED: the field set is exactly `assets`, `fees`,
+// `fee_configuration`, `owner_id` and `locked`. The variant tag IS
+// the pool kind — the payload does not repeat it.
+export const intear_dex_xyk_private_pool_schema = b.struct({
+  assets: b.tuple(
+    intear_dex_xyk_asset_with_balance_schema,
+    intear_dex_xyk_asset_with_balance_schema,
+  ),
+  fees: intear_dex_xyk_current_fees_schema,
+  fee_configuration: intear_dex_xyk_fee_configuration_schema,
+  owner_id: b.string(),
+  locked: b.bool(),
+});
+
+// A shared pool whose liquidity is held as LP shares.
+//
+// VERIFIED: the field set is exactly `assets`, `fees`,
+// `fee_configuration` and `total_shares`. `total_shares` is `null`
+// while the pool holds no shares yet — 74 of the 117 live public
+// pools are in that state.
+export const intear_dex_xyk_public_pool_schema = b.struct({
+  assets: b.tuple(
+    intear_dex_xyk_asset_with_balance_schema,
+    intear_dex_xyk_asset_with_balance_schema,
+  ),
+  fees: intear_dex_xyk_current_fees_schema,
+  fee_configuration: intear_dex_xyk_fee_configuration_schema,
+  total_shares: b.option(b.u128()),
+});
+
+// A token-launch pool quoted in NEAR.
+//
+// VERIFIED: the field set is exactly `near_amount`, `launched_asset`,
+// `fees`, `fee_configuration` and `phantom_liquidity_near`.
+export const intear_dex_xyk_launch_pool_schema = b.struct({
+  near_amount: b.u128(),
+  launched_asset: intear_dex_xyk_asset_with_balance_schema,
+  fees: intear_dex_xyk_current_fees_schema,
+  fee_configuration: intear_dex_xyk_fee_configuration_schema,
+  phantom_liquidity_near: b.u128(),
+});
+
+// A token-launch pool quoted in an arbitrary asset.
+//
+// VERIFIED: the field set is exactly `quote_asset`, `launched_asset`,
+// `fees`, `fee_configuration` and `phantom_liquidity`. The first
+// asset is the quote asset the phantom liquidity is held in.
+export const intear_dex_xyk_launch_v2_pool_schema = b.struct({
+  quote_asset: intear_dex_xyk_asset_with_balance_schema,
+  launched_asset: intear_dex_xyk_asset_with_balance_schema,
+  fees: intear_dex_xyk_current_fees_schema,
+  fee_configuration: intear_dex_xyk_fee_configuration_schema,
+  phantom_liquidity: b.u128(),
+});
+
+// A pool, in any of its four shapes.
+//
+// VERIFIED: all four kinds occur on mainnet.
+//
+// The variant order IS the wire format: variant 0 is `Private`,
+// variant 1 is `Public`, variant 2 is `Launch`, variant 3 is
+// `LaunchV2`.
+export const intear_dex_xyk_pool_schema = b.enum({
+  Private: intear_dex_xyk_private_pool_schema,
+  Public: intear_dex_xyk_public_pool_schema,
+  Launch: intear_dex_xyk_launch_pool_schema,
+  LaunchV2: intear_dex_xyk_launch_v2_pool_schema,
+});
+
+// ---------- LP shares ----------
+
+// The LP share of one account in one pool.
+//
+// The xyk dex answers with one `Option` per pool:
 //   - `None`    — the pool is not a public pool, so it has no
 //                 per-account share map at all, OR the pool is a
 //                 public pool the account has no entry in
@@ -233,13 +203,76 @@ export function decode_pool_view(
 //                 zero when the account is registered in the pool's
 //                 share map but holds nothing.
 //
-// VERIFIED live: all three states — `null`, `"0"` and a positive
+// VERIFIED live: all three states — `null`, `0` and a positive
 // amount — were observed in the mainnet responses.
-export function decode_pool_share(
-  reader: borsh_reader,
-): INTEAR_DEX_XYK_POOL_SHARE_TYPE {
-  if (reader.u8() === 0) return { shares: null };
-  return { shares: reader.u128().toString() };
-}
+export const intear_dex_xyk_pool_share_schema = b.struct({
+  shares: b.option(b.u128()),
+});
+
+// ---------- pending fees ----------
+
+// The fees an account has collected but not withdrawn yet, per asset.
+//
+// The contract returns a borsh `HashMap<AssetId, U128>`. Zorsh's
+// `hashMap` reads the entries in the order they are on the wire, and
+// Rust writes a `HashMap` in canonical `Ord` order, so the decoded
+// map is in the order Rust produced it.
+//
+// VERIFIED: an account with no collected fee is simply absent from
+// the map, and an account with fees in more than one asset gets one
+// entry per asset.
+export const intear_dex_xyk_pending_fees_schema = b.hashMap(
+  intear_dex_asset_id_schema,
+  b.u128(),
+);
+
+// =================================================
+// The decoded shapes, read straight off the schemas.
+//
+// These are the types the helpers return. The schema is the single
+// source of truth — there is no hand-written interface that could
+// drift away from the wire format.
+export type INTEAR_DEX_XYK_FEE_RECEIVER_TYPE = b.infer<
+  typeof intear_dex_xyk_fee_receiver_schema
+>;
+export type INTEAR_DEX_XYK_SCHEDULED_FEE_CURVE_TYPE = b.infer<
+  typeof intear_dex_xyk_scheduled_fee_curve_schema
+>;
+export type INTEAR_DEX_XYK_SCHEDULED_FEE_WINDOW_TYPE = b.infer<
+  typeof intear_dex_xyk_scheduled_fee_window_schema
+>;
+export type INTEAR_DEX_XYK_FEE_AMOUNT_TYPE = b.infer<
+  typeof intear_dex_xyk_fee_amount_schema
+>;
+export type INTEAR_DEX_XYK_CURRENT_FEES_TYPE = b.infer<
+  typeof intear_dex_xyk_current_fees_schema
+>;
+export type INTEAR_DEX_XYK_V2_FEE_CONFIGURATION_TYPE = b.infer<
+  typeof intear_dex_xyk_v2_fee_configuration_schema
+>;
+export type INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE = b.infer<
+  typeof intear_dex_xyk_fee_configuration_schema
+>;
+export type INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE = b.infer<
+  typeof intear_dex_xyk_asset_with_balance_schema
+>;
+export type INTEAR_DEX_XYK_PRIVATE_POOL_TYPE = b.infer<
+  typeof intear_dex_xyk_private_pool_schema
+>;
+export type INTEAR_DEX_XYK_PUBLIC_POOL_TYPE = b.infer<
+  typeof intear_dex_xyk_public_pool_schema
+>;
+export type INTEAR_DEX_XYK_LAUNCH_POOL_TYPE = b.infer<
+  typeof intear_dex_xyk_launch_pool_schema
+>;
+export type INTEAR_DEX_XYK_LAUNCH_V2_POOL_TYPE = b.infer<
+  typeof intear_dex_xyk_launch_v2_pool_schema
+>;
+export type INTEAR_DEX_XYK_POOL_TYPE = b.infer<
+  typeof intear_dex_xyk_pool_schema
+>;
+export type INTEAR_DEX_XYK_POOL_SHARE_TYPE = b.infer<
+  typeof intear_dex_xyk_pool_share_schema
+>;
 // =================================================
 // copyright 2026 by sleet.near

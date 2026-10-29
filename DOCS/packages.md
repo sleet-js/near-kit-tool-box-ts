@@ -52,11 +52,11 @@ dependencies alone.
 
 ### Common Dependencies by Package
 
-| Package | Key Dependencies                                                     |
-| ------- | -------------------------------------------------------------------- |
-| **web** | `@hot-labs/near-connect`, `near-kit`, `zod`                          |
-| **env** | `near-kit`, `dotenv`                                                 |
-| **fun** | `near-kit`, `zod` (method consts are vendored in `src/lib/methods/`) |
+| Package | Key Dependencies                                                                     |
+| ------- | ------------------------------------------------------------------------------------ |
+| **web** | `@hot-labs/near-connect`, `near-kit`, `zod`                                          |
+| **env** | `near-kit`, `dotenv`                                                                 |
+| **fun** | `near-kit`, `zod`, `@zorsh/zorsh` (method consts are vendored in `src/lib/methods/`) |
 
 All packages use:
 
@@ -79,6 +79,8 @@ packages — the method constants are vendored inside
 - **@hot-labs/near-connect** - Hot Wallet Connect (web only)
 - **near-kit** - Core NEAR protocol client
 - **zod** - Runtime type validation (fun only)
+- **@zorsh/zorsh** - Borsh codec for the INTEAR DEX sub-dex views (fun only).
+  Pinned to an exact version — the library is young and its API may still move.
 - **dotenv** - Environment variable loading (env only)
 
 ## Key Concepts

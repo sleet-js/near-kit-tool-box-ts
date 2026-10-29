@@ -340,20 +340,20 @@ export type { intear_dex_otc_args } from "./lib/args/intear_dex_otc_args";
 export type { intear_dex_simple_amm_args } from "./lib/args/intear_dex_simple_amm_args";
 export type { sputnik_dao_args } from "./lib/args/sputnik_dao_args";
 export type { INTEAR_DEX_ASSET_ID } from "./lib/borsh/intear_dex_asset_id";
+export type { INTEAR_DEX_ASSET_ID_DECODED } from "./lib/borsh/intear_dex_asset_id";
 export {
   parse_intear_dex_asset_id,
-  read_intear_dex_asset_id,
-  write_intear_dex_asset_id,
   intear_dex_asset_token_id,
+  intear_dex_asset_id_to_decoded,
+  intear_dex_asset_id_from_decoded,
 } from "./lib/borsh/intear_dex_asset_id";
 export { intear_dex_account_or_dex_id } from "./lib/borsh/intear_dex_account_or_dex_id";
 export {
-  borsh_reader,
-  borsh_writer,
   base58_encode,
   base64_to_bytes,
   bytes_to_base64,
 } from "./lib/borsh/intear_dex_borsh";
+export { intear_dex_public_key_to_string } from "./lib/borsh/intear_dex_public_key";
 
 // ---------- shared method-name constants ----------
 // ===========================================
