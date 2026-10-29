@@ -11,10 +11,17 @@ import * as z from "zod";
 //
 // VERIFIED SHAPES
 //   `get_pool` answers with 23 fields. The pool id is a composite
-//   string — `<hash>|<token>|<fee>` — e.g.
-//   `17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1|wrap.near|100`
-//   and `token_x` is the HASH, not an account id. Checked across 4
-//   live pools; every field had the type declared below.
+//   string — `<token_x>|<token_y>|<fee>` — e.g.
+//   `nearvember-337.meme-cooking.near|wrap.near|10000`
+//   and `pool_id` is exactly `token_x`, `token_y` and `fee` joined.
+//   Checked across 4 live pools; every field had the type declared
+//   below.
+//
+//   `token_x` is the pool's "x side" token. It is USUALLY an account
+//   id — `nearvember-337.meme-cooking.near`,
+//   `a0b86991...factory.bridge.near` — but it can also be a bare
+//   64-character hex hash with no `.near` suffix, so do not assume
+//   it is an account id.
 //
 //   `get_user_asset` answers with a BARE decimal string ("0"), not an
 //   object. The token and the account are both in the request.

@@ -258,11 +258,16 @@ the rhea_ammv2 drift survived.
 `RHEA_DCLV2_POOL_TYPE` and `RHEA_DCLV2_USER_ASSET_TYPE` are now
 verified against live mainnet responses:
 
-- **The pool id is a composite string** — `<hash>|<token>|<fee>`, e.g.
-  `17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1|wrap.near|100`
-  — and `token_x` is the **hash**, not an account id. The live pool
-  answers with 23 fields; the type now names all 23, and `extra` is
-  empty. Checked across 4 live pools.
+- **The pool id is a composite string** — `<token_x>|<token_y>|<fee>`,
+  e.g. `nearvember-337.meme-cooking.near|wrap.near|10000`, and
+  `pool_id` is exactly `token_x`, `token_y` and `fee` joined. The live
+  pool answers with 23 fields; the type now names all 23, and `extra`
+  is empty. Checked across 4 live pools.
+- `token_x` is the pool's "x side" token. It is **usually an account
+  id** — `nearvember-337.meme-cooking.near`,
+  `a0b86991...factory.bridge.near` — but it can also be a bare
+  64-character hex hash with no `.near` suffix, so do not assume it is
+  an account id.
 - **`get_user_asset` answers with a bare decimal string** (`"0"`), not
   an object. The type declared `{ token_id?, balance? }`, so the
   helper would have thrown on every call. It is now a string alias.
