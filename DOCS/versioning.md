@@ -125,6 +125,11 @@ All three packages share one version number, so one tag covers all of them.
 | bump `major`    | `0.2.2` → `1.0.0` |
 | version `1.2.3` | exactly `1.2.3`   |
 
+> **Use `minor`, never `major`.** This package is pre-1.0, so a `major` bump
+> would take it to `1.0.0` and imply a stability promise it does not make.
+> The breaking changes do not need one — a `minor` bump is the way they ship.
+> So: **no major bumps, whatever the change.**
+
 The bump base is the highest of **both** the local `package.json` versions and
 the versions already on npm, so a version that was published but never
 committed can never be reused.
