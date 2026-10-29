@@ -1,27 +1,38 @@
 // =================================================
 // generic_contract_call_types
 //
-// Minimal types for generic contract calls.
+// Types for generic contract calls.
 //
-// These types describe only what the generic sender needs to build,
-// sign, and send a transaction. Applications with their own storage or
-// queue model should transform their data into these types before
-// calling the generic helpers.
+// The shape follows the NEAR action naming used by the INTEAR
+// dex-aggregator and other NEAR tooling:
+//
+//   - one transaction has one `receiver_id` and an `actions` array
+//   - one action is `{ FunctionCall: { ... } }`
+//   - `gas` is raw gas units, `deposit` is raw yoctoNEAR
+//
+// `gas` and `deposit` also accept near-kit's human-readable forms
+// (`"30 Tgas"`, `"1 NEAR"`) because near-kit accepts both.
+//
+// `args` is JSON only. A consumer that receives base64-encoded args
+// (the dex-aggregator sends them that way) decodes them itself and
+// hands the generic helper plain JSON.
+//
+// Applications with their own storage or queue model should transform
+// their data into these types before calling the generic helpers.
 // =================================================
 
 // =================================================
 // One function-call action.
-// `gas` accepts near-kit's gas input format, such as `"30 Tgas"`.
-// `attached_deposit` accepts near-kit's amount input format, such as
-// `"1 NEAR"` or `"1 yocto"`.
 // =================================================
 export interface generic_contract_function_call_action_type {
-  kind: "function_call";
-  contract_id: string;
-  method_name: string;
-  args?: Record<string, unknown>;
-  gas?: `${number} Tgas` | `${number}.${number} Tgas` | `${number}`;
-  attached_deposit?: `${number} NEAR` | `${bigint} yocto` | bigint;
+  FunctionCall: {
+    method_name: string;
+    args: Record<string, unknown>;
+    // Raw gas units, or near-kit's human-readable form.
+    gas?: number | string;
+    // Raw yoctoNEAR, or near-kit's human-readable form.
+    deposit?: number | string | bigint;
+  };
 }
 
 // =================================================
@@ -34,12 +45,9 @@ export type generic_contract_action_type =
 // =================================================
 // One generic transaction. The actions execute in array order.
 // A transaction may contain one action or several actions.
-//
-// A NEAR transaction has one receiver. The first action's
-// `contract_id` is that receiver, so every action in the transaction
-// must target the same contract.
 // =================================================
 export interface generic_contract_transaction_type {
+  receiver_id: string;
   actions: generic_contract_action_type[];
   wait_until?:
     | "NONE"

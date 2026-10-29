@@ -18,6 +18,7 @@
 // =================================================
 import type { Near } from "near-kit";
 import type {
+  generic_contract_action_type,
   generic_contract_call_options_type,
   generic_contract_call_result_type,
   generic_contract_call_results_type,
@@ -86,27 +87,16 @@ async function send_generic_contract_transaction(
   }
 
   const signer_id = await resolve_signer_id(near);
-  const receiver_id = transaction.actions[0]!.contract_id;
-  for (const action of transaction.actions) {
-    if (action.contract_id !== receiver_id) {
-      throw new Error(
-        `A generic contract transaction must target one contract; found "${receiver_id}" and "${action.contract_id}"`,
-      );
-    }
-  }
-
   const builder = near.transaction(signer_id);
   for (const action of transaction.actions) {
-    if (action.kind !== "function_call") {
-      throw new Error(`Unsupported generic contract action: ${action.kind}`);
-    }
+    const function_call = get_function_call(action);
     builder.functionCall(
-      action.contract_id,
-      action.method_name,
-      action.args ?? {},
+      transaction.receiver_id,
+      function_call.method_name,
+      function_call.args,
       {
-        gas: action.gas,
-        attachedDeposit: action.attached_deposit,
+        gas: to_gas(function_call.gas) as never,
+        attachedDeposit: to_deposit(function_call.deposit) as never,
       },
     );
   }
@@ -122,6 +112,86 @@ async function send_generic_contract_transaction(
     );
   }
   return { transaction_hash };
+}
+
+// =================================================
+// Reads the function call out of one action.
+// Only FunctionCall actions are supported today.
+// =================================================
+function get_function_call(
+  action: generic_contract_action_type,
+): generic_contract_action_type["FunctionCall"] {
+  if (!("FunctionCall" in action)) {
+    throw new Error(
+      `Unsupported generic contract action: ${Object.keys(action).join(", ")}`,
+    );
+  }
+  return action.FunctionCall;
+}
+
+// =================================================
+// Converts a gas value into near-kit's gas input.
+// Raw gas units stay raw; a value with a unit stays as it is.
+// =================================================
+function to_gas(gas: number | string | undefined): string {
+  if (gas === undefined) {
+    return "30000000000000";
+  }
+  if (typeof gas === "number") {
+    if (!Number.isFinite(gas)) {
+      throw new Error("A generic contract action gas must be a finite number");
+    }
+    return Math.trunc(gas).toString();
+  }
+  const trimmed = gas.trim();
+  if (trimmed.length === 0) {
+    throw new Error("A generic contract action gas must not be empty");
+  }
+  if (/^\d+$/.test(trimmed)) {
+    return trimmed;
+  }
+  if (/^\d+(\.\d+)?\s*Tgas$/.test(trimmed)) {
+    return trimmed;
+  }
+  throw new Error(
+    `A generic contract action gas must be raw gas units or a "Tgas" value; got "${gas}"`,
+  );
+}
+
+// =================================================
+// Converts a deposit value into near-kit's amount input.
+// Raw yoctoNEAR stays raw; a value with a unit stays as it is.
+// =================================================
+function to_deposit(
+  deposit: number | string | bigint | undefined,
+): string | bigint {
+  if (deposit === undefined) {
+    return 0n;
+  }
+  if (typeof deposit === "bigint") {
+    return deposit;
+  }
+  if (typeof deposit === "number") {
+    if (!Number.isFinite(deposit)) {
+      throw new Error(
+        "A generic contract action deposit must be a finite number",
+      );
+    }
+    return BigInt(Math.trunc(deposit));
+  }
+  const trimmed = deposit.trim();
+  if (trimmed.length === 0) {
+    throw new Error("A generic contract action deposit must not be empty");
+  }
+  if (/^\d+$/.test(trimmed)) {
+    return BigInt(trimmed);
+  }
+  if (/^\d+(\.\d+)?\s(NEAR|yocto)$/.test(trimmed)) {
+    return trimmed;
+  }
+  throw new Error(
+    `A generic contract action deposit must be raw yoctoNEAR or an amount with a unit; got "${deposit}"`,
+  );
 }
 
 // =================================================
