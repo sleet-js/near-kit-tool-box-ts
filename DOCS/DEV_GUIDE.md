@@ -2,25 +2,6 @@
 
 ## Project Structure
 
-```
-near-kit-tool-box/
-├── packages/
-│   ├── web/        # Browser client (Hot Wallet Connect, localStorage)
-│   ├── env/        # Backend client (.env configuration)
-│   └── fun/        # Reusable contract functions
-│       └── src/
-│           ├── index.ts                        # Public barrel
-│           ├── fun/<contract>/<contract>_<method>_fun_json.ts   # one folder per contract, one file per function
-│           ├── lib/methods/methods_<contract>.ts               # method-name constants (one file per contract)
-│           ├── lib/const_id/<contract>_contract_id_const.ts    # testnet/mainnet contract id pairs + `*_contractid(network)` resolver
-│           ├── lib/args/<contract>_args.ts                     # parameter type maps
-│           └── types/<contract>_<response>_type.ts             # response type definitions
-├── bin/            # CLI test scripts
-├── scripts/        # Development utilities (version sync)
-├── DOCS/SC/        # Per-contract documentation, one .md per smart contract
-└── package.json    # Root workspace config
-```
-
 This is a **Bun workspace monorepo**. All packages share dependencies and build with TypeScript.
 
 ---
