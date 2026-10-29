@@ -5,6 +5,7 @@
 // contract as a string.
 import type { Near } from "near-kit";
 import { greeting_methods_const } from "../../lib/methods/methods_greeting";
+import { GREETING_TYPE_Z_CONST } from "../../types/greeting_type";
 // =================================================
 export async function greeting_get_greeting_fun_json(
   near: Near,
@@ -14,7 +15,7 @@ export async function greeting_get_greeting_fun_json(
     greeting_contract_id,
     greeting_methods_const.get_greeting,
   );
-  return result as string;
+  return GREETING_TYPE_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

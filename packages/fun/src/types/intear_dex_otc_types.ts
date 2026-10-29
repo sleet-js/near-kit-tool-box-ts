@@ -1,12 +1,25 @@
 // =================================================
 // Typed shapes returned by the INTEAR DEX `otc` sub-dex views.
 //
+// PROVENANCE
+//   contract : `dex.intear.near` (mainnet) — the INTEAR DEX engine,
+//              sub-dex `otc`
+//   methods  : `storage_balance_of`, `get_authorized_key`,
+//              `get_balance`, `is_nonce_used`
+//              (all read through the engine's `dex_view`)
+//   verified : 2026-10-28, against the live mainnet responses
+//
+// BORS-DECODED, NOT JSON.
+// The otc dex's views are read through the engine's `dex_view`, which
+// carries **borsh** payloads. These types therefore describe the
+// values AFTER the borsh decoder has run, not the JSON the RPC
+// returned. A JSON schema (Zod) is the WRONG tool for these — the
+// wire form is a borsh byte string and never a JSON document — so
+// these stay plain types and the helpers keep decoding.
+//
 // The otc dex is an over-the-counter desk: two (or more) parties
 // sign trade intents, and a `match` call settles them against the
 // dex's internal balances.
-//
-// Its views are read through the engine's `dex_view`, which carries
-// **borsh** payloads.
 // =================================================
 
 // ---------- storage balance ----------

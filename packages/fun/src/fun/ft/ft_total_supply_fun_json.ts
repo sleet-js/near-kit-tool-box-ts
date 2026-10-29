@@ -5,6 +5,7 @@
 // token as a decimal string.
 import type { Near } from "near-kit";
 import { ft_methods_const } from "../../lib/methods/methods_ft";
+import { FT_AMOUNT_STRING_Z_CONST } from "../../types/ft_metadata_get_response_type";
 // =================================================
 export async function ft_total_supply_fun_json(
   near: Near,
@@ -14,7 +15,7 @@ export async function ft_total_supply_fun_json(
     ft_contract_id,
     ft_methods_const.ft_total_supply,
   );
-  return result as string;
+  return FT_AMOUNT_STRING_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

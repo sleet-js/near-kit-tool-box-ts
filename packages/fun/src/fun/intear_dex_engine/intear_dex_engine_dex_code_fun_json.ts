@@ -10,6 +10,7 @@
 // =================================================
 import type { Near } from "near-kit";
 import { intear_dex_engine_methods_const } from "../../lib/methods/methods_intear_dex_engine";
+import { INTEAR_DEX_AMOUNT_STRING_Z_CONST } from "../../types/intear_dex_engine_types";
 // =================================================
 export async function intear_dex_engine_dex_code_fun_json(
   near: Near,
@@ -21,7 +22,7 @@ export async function intear_dex_engine_dex_code_fun_json(
     intear_dex_engine_methods_const.dex_code,
     { dex_id },
   );
-  return result as string;
+  return INTEAR_DEX_AMOUNT_STRING_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

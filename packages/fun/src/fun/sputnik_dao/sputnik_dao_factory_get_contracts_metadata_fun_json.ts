@@ -10,7 +10,10 @@
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_factory_methods_const } from "../../lib/methods/methods_sputnik_dao";
-import type { SPUTNIK_DAO_CONTRACT_METADATA_TYPE } from "../../types/sputnik_dao_types";
+import {
+  SPUTNIK_DAO_CONTRACT_METADATA_PAIRS_TYPE_Z_CONST,
+  type SPUTNIK_DAO_CONTRACT_METADATA_TYPE,
+} from "../../types/sputnik_dao_types";
 // =================================================
 export async function sputnik_dao_factory_get_contracts_metadata_fun_json(
   near: Near,
@@ -21,7 +24,7 @@ export async function sputnik_dao_factory_get_contracts_metadata_fun_json(
     sputnik_dao_factory_methods_const.get_contracts_metadata,
     {},
   );
-  return result as [string, SPUTNIK_DAO_CONTRACT_METADATA_TYPE][];
+  return SPUTNIK_DAO_CONTRACT_METADATA_PAIRS_TYPE_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

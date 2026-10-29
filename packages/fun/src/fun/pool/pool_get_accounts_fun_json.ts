@@ -7,7 +7,10 @@
 // =================================================
 import type { Near } from "near-kit";
 import { pool_methods_const } from "../../lib/methods/methods_pool";
-import type { POOL_GET_ACCOUNTS_ACCOUNTS_TYPE } from "../../types/pool_types";
+import {
+  POOL_GET_ACCOUNTS_ACCOUNTS_TYPE_Z_CONST,
+  type POOL_GET_ACCOUNTS_ACCOUNTS_TYPE,
+} from "../../types/pool_types";
 // =================================================
 export async function pool_get_accounts_fun_json(
   near: Near,
@@ -20,7 +23,7 @@ export async function pool_get_accounts_fun_json(
     pool_methods_const.get_accounts,
     { from_index, limit },
   );
-  return result as POOL_GET_ACCOUNTS_ACCOUNTS_TYPE;
+  return POOL_GET_ACCOUNTS_ACCOUNTS_TYPE_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

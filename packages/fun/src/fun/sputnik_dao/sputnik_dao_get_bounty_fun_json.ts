@@ -9,7 +9,10 @@
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";
 import type { sputnik_dao_args } from "../../lib/args/sputnik_dao_args";
-import type { SPUTNIK_DAO_BOUNTY_TYPE } from "../../types/sputnik_dao_types";
+import {
+  SPUTNIK_DAO_BOUNTY_TYPE_Z_CONST,
+  type SPUTNIK_DAO_BOUNTY_TYPE,
+} from "../../types/sputnik_dao_types";
 // =================================================
 export async function sputnik_dao_get_bounty_fun_json(
   near: Near,
@@ -22,7 +25,8 @@ export async function sputnik_dao_get_bounty_fun_json(
       sputnik_dao_methods_const.get_bounty,
       { id },
     );
-    return (result as SPUTNIK_DAO_BOUNTY_TYPE | undefined) ?? null;
+    if (result === undefined) return null;
+    return SPUTNIK_DAO_BOUNTY_TYPE_Z_CONST.parse(result);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (message.includes("ERR_NO_BOUNTY")) return null;

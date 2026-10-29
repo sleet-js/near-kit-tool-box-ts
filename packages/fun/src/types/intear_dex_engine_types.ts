@@ -1,6 +1,15 @@
 import * as z from "zod";
+import { AMOUNT_STRING_Z_CONST, BOOLEAN_Z_CONST } from "./scalar_type";
 // =================================================
 // Typed shapes returned by the INTEAR DEX engine views.
+//
+// PROVENANCE
+//   contract : `dex.intear.near` (mainnet) — the INTEAR DEX engine
+//   methods  : `storage_balance_of`, `storage_balance_bounds`,
+//              `total_storage_balances`, `contract_source_metadata`,
+//              `registered_assets_of`, `dex_storage_balance_of`,
+//              `dex_storage_balance_bounds`
+//   verified : 2026-10-28, against the live mainnet responses
 //
 // The engine contract (`dex.intear.near`) keeps per-user and per-dex
 // balances of many asset kinds at once. Its views are JSON, and every
@@ -8,6 +17,10 @@ import * as z from "zod";
 //
 // The schemas keep unknown fields in `extra`, so a new contract field
 // does not make a typed view fail.
+//
+// The `contract_source_metadata` view answers with
+// `{ version, link, standards, build_info }` — `build_info` is the
+// extra field the type does not name, so it lands in `extra`.
 // =================================================
 
 // ---------- AccountOrDexId ----------
@@ -160,5 +173,24 @@ export const INTEAR_DEX_CONTRACT_SOURCE_METADATA_TYPE_Z_CONST = z
       ),
     ),
   })) satisfies z.ZodType<INTEAR_DEX_CONTRACT_SOURCE_METADATA_TYPE>;
+
+// ---------- scalars ----------
+
+// A bare decimal string — an amount in yocto units.
+const INTEAR_DEX_AMOUNT_STRING_Z_CONST = AMOUNT_STRING_Z_CONST;
+
+export { INTEAR_DEX_AMOUNT_STRING_Z_CONST };
+
+// The same, but the view may answer `null`.
+export const INTEAR_DEX_AMOUNT_STRING_OR_NULL_Z_CONST = z.union([
+  z.string(),
+  z.null(),
+]);
+
+// The engine's `is_paused` view answers with a boolean.
+const INTEAR_DEX_BOOLEAN_Z_CONST = BOOLEAN_Z_CONST;
+
+export { INTEAR_DEX_BOOLEAN_Z_CONST };
+
 // =================================================
 // copyright 2026 by sleet.near

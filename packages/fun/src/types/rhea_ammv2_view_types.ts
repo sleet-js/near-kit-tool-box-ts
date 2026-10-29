@@ -1,10 +1,27 @@
 import * as z from "zod";
+import { AMOUNT_STRING_Z_CONST, COUNT_NUMBER_Z_CONST } from "./scalar_type";
 // =================================================
 // Typed shapes for Rhea AMM v2 account, LP, and metadata views.
+//
+// PROVENANCE
+//   contract : `v2.ref-finance.near` (mainnet) — the Rhea AMM v2
+//   methods  : `get_account_basic_info`, `get_pool_shares`,
+//              `get_pool_shares_batch`, `get_pool_total_shares`,
+//              `metadata`, `get_number_of_pools`, `get_deposit`,
+//              `get_return`, `get_pool_share_price`
+//   verified : 2026-10-28, against the live mainnet responses
 //
 // The AMM contract has evolved several pool kinds. These schemas keep
 // the stable fields strict while preserving pool-specific and future
 // fields in `extra`.
+//
+// The `metadata` view answers with 11 fields:
+//   `version`, `owner`, `boost_farm_id`, `burrowland_id`, `guardians`,
+//   `pool_count`, `state`, `admin_fee_bps`,
+//   `cumulative_info_record_interval_sec`, `wnear_id`,
+//   `auto_whitelisted_postfix`
+// `pool_count` is a JSON number there. `get_number_of_pools` answers
+// with a JSON number too.
 // =================================================
 
 // The account registration view. The contract answers with the
@@ -113,11 +130,15 @@ export const RHEA_AMMV2_METADATA_TYPE_Z_CONST = z
 // token's smallest unit. `get_pool_shares` and `get_pool_total_shares`
 // answer with one, `get_pool_shares_batch` with one per pool in the
 // order the pools were asked for.
-export const RHEA_AMMV2_U128_Z_CONST = z.string();
+const RHEA_AMMV2_U128_Z_CONST = AMOUNT_STRING_Z_CONST;
+
+export { RHEA_AMMV2_U128_Z_CONST };
 
 export const RHEA_AMMV2_U128_LIST_Z_CONST = z.array(RHEA_AMMV2_U128_Z_CONST);
 
 // The pool count view answers with a plain `u64` — a JSON number.
-export const RHEA_AMMV2_POOL_COUNT_Z_CONST = z.number();
+const RHEA_AMMV2_POOL_COUNT_Z_CONST = COUNT_NUMBER_Z_CONST;
+
+export { RHEA_AMMV2_POOL_COUNT_Z_CONST };
 // =================================================
 // copyright 2026 by sleet.near

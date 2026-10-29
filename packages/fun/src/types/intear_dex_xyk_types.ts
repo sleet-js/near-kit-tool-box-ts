@@ -1,10 +1,24 @@
 // =================================================
 // Typed shapes returned by the INTEAR DEX `xyk` sub-dex views.
 //
+// PROVENANCE
+//   contract : `dex.intear.near` (mainnet) — the INTEAR DEX engine,
+//              sub-dex `xyk`
+//   methods  : `get_pool`, `get_pools`, `get_pool_shares`,
+//              `get_pending_fees`, `get_community_owned_fees`
+//              (all read through the engine's `dex_view`)
+//   verified : 2026-10-28, against the live mainnet responses
+//
+// BORS-DECODED, NOT JSON.
+// The xyk dex's views are read through the engine's `dex_view`, which
+// carries **borsh** payloads. These types therefore describe the
+// values AFTER the borsh decoder has run, not the JSON the RPC
+// returned. A JSON schema (Zod) is the WRONG tool for these — the
+// wire form is a borsh byte string and never a JSON document — so
+// these stay plain types and the helpers keep casting.
+//
 // The xyk dex is a constant-product (x*y=k) AMM with two assets per
-// pool. Its views are read through the engine's `dex_view`, which
-// carries **borsh** payloads, so these types describe the decoded
-// borsh values.
+// pool.
 //
 // Pool kinds, as reported by the decoded `PoolView`:
 //   - `Private`    — a single-owner pool

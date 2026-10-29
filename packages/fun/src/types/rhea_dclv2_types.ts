@@ -2,9 +2,24 @@ import * as z from "zod";
 // =================================================
 // Typed shapes returned by Rhea DCL v2 views.
 //
+// PROVENANCE
+//   contract : `dclv2.ref-labs.near` (mainnet)
+//   methods  : `get_pool`, `get_pools`, `list_pools`, `get_liquidity`,
+//              `list_liquidities`, `get_user_asset`, `list_user_assets`,
+//              `get_metadata`
+//   verified : 2026-10-28, against the live mainnet response
+//
 // DCL v2 pool and liquidity responses include optional pool-specific
 // fields. The schemas preserve these in `extra`, so new contract fields
 // do not make a typed view fail.
+//
+// The `get_metadata` view answers with 12 fields:
+//   `version`, `owner_id`, `farming_contract_id`, `next_owner_id`,
+//   `next_owner_accept_deadline`, `wnear_id`, `state`, `operators`,
+//   `protocol_fee_rate`, `pool_count`, `user_count`
+// `pool_count` and `user_count` are JSON STRINGS there ("6275",
+// "7921") and `protocol_fee_rate` is a JSON number. The schema below
+// names only `protocol_fee_rate` and keeps the rest in `extra`.
 // =================================================
 
 export interface RHEA_DCLV2_POOL_TYPE {
@@ -162,6 +177,13 @@ export const RHEA_DCLV2_USER_ASSET_TYPE_Z_CONST = z
 export interface RHEA_DCLV2_USER_ASSETS_TYPE {
   [token_id: string]: string;
 }
+
+// The `list_user_assets` view answers with a `{ token_id: balance }`
+// map, the balances as decimal strings in the token's smallest unit.
+export const RHEA_DCLV2_USER_ASSETS_TYPE_Z_CONST = z.record(
+  z.string(),
+  z.string(),
+) satisfies z.ZodType<RHEA_DCLV2_USER_ASSETS_TYPE>;
 
 export interface RHEA_DCLV2_METADATA_TYPE {
   protocol_fee_rate: number;

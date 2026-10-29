@@ -19,6 +19,7 @@ import type {
   INTEAR_DEX_ACCOUNT_OR_DEX_ID,
   INTEAR_DEX_ASSET_ID_STRING,
 } from "../../types/intear_dex_engine_types";
+import { INTEAR_DEX_AMOUNT_STRING_OR_NULL_Z_CONST } from "../../types/intear_dex_engine_types";
 // =================================================
 export async function intear_dex_engine_asset_balance_of_fun_json(
   near: Near,
@@ -31,7 +32,7 @@ export async function intear_dex_engine_asset_balance_of_fun_json(
     intear_dex_engine_methods_const.asset_balance_of,
     { of, asset_id },
   );
-  return result as string | null;
+  return INTEAR_DEX_AMOUNT_STRING_OR_NULL_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

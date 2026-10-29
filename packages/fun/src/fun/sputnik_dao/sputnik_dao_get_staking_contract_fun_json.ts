@@ -6,6 +6,7 @@
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";
+import { SPUTNIK_DAO_ID_STRING_Z_CONST } from "../../types/sputnik_dao_types";
 // =================================================
 export async function sputnik_dao_get_staking_contract_fun_json(
   near: Near,
@@ -16,7 +17,7 @@ export async function sputnik_dao_get_staking_contract_fun_json(
     sputnik_dao_methods_const.get_staking_contract,
     {},
   );
-  return result as string;
+  return SPUTNIK_DAO_ID_STRING_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

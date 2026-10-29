@@ -2,8 +2,17 @@ import * as z from "zod";
 // =================================================
 // RHEA_AMMV2_GET_POOL_TYPE
 //
+// PROVENANCE
+//   contract : `v2.ref-finance.near` (mainnet) — the Rhea AMM v2
+//   methods  : `get_pool`, `get_pools`
+//   verified : 2026-10-28, against the live mainnet responses
+//
 // Shape returned by the rhea_ammv2 `get_pool` and `get_pools` view
-// calls.
+// calls. A pool has exactly SIX keys:
+//   `pool_kind`, `token_account_ids`, `amounts`, `total_fee`,
+//   `shares_total_supply`, `amp`
+// The pool kinds seen live are `SIMPLE_POOL`, `STABLE_SWAP`,
+// `RATED_SWAP` and `DEGEN_SWAP`.
 // =================================================
 
 export interface RHEA_AMMV2_GET_POOL_TYPE {

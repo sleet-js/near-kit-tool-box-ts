@@ -2,6 +2,11 @@ import * as z from "zod";
 // =================================================
 // RHEA_AMMV2_GET_DEPOSITS_TYPE
 //
+// PROVENANCE
+//   contract : `v2.ref-finance.near` (mainnet) — the Rhea AMM v2
+//   methods  : `get_deposits`
+//   verified : 2026-10-28, against the live mainnet response
+//
 // Shape returned by the rhea_ammv2 `get_deposits` view call. The
 // contract returns a `{ token_id: balance }` map where `token_id` is
 // a NEP-141 contract id (e.g. `wrap.near`,

@@ -11,6 +11,7 @@
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";
 import type { sputnik_dao_args } from "../../lib/args/sputnik_dao_args";
+import { SPUTNIK_DAO_BOOLEAN_Z_CONST } from "../../types/sputnik_dao_types";
 // =================================================
 export async function sputnik_dao_has_blob_fun_json(
   near: Near,
@@ -22,7 +23,7 @@ export async function sputnik_dao_has_blob_fun_json(
     sputnik_dao_methods_const.has_blob,
     { hash },
   );
-  return result as boolean;
+  return SPUTNIK_DAO_BOOLEAN_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near
