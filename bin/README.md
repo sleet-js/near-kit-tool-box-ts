@@ -50,27 +50,7 @@ work without a signer; call bins need `NEAR_KIT_ACCOUNT_ID` and
 | `sputnik_dao/`            | Sputnik DAO factory + daos                        | [sputnik_dao/README.md](./sputnik_dao/README.md) |
 | `wrap_near/`              | wNEAR                                             | [wrap_near/README.md](./wrap_near/README.md) |
 
----
 
-## layout
-
-```
-bin/
-  _shared/             # flag parser + env/contract-id helpers (not runnable)
-  ft/                  # NEP-141 / NEP-145
-  hello/               # greeting contract
-  intear_dex_engine/   # INTEAR DEX engine (dex.intear.near)
-  intear_dex_otc/      # INTEAR DEX otc sub-dex
-  intear_dex_simple_amm/ # INTEAR DEX simple-amm sub-dex
-  intear_dex_xyk/      # INTEAR DEX xyk sub-dex
-  near/                # registrar + account keys
-  pool/                # staking pools
-  pumpopoly_world/     # world game
-  rhea_ammv2/          # AMM / ref-finance
-  rhea_dclv2/          # concentrated-liquidity DEX
-  sputnik_dao/        # Sputnik DAO factory + daos
-  wrap_near/           # wNEAR
-```
 
 ---
 
