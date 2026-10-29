@@ -263,11 +263,13 @@ verified against live mainnet responses:
   `pool_id` is exactly `token_x`, `token_y` and `fee` joined. The live
   pool answers with 23 fields; the type now names all 23, and `extra`
   is empty. Checked across 4 live pools.
-- `token_x` is the pool's "x side" token. It is **usually an account
-  id** — `nearvember-337.meme-cooking.near`,
-  `a0b86991...factory.bridge.near` — but it can also be a bare
-  64-character hex hash with no `.near` suffix, so do not assume it is
-  an account id.
+- `token_x` is the pool's "x side" token and it is **always an account
+  id** — but it can be written either way: a named id
+  (`nearvember-337.meme-cooking.near`) or an **implicit** one (the
+  64-hex public key with no `.near` suffix, e.g.
+  `17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1`).
+  `view_account` finds the bare 64-hex form on chain and does not find
+  it with `.near` appended.
 - **`get_user_asset` answers with a bare decimal string** (`"0"`), not
   an object. The type declared `{ token_id?, balance? }`, so the
   helper would have thrown on every call. It is now a string alias.

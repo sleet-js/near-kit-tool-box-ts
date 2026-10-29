@@ -17,11 +17,16 @@ import * as z from "zod";
 //   Checked across 4 live pools; every field had the type declared
 //   below.
 //
-//   `token_x` is the pool's "x side" token. It is USUALLY an account
-//   id — `nearvember-337.meme-cooking.near`,
-//   `a0b86991...factory.bridge.near` — but it can also be a bare
-//   64-character hex hash with no `.near` suffix, so do not assume
-//   it is an account id.
+//   `token_x` is the pool's "x side" token, and it is always an
+//   ACCOUNT ID — but it can be written either way:
+//
+//     named     nearvember-337.meme-cooking.near
+//                a0b86991...factory.bridge.near
+//     implicit  17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1
+//
+//   An implicit account id is the 64-hex public key with no `.near`
+//   suffix. Both forms are live: `view_account` finds the bare
+//   64-hex id on chain and does NOT find it with `.near` appended.
 //
 //   `get_user_asset` answers with a BARE decimal string ("0"), not an
 //   object. The token and the account are both in the request.
