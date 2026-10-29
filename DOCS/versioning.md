@@ -118,12 +118,12 @@ All three packages share one version number, so one tag covers all of them.
 
 ### Choosing the version
 
-| input              | result                                     |
-| ------------------ | ------------------------------------------ |
-| bump `patch`       | `0.2.2` → `0.2.3`                          |
-| bump `minor`       | `0.2.2` → `0.3.0`                          |
-| bump `major`       | `0.2.2` → `1.0.0`                          |
-| version `1.2.3`    | exactly `1.2.3`                            |
+| input           | result            |
+| --------------- | ----------------- |
+| bump `patch`    | `0.2.2` → `0.2.3` |
+| bump `minor`    | `0.2.2` → `0.3.0` |
+| bump `major`    | `0.2.2` → `1.0.0` |
+| version `1.2.3` | exactly `1.2.3`   |
 
 The bump base is the highest of **both** the local `package.json` versions and
 the versions already on npm, so a version that was published but never
@@ -137,12 +137,12 @@ The workflow authenticates with **OIDC**, not a stored npm token. There is no
 On **npmjs.com**, each package needs a trusted publisher configured once, under
 **Package Settings → Trusted Publisher → GitHub Actions**:
 
-| field                | value                |
-| -------------------- | -------------------- |
-| Organization or user | `sleet-js`           |
+| field                | value                  |
+| -------------------- | ---------------------- |
+| Organization or user | `sleet-js`             |
 | Repository           | `near-kit-tool-box-ts` |
-| Workflow filename    | `release.yml`        |
-| Allowed actions      | `npm publish`        |
+| Workflow filename    | `release.yml`          |
+| Allowed actions      | `npm publish`          |
 
 > **Do this within 2 days.** A new trusted publisher configuration must
 > complete its first publish within 2 days or it expires. If it expires,
