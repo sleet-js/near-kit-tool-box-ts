@@ -48,7 +48,7 @@ export interface generic_contract_transaction_type {
 
 // =================================================
 // A single transaction or a list of transactions.
-// This is the input accepted by the generic web/env call helpers.
+// This is the input accepted by the generic call helpers.
 // =================================================
 export type generic_contract_transactions_type =
   generic_contract_transaction_type | generic_contract_transaction_type[];
@@ -66,5 +66,11 @@ export interface generic_contract_call_result_type {
 // =================================================
 export type generic_contract_call_results_type =
   generic_contract_call_result_type[];
+
 // =================================================
-// copyright 2026 by sleet.near
+// Options for the near-kit generic call helper.
+// =================================================
+export interface generic_contract_call_options_type {
+  // Send transactions one at a time; this is the safe default.
+  send_in_parallel?: boolean;
+}

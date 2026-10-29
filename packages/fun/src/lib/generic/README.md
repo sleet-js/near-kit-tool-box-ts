@@ -15,22 +15,13 @@ const greeting = await generic_contract_view_fun_json<string>(
 );
 ```
 
-## Calls
+## Call with near-kit
 
-The call helpers accept the same JSON-friendly transaction shape. A
-transaction contains an `actions` array. Each action currently describes
-one contract function call. A transaction can contain one action or several
-actions; the actions run in array order inside that one transaction.
-
-The input can be one transaction or an array of transactions. Every array
-entry is a separate transaction. The helpers never combine separate
-transactions into one batched transaction.
+`generic_contract_call_fun` works with any near-kit `Near` client: a backend
+client with a private key, or a browser client with a wallet.
 
 ```ts
-import {
-  generic_contract_call_web,
-  generic_contract_call_web_transactions,
-} from "@near-kit-tool-box/fun";
+import { generic_contract_call_fun } from "@near-kit-tool-box/fun";
 
 const transactions = [
   {
@@ -63,42 +54,43 @@ const transactions = [
   },
 ];
 
-const results = await generic_contract_call_web_transactions(
-  near,
-  transactions,
-);
+const results = await generic_contract_call_fun(near, transactions);
 // [{ transaction_hash: "..." }, { transaction_hash: "..." }]
 ```
 
-Use `generic_contract_call_web` for exactly one transaction.
+One input transaction becomes one NEAR transaction. The actions in that
+transaction run in array order, so a transaction can hold one function call
+or several function calls. An input array is a list of separate
+transactions; the helper never merges separate transactions into one.
 
-The browser helper uses the connected wallet account. Near-kit resolves
-the signer internally, just like the existing `near.call(...)` helpers.
-Browser transactions are sent sequentially by default; pass `true` as the
-third argument to `generic_contract_call_web_transactions` to send them
-concurrently.
-
-## Backend calls
+Transactions are sent sequentially by default. This avoids nonce conflicts
+when one private key signs several transactions. Send them concurrently with:
 
 ```ts
-import {
-  generic_contract_call_env,
-  generic_contract_call_env_transactions,
-} from "@near-kit-tool-box/fun";
-
-const result = await generic_contract_call_env(near, transactions[0]);
-const results = await generic_contract_call_env_transactions(
-  near,
-  transactions,
-);
+const results = await generic_contract_call_fun(near, transactions, {
+  send_in_parallel: true,
+});
 ```
 
-The backend helper uses the signer configured on the NEAR client. Near-kit
-resolves the signer internally, just like the existing `near.call(...)`
-helpers. Backend transactions are sent sequentially by default to avoid
-nonce conflicts with one private key. Pass `true` as the third argument to
-`generic_contract_call_env_transactions` only when using a rotating key
-store for concurrent transactions.
+The signer comes from the NEAR client, the same way `near.call(...)` gets
+it: the configured default signer, or the connected wallet account.
+
+## Call with a browser wallet
+
+Browser wallets can approve several transactions in one popup when they
+implement `signAndSendTransactions` (plural), like `@hot-labs/near-connect`
+does.
+
+```ts
+import { generic_contract_call_wallet } from "@near-kit-tool-box/fun";
+import { near_connect_client } from "@near-kit-tool-box/web";
+
+const wallet = await near_connect_client().wallet();
+const results = await generic_contract_call_wallet(wallet, transactions);
+```
+
+The whole transaction list is handed to the wallet in one call. The signer
+is the connected wallet account.
 
 ## Using the types
 

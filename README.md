@@ -87,8 +87,8 @@ import {
   sputnik_dao_factory_get_dao_list_fun_json,
   // Generic view/call — for any contract not in the toolbox
   generic_contract_view_fun_json,
-  generic_contract_call_web,
-  generic_contract_call_env,
+  generic_contract_call_fun,
+  generic_contract_call_wallet,
   // Types
   AMOUNT_INPUT,
   INTEAR_DEX_XYK_POOL_TYPE,

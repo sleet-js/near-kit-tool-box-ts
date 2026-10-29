@@ -1,12 +1,24 @@
 // =================================================
 // generic_contract_call
 //
-// Shared implementation for the browser and backend generic contract-call
-// helpers. The public `generic_contract_call_web` and
-// `generic_contract_call_env` functions live in their own files.
+// Generic contract-call helper for near-kit's `Near` client.
+//
+// One input transaction is sent as one NEAR transaction. The actions in
+// that transaction run in array order, so a transaction can hold one
+// function call or several function calls.
+//
+// An input array is sent as a list of separate transactions. Transactions
+// are sent sequentially by default, which is the safe choice for a
+// client signing with one private key. Set `send_in_parallel` to true
+// for concurrent sending.
+//
+// Browser wallets that support `signAndSendTransactions` (plural) can
+// use `generic_contract_call_wallet` instead. That helper sends the
+// whole list through one wallet popup.
 // =================================================
 import type { Near } from "near-kit";
 import type {
+  generic_contract_call_options_type,
   generic_contract_call_result_type,
   generic_contract_call_results_type,
   generic_contract_transaction_type,
@@ -14,12 +26,56 @@ import type {
 } from "./generic_contract_call_types";
 
 // =================================================
-// Sends one generic transaction.
+// Sends one or more generic transactions with near-kit.
+// params:
+//   near: the NEAR client
+//   transactions: one transaction or an array of transactions
+//   options: `send_in_parallel` sends transactions concurrently
+// returns one result for a single transaction, or an ordered result list
+export async function generic_contract_call_fun(
+  near: Near,
+  transaction: generic_contract_transaction_type,
+  options?: generic_contract_call_options_type,
+): Promise<generic_contract_call_result_type>;
+export async function generic_contract_call_fun(
+  near: Near,
+  transactions: generic_contract_transaction_type[],
+  options?: generic_contract_call_options_type,
+): Promise<generic_contract_call_results_type>;
+export async function generic_contract_call_fun(
+  near: Near,
+  transactions: generic_contract_transactions_type,
+  options: generic_contract_call_options_type = {},
+): Promise<
+  generic_contract_call_result_type | generic_contract_call_results_type
+> {
+  const list = Array.isArray(transactions) ? transactions : [transactions];
+  if (list.length === 0) {
+    return [];
+  }
+
+  if (options.send_in_parallel) {
+    return Promise.all(
+      list.map((transaction) =>
+        send_generic_contract_transaction(near, transaction),
+      ),
+    );
+  }
+
+  const results: generic_contract_call_result_type[] = [];
+  for (const transaction of list) {
+    results.push(await send_generic_contract_transaction(near, transaction));
+  }
+  return results;
+}
+
+// =================================================
+// Sends one generic transaction with near-kit.
 // params:
 //   near: the NEAR client
 //   transaction: the transaction and its actions
 // returns the transaction hash
-export async function send_generic_contract_transaction(
+async function send_generic_contract_transaction(
   near: Near,
   transaction: generic_contract_transaction_type,
 ): Promise<generic_contract_call_result_type> {
@@ -57,40 +113,6 @@ export async function send_generic_contract_transaction(
     );
   }
   return { transaction_hash };
-}
-
-// =================================================
-// Sends one or more generic transactions sequentially or in parallel.
-// params:
-//   near: the NEAR client
-//   transactions: one transaction or an array of transactions
-//   send_in_parallel: send transactions concurrently; defaults to false
-// returns one result for a single transaction, or an ordered result list
-export async function send_generic_contract_transactions(
-  near: Near,
-  transactions: generic_contract_transactions_type,
-  send_in_parallel = false,
-): Promise<
-  generic_contract_call_result_type | generic_contract_call_results_type
-> {
-  const list = Array.isArray(transactions) ? transactions : [transactions];
-  if (list.length === 0) {
-    return [];
-  }
-
-  if (send_in_parallel) {
-    return Promise.all(
-      list.map((transaction) =>
-        send_generic_contract_transaction(near, transaction),
-      ),
-    );
-  }
-
-  const results: generic_contract_call_result_type[] = [];
-  for (const transaction of list) {
-    results.push(await send_generic_contract_transaction(near, transaction));
-  }
-  return results;
 }
 
 // =================================================

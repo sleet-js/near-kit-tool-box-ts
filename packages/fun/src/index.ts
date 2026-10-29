@@ -365,26 +365,21 @@ export {
   generic_contract_view_fun,
   generic_contract_view_fun_json,
 } from "./lib/generic/generic_contract_view";
-export {
-  generic_contract_call_web,
-  generic_contract_call_web_transactions,
-} from "./lib/generic/generic_contract_call_web";
-export {
-  generic_contract_call_env,
-  generic_contract_call_env_transactions,
-} from "./lib/generic/generic_contract_call_env";
-export {
-  send_generic_contract_transaction,
-  send_generic_contract_transactions,
-} from "./lib/generic/generic_contract_call";
+export { generic_contract_call_fun } from "./lib/generic/generic_contract_call";
+export { generic_contract_call_wallet } from "./lib/generic/generic_contract_call_wallet";
 export type {
   generic_contract_action_type,
+  generic_contract_call_options_type,
   generic_contract_call_result_type,
   generic_contract_call_results_type,
   generic_contract_function_call_action_type,
   generic_contract_transaction_type,
   generic_contract_transactions_type,
 } from "./lib/generic/generic_contract_call_types";
+export type {
+  generic_contract_wallet_action_type,
+  generic_contract_wallet_type,
+} from "./lib/generic/generic_contract_call_wallet";
 
 // ---------- shared per-network contract id constants ----------
 // ===========================================

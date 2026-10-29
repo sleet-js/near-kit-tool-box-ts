@@ -42,7 +42,8 @@ import {
 - Sputnik DAO factory and DAO functions
 - Staking pool, pumpopoly world, and NEAR TLD functions
 - `generic_contract_view_fun_json` — a generic view for any contract
-- `generic_contract_call_web` / `generic_contract_call_env` — generic contract-call transaction helpers
+- `generic_contract_call_fun` — generic contract-call helper for a near-kit client
+- `generic_contract_call_wallet` — generic contract-call helper for a browser wallet
   - See [`src/lib/generic/README.md`](./src/lib/generic/README.md) for the JSON transaction shape
 
 ## Contract IDs
