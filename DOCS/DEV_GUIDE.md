@@ -5,17 +5,16 @@ build with TypeScript.
 
 ## Guides
 
-| guide                                  | what it covers                                |
-| -------------------------------------- | --------------------------------------------- |
-| [setup.md](./setup.md)                 | install, build, env vars, type check          |
-| [build.md](./build.md)                 | the build pipeline, clean & rebuild, tsconfig |
-| [versioning.md](./versioning.md)       | version sync, bump types, publishing          |
-| [packages.md](./packages.md)           | the three packages, their deps and config     |
-| [testing.md](./testing.md)             | the bins as the test harness, conventions     |
-| [bin/README.md](../bin/README.md)      | the bins, one folder per contract family      |
-| [DOCS/SC/](./SC/)                      | one doc per smart contract                    |
-| [FILES.md](./FILES.md)                 | the top-level folder index                    |
-| [release_notes.md](./release_notes.md) | the notes for the next release                |
+| guide                             | what it covers                                |
+| --------------------------------- | --------------------------------------------- |
+| [setup.md](./setup.md)            | install, build, env vars, type check          |
+| [build.md](./build.md)            | the build pipeline, clean & rebuild, tsconfig |
+| [versioning.md](./versioning.md)  | version sync, bump types, publishing          |
+| [packages.md](./packages.md)      | the three packages, their deps and config     |
+| [testing.md](./testing.md)        | the bins as the test harness, conventions     |
+| [bin/README.md](../bin/README.md) | the bins, one folder per contract family      |
+| [DOCS/SC/](./SC/)                 | one doc per smart contract                    |
+| [FILES.md](./FILES.md)            | the top-level folder index                    |
 
 The repo layout lives in the [`tree`](../tree) file at the repo root — see that
 for the folder map and the file naming conventions.

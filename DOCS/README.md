@@ -12,7 +12,6 @@
 ## Reference
 
 - [FILES.md](./FILES.md) — the top-level folder index
-- [release_notes.md](./release_notes.md) — the notes for the next release
 - [SC/](./SC/) — one doc per smart contract
 - [../bin/README.md](../bin/README.md) — the bins, one folder per contract family
 - [../tree](../tree) — the repo layout and file naming conventions

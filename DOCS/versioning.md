@@ -6,6 +6,13 @@ The version sync utility keeps all workspace packages on the same version.
 > them all to one version — it cannot bump a single package. To bump one
 > package on its own, edit its `package.json` `version` field directly.
 
+> **Patch bumps only, from now on.** `patch` is the smallest bump
+> (`0.2.2` → `0.2.3`). The packages are pre-1.0, so a `major` bump would take
+> them to `1.0.0` and imply a stability promise they do not make. Breaking
+> changes ship as a `patch` — they do not need anything bigger.
+>
+> So: **`patch`, always. No major bumps, whatever the change.**
+
 ## Check Version Status (Dry Run)
 
 ```bash
@@ -19,21 +26,16 @@ bun run version:dry-run
 # Patch bump (default): 0.0.1 -> 0.0.2
 bun run version:sync
 
-# Minor bump: 0.0.1 -> 0.1.0
-bun run version:sync minor
-
-# Major bump: 0.0.1 -> 1.0.0
-bun run version:sync major
-
 # Set specific version
 bun run version:sync 1.2.3
 ```
 
 ## Bump Types
 
-- **patch**: Increments patch version (0.0.1 → 0.0.2) - _default_
-- **minor**: Increments minor version, resets patch (0.0.1 → 0.1.0)
-- **major**: Increments major version, resets minor/patch (0.0.1 → 1.0.0)
+- **patch**: Increments patch version (0.0.1 → 0.0.2) - _the only one to use_
+
+> **Patch only.** `minor` and `major` are not used. See the note at the top of
+> this page.
 
 ## How It Works
 
@@ -121,8 +123,6 @@ All three packages share one version number, so one tag covers all of them.
 | input           | result            |
 | --------------- | ----------------- |
 | bump `patch`    | `0.2.2` → `0.2.3` |
-| bump `minor`    | `0.2.2` → `0.3.0` |
-| bump `major`    | `0.2.2` → `1.0.0` |
 | version `1.2.3` | exactly `1.2.3`   |
 
 > **Always use `patch` — the smallest bump.** `patch` is `0.2.2` → `0.2.3`,
