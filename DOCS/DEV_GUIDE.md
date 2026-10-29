@@ -235,7 +235,8 @@ and safe to run as part of `bun run publish:all`.
 ## Testing
 
 Runnable scripts are in `bin/` — one per `fun` helper, grouped by
-contract family. Every bin takes CLI flags; see `bin/README.md`.
+contract family. Every bin takes CLI flags; see `bin/README.md` and
+the README inside each bin folder.
 
 Run them individually, as needed. View bins are read-only and need no
 signer. Call bins submit real transactions — run those only when you

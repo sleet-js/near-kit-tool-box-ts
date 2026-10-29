@@ -23,6 +23,7 @@ near contract inspect wrap.near network-config mainnet now
 - `packages/fun/src/lib/const_id/wrap_near_contract_id_const.ts`
 - `packages/fun/src/fun/wrap_near/wrap_near_deposit_fun_json.ts`, `packages/fun/src/fun/wrap_near/wrap_near_withdraw_fun_json.ts`
 - `bin/wrap_near/wrap_near_deposit.ts`, `bin/wrap_near/wrap_near_withdraw.ts`
+- `bin/wrap_near/README.md` — the examples and the flags for these bins
 
 ==========================
 <br/>

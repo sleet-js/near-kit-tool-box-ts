@@ -33,6 +33,7 @@ near contract inspect <pool_account> network-config mainnet now
 
 - `packages/fun/src/lib/methods/methods_pool.ts`
 - `packages/fun/src/fun/pool/pool_get_number_of_accounts_fun_json.ts`, `packages/fun/src/fun/pool/pool_get_accounts_fun_json.ts`, `packages/fun/src/fun/pool/pool_deposit_and_stake_fun_json.ts`, `packages/fun/src/fun/pool/pool_ping_fun_json.ts`
+- `bin/pool/README.md` — the examples and the flags for these bins
 
 ==========================
 <br/>

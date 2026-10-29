@@ -23,7 +23,7 @@ this project makes it easy to interact with near smart contracts in a clean way,
 
 - see [README.md](./README.md) for the packages and how to build and publish
 - see [DOCS/DEV_GUIDE.md](./DOCS/DEV_GUIDE.md) for the development guide
-- see [bin/README.md](./bin/README.md) for how the bins are set up
+- see [bin/README.md](./bin/README.md) for how the bins are set up (each bin folder has its own README with the examples and flags)
 - see [near-kit-tool-box-skills](https://github.com/sleetplayground/near-kit-tool-box-skills) for the skill library, keep the two in sync when a contract method changes
 
 ==================

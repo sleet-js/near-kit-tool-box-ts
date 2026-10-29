@@ -24,6 +24,7 @@ near contract inspect hello.sleet.near network-config mainnet now
 - `packages/fun/src/lib/args/greeting_args.ts`
 - `packages/fun/src/fun/greeting/greeting_get_greeting_fun_json.ts`, `packages/fun/src/fun/greeting/greeting_set_greeting_fun_json.ts`
 - `bin/hello/hello_get.ts`, `bin/hello/hello_set.ts`
+- `bin/hello/README.md` — the examples and the flags for these bins
 
 ==========================
 <br/>

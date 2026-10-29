@@ -85,6 +85,7 @@ member lists, and an account in three roles is one member, not three.
 - `packages/fun/src/types/sputnik_dao_types.ts` — the response shapes
 - `packages/fun/src/fun/sputnik_dao/` — one helper per view
 - `bin/sputnik_dao/` — one bin per helper
+- `bin/sputnik_dao/README.md` — the examples and the flags for these bins
 
 ==========================
 <br/>

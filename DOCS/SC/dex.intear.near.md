@@ -91,6 +91,7 @@ all 128-bit amounts are decimal strings in yocto units.
 - `packages/fun/tests/intear_dex_views.test.ts` — unit tests
 - `packages/fun/tests/intear_dex_live.test.ts` — live mainnet tests
 - `bin/intear_dex_engine/` — one bin per helper
+- `bin/intear_dex_engine/README.md`, `bin/intear_dex_xyk/README.md`, `bin/intear_dex_otc/README.md`, `bin/intear_dex_simple_amm/README.md` — the examples and the flags for these bins
 
 ==========================
 <br/>

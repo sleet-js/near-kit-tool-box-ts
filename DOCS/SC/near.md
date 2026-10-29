@@ -26,6 +26,7 @@ near contract inspect near    network-config mainnet now
 - `packages/fun/src/fun/near/near_create_account_fun_json.ts`
 - `packages/fun/src/fun/near/near_add_key_fun_json.ts`, `packages/fun/src/fun/near/near_delete_key_fun_json.ts`, `packages/fun/src/fun/near/near_delete_account_fun_json.ts`
 - `bin/near/near_create_account.ts`, `bin/near/near_add_key.ts`, `bin/near/near_delete_key.ts`, `bin/near/near_delete_account.ts`
+- `bin/near/README.md` — the examples and the flags for these bins
 
 ==========================
 <br/>
