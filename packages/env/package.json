@@ -1,7 +1,7 @@
 {
   "name": "@near-kit-tool-box/env",
   "description": "Backend/environment NEAR KIT client setup with .env support",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "homepage": "https://sleet-js.near.page",
   "main": "dist/index.js",
   "module": "dist/index.js",
