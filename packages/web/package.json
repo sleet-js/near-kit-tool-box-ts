@@ -1,7 +1,7 @@
 {
   "name": "@near-kit-tool-box/web",
   "description": "Browser-specific NEAR KIT client setup with Hot Wallet Connect",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "homepage": "https://sleet-js.near.page",
   "main": "dist/index.js",
   "module": "dist/index.js",
