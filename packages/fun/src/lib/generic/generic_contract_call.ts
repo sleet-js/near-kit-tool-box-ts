@@ -17,12 +17,10 @@ import type {
 // Sends one generic transaction.
 // params:
 //   near: the NEAR client
-//   signer_id: the account that signs and pays for the transaction
 //   transaction: the transaction and its actions
 // returns the transaction hash
 export async function send_generic_contract_transaction(
   near: Near,
-  signer_id: string,
   transaction: generic_contract_transaction_type,
 ): Promise<generic_contract_call_result_type> {
   if (transaction.actions.length === 0) {
@@ -31,6 +29,7 @@ export async function send_generic_contract_transaction(
     );
   }
 
+  const signer_id = await resolve_signer_id(near);
   const builder = near.transaction(signer_id);
   for (const action of transaction.actions) {
     if (action.kind !== "function_call") {
@@ -65,15 +64,11 @@ export async function send_generic_contract_transaction(
 // params:
 //   near: the NEAR client
 //   transactions: one transaction or an array of transactions
-//   resolve_signer_id: resolves the signer for each transaction
 //   send_in_parallel: send transactions concurrently; defaults to false
 // returns one result for a single transaction, or an ordered result list
 export async function send_generic_contract_transactions(
   near: Near,
   transactions: generic_contract_transactions_type,
-  resolve_signer_id: (
-    transaction: generic_contract_transaction_type,
-  ) => string | Promise<string>,
   send_in_parallel = false,
 ): Promise<
   generic_contract_call_result_type | generic_contract_call_results_type
@@ -85,27 +80,40 @@ export async function send_generic_contract_transactions(
 
   if (send_in_parallel) {
     return Promise.all(
-      list.map(async (transaction) =>
-        send_generic_contract_transaction(
-          near,
-          await resolve_signer_id(transaction),
-          transaction,
-        ),
+      list.map((transaction) =>
+        send_generic_contract_transaction(near, transaction),
       ),
     );
   }
 
   const results: generic_contract_call_result_type[] = [];
   for (const transaction of list) {
-    results.push(
-      await send_generic_contract_transaction(
-        near,
-        await resolve_signer_id(transaction),
-        transaction,
-      ),
-    );
+    results.push(await send_generic_contract_transaction(near, transaction));
   }
   return results;
+}
+
+// =================================================
+// Resolves the signer from the NEAR client, like `near.call(...)` does.
+// Priority: the client's default signer, then the connected wallet account.
+// =================================================
+async function resolve_signer_id(near: Near): Promise<string> {
+  const get_signer_id = (
+    near as unknown as {
+      getSignerId?: (signer_id?: string) => Promise<string>;
+    }
+  ).getSignerId;
+  if (get_signer_id) {
+    return await get_signer_id.call(near);
+  }
+
+  const default_signer_id = (near as unknown as { defaultSignerId?: string })
+    .defaultSignerId;
+  if (default_signer_id) {
+    return default_signer_id;
+  }
+
+  throw new Error("No signer is configured on this NEAR client");
 }
 
 // =================================================

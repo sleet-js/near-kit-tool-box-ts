@@ -1,13 +1,12 @@
 // =================================================
 // generic_contract_call_types
 //
-// JSON-friendly transaction and action types shared by the generic
-// contract-call helpers. These types are the contract between a caller
-// (or queue file) and the sender: a transaction has one or more actions,
-// and every action currently describes a contract function call.
+// Minimal types for generic contract calls.
 //
-// The names intentionally use snake_case so the same object can be stored
-// directly as queue JSON without a second conversion layer.
+// These types describe only what the generic sender needs to build,
+// sign, and send a transaction. Applications with their own storage or
+// queue model should transform their data into these types before
+// calling the generic helpers.
 // =================================================
 
 // =================================================
@@ -38,7 +37,6 @@ export type generic_contract_action_type =
 // =================================================
 export interface generic_contract_transaction_type {
   actions: generic_contract_action_type[];
-  signer_id?: string;
   wait_until?:
     | "NONE"
     | "INCLUDED"
@@ -46,13 +44,6 @@ export interface generic_contract_transaction_type {
     | "INCLUDED_FINAL"
     | "EXECUTED"
     | "FINAL";
-  // Optional queue metadata. The generic sender ignores these fields;
-  // they let a queue application keep its file state on the same object.
-  network_id?: string;
-  status?: "to_send" | "sent" | "completed" | "failed";
-  created_at?: string;
-  completed_hash?: string | null;
-  failure?: string | null;
 }
 
 // =================================================
@@ -63,17 +54,15 @@ export type generic_contract_transactions_type =
   generic_contract_transaction_type | generic_contract_transaction_type[];
 
 // =================================================
-// A helper result for one transaction. The transaction hash is always
-// available when near-kit successfully broadcasts it.
+// The result of one successfully sent transaction.
 // =================================================
 export interface generic_contract_call_result_type {
   transaction_hash: string;
-  status?: "to_send" | "sent" | "completed" | "failed";
 }
 
 // =================================================
-// The result returned for a list of transactions. Results preserve the
-// order of the input transactions.
+// The results of a list of sent transactions. Results preserve the order
+// of the input transactions.
 // =================================================
 export type generic_contract_call_results_type =
   generic_contract_call_result_type[];

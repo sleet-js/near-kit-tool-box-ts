@@ -72,10 +72,11 @@ const results = await generic_contract_call_web_transactions(
 
 Use `generic_contract_call_web` for exactly one transaction.
 
-The browser helper uses the connected wallet account. An optional
-`signer_id` on a transaction overrides that account. Browser transactions
-are sent sequentially by default; pass `true` as the third argument to
-`generic_contract_call_web_transactions` to send them concurrently.
+The browser helper uses the connected wallet account. Near-kit resolves
+the signer internally, just like the existing `near.call(...)` helpers.
+Browser transactions are sent sequentially by default; pass `true` as the
+third argument to `generic_contract_call_web_transactions` to send them
+concurrently.
 
 ## Backend calls
 
@@ -92,28 +93,27 @@ const results = await generic_contract_call_env_transactions(
 );
 ```
 
-The backend helper uses the `defaultSignerId` configured on the NEAR
-client. An optional `signer_id` on a transaction overrides it. Backend
-transactions are sent sequentially by default to avoid nonce conflicts with
-one private key. Pass `true` as the third argument to
+The backend helper uses the signer configured on the NEAR client. Near-kit
+resolves the signer internally, just like the existing `near.call(...)`
+helpers. Backend transactions are sent sequentially by default to avoid
+nonce conflicts with one private key. Pass `true` as the third argument to
 `generic_contract_call_env_transactions` only when using a rotating key
 store for concurrent transactions.
 
-## Queue JSON
+## Using the types
 
-The transaction and action types are exported from `@near-kit-tool-box/fun`
-and use snake_case, so they can be stored directly in queue JSON:
+The transaction and action types are exported from
+`@near-kit-tool-box/fun`. They are the minimal shape the generic sender
+needs:
 
 ```ts
 import type { generic_contract_transaction_type } from "@near-kit-tool-box/fun";
 ```
 
-The sender ignores optional queue metadata (`network_id`, `status`,
-`created_at`, `completed_hash`, and `failure`). A queue application can
-keep that state on the same object and update it after sending.
-
-The queue storage, retry policy, durable worker, and NEP-366 relaying
-remain the responsibility of the queue application.
+Applications with their own storage, queue, or persistence model should
+transform their data into this shape before calling the generic helpers.
+Queue state, retry metadata, timestamps, and relaying details are not part
+of these generic types.
 
 ==========================
 <br/>
