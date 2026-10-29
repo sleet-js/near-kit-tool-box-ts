@@ -34,10 +34,11 @@ const contractId = resolveContractId(
 // =================================================
 logResult(`engine info @ ${contractId}`, {
   paused: await intear_dex_engine_is_paused_fun_json(near_kit_env, contractId),
-  trusted_code_deployer: await intear_dex_engine_get_trusted_code_deployer_fun_json(
-    near_kit_env,
-    contractId,
-  ),
+  trusted_code_deployer:
+    await intear_dex_engine_get_trusted_code_deployer_fun_json(
+      near_kit_env,
+      contractId,
+    ),
   metadata: await intear_dex_engine_contract_source_metadata_fun_json(
     near_kit_env,
     contractId,

@@ -44,11 +44,11 @@ bun run bin/intear_dex_engine/intear_dex_engine_asset_balance.ts \
 `--contract-id` is optional on every bin — it falls back to the
 per-network default.
 
-| bin                                | flags                                                              |
-| ---------------------------------- | ------------------------------------------------------------------ |
-| `intear_dex_engine_info.ts`        | —                                                                  |
-| `intear_dex_engine_storage.ts`     | —                                                                  |
-| `intear_dex_engine_balances.ts`    | `--account-id` or `--dex-id` (exactly one required), `--limit` (optional) |
+| bin                                  | flags                                                                        |
+| ------------------------------------ | ---------------------------------------------------------------------------- |
+| `intear_dex_engine_info.ts`          | —                                                                            |
+| `intear_dex_engine_storage.ts`       | —                                                                            |
+| `intear_dex_engine_balances.ts`      | `--account-id` or `--dex-id` (exactly one required), `--limit` (optional)    |
 | `intear_dex_engine_asset_balance.ts` | `--asset-id` (required), `--account-id` or `--dex-id` (exactly one required) |
 
 ==========================

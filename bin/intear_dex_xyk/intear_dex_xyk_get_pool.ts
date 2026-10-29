@@ -32,7 +32,12 @@ const dexId = resolveContractId(
 // =================================================
 logResult(
   `xyk pool ${poolId} @ ${dexId}`,
-  await intear_dex_xyk_get_pool_fun_json(near_kit_env, contractId, dexId, poolId),
+  await intear_dex_xyk_get_pool_fun_json(
+    near_kit_env,
+    contractId,
+    dexId,
+    poolId,
+  ),
 );
 // =================================================
 // copyright 2026 by sleet.near

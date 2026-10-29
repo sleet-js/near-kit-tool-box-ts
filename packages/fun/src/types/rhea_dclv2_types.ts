@@ -84,8 +84,8 @@ export const RHEA_DCLV2_POOL_TYPE_Z_CONST = z
     return {
       ...value,
       extra: Object.fromEntries(
-        Object.entries(value).filter(([key]) =>
-          !(stableKeys as readonly string[]).includes(key),
+        Object.entries(value).filter(
+          ([key]) => !(stableKeys as readonly string[]).includes(key),
         ),
       ),
     };
@@ -127,8 +127,8 @@ export const RHEA_DCLV2_LIQUIDITY_TYPE_Z_CONST = z
     return {
       ...value,
       extra: Object.fromEntries(
-        Object.entries(value).filter(([key]) =>
-          !(stableKeys as readonly string[]).includes(key),
+        Object.entries(value).filter(
+          ([key]) => !(stableKeys as readonly string[]).includes(key),
         ),
       ),
     };

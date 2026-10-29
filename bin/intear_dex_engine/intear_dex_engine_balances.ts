@@ -20,9 +20,7 @@ import {
   NEAR_KIT_NETWORK,
   resolveContractId,
 } from "../_shared/env.js";
-import {
-  intear_dex_engine_registered_assets_of_fun_json,
-} from "../../packages/fun/src/index.js";
+import { intear_dex_engine_registered_assets_of_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/intear_dex_engine/intear_dex_engine_balances.ts (--account-id <id> | --dex-id <deployer/id>) [--limit <n>] [--contract-id <id>]";

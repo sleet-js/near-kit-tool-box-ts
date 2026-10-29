@@ -22,8 +22,7 @@ import * as z from "zod";
  * `<deployer>/<id>` shape — because `DexId` serializes as a string.
  */
 export type INTEAR_DEX_ACCOUNT_OR_DEX_ID =
-  | { Account: string }
-  | { Dex: string };
+  { Account: string } | { Dex: string };
 
 // ---------- AssetId ----------
 
@@ -95,7 +94,9 @@ export const INTEAR_DEX_TOTAL_STORAGE_BALANCES_TYPE_Z_CONST = z
   .transform((value) => ({
     ...value,
     extra: Object.fromEntries(
-      Object.entries(value).filter(([key]) => !["users", "dexes"].includes(key)),
+      Object.entries(value).filter(
+        ([key]) => !["users", "dexes"].includes(key),
+      ),
     ),
   })) satisfies z.ZodType<INTEAR_DEX_TOTAL_STORAGE_BALANCES_TYPE>;
 

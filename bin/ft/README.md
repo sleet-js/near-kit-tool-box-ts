@@ -40,14 +40,14 @@ bun run bin/ft/ft_transfer_call.ts \
 
 #### FLAGS
 
-| bin                  | flags                                                             |
-| -------------------- | ----------------------------------------------------------------- |
-| `ft_metadata.ts`     | `--contract-id` (required)                                        |
-| `ft_total_supply.ts` | `--contract-id` (required)                                        |
-| `ft_balance_of.ts`   | `--contract-id` (required), `--account-id` (required)              |
-| `ft_storage_deposit.ts` | `--contract-id` (required)                                     |
-| `ft_transfer.ts`     | `--contract-id`, `--receiver-id`, `--amount` (all required)       |
-| `ft_transfer_call.ts` | `--contract-id`, `--receiver-id`, `--amount`, `--msg` (all required) |
+| bin                     | flags                                                                |
+| ----------------------- | -------------------------------------------------------------------- |
+| `ft_metadata.ts`        | `--contract-id` (required)                                           |
+| `ft_total_supply.ts`    | `--contract-id` (required)                                           |
+| `ft_balance_of.ts`      | `--contract-id` (required), `--account-id` (required)                |
+| `ft_storage_deposit.ts` | `--contract-id` (required)                                           |
+| `ft_transfer.ts`        | `--contract-id`, `--receiver-id`, `--amount` (all required)          |
+| `ft_transfer_call.ts`   | `--contract-id`, `--receiver-id`, `--amount`, `--msg` (all required) |
 
 ==========================
 <br/>

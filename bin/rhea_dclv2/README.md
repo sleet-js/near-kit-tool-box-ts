@@ -39,15 +39,15 @@ bun run bin/rhea_dclv2/rhea_get_metadata.ts
 `--contract-id` is optional on every bin — it falls back to the
 per-network default.
 
-| bin                            | flags                                                     |
-| ------------------------------ | --------------------------------------------------------- |
-| `rhea_get_pool.ts`             | `--pool-id` (required)                                    |
-| `rhea_list_pools.ts`           | `--from-index`, `--limit` (both optional)                 |
-| `rhea_get_liquidity.ts`        | `--lpt-id` (required)                                     |
-| `rhea_list_liquidities.ts`     | `--account-id` (required), `--from-index`, `--limit` (optional) |
-| `rhea_get_user_asset.ts`       | `--account-id`, `--token-id` (both required)              |
-| `rhea_list_user_assets.ts`     | `--account-id` (required)                                 |
-| `rhea_get_metadata.ts`         | —                                                         |
+| bin                        | flags                                                           |
+| -------------------------- | --------------------------------------------------------------- |
+| `rhea_get_pool.ts`         | `--pool-id` (required)                                          |
+| `rhea_list_pools.ts`       | `--from-index`, `--limit` (both optional)                       |
+| `rhea_get_liquidity.ts`    | `--lpt-id` (required)                                           |
+| `rhea_list_liquidities.ts` | `--account-id` (required), `--from-index`, `--limit` (optional) |
+| `rhea_get_user_asset.ts`   | `--account-id`, `--token-id` (both required)                    |
+| `rhea_list_user_assets.ts` | `--account-id` (required)                                       |
+| `rhea_get_metadata.ts`     | —                                                               |
 
 ==========================
 <br/>

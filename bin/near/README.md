@@ -42,12 +42,12 @@ bun run bin/near/near_delete_key.ts \
 
 #### FLAGS
 
-| bin                     | flags                                                                                    |
-| ----------------------- | ---------------------------------------------------------------------------------------- |
-| `near_create_account.ts` | `--account-id`, `--public-key` (both required), `--tld-contract-id` (optional)             |
-| `near_delete_account.ts` | `--signer-id`, `--beneficiary` (both required)                                            |
-| `near_add_key.ts`       | `--signer-id`, `--public-key`, `--permission` (all required); `--receiver-id`, `--method-names`, `--allowance` (required for `function-call`) |
-| `near_delete_key.ts`    | `--signer-id`, `--public-key` (both required)                                             |
+| bin                      | flags                                                                                                                                         |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `near_create_account.ts` | `--account-id`, `--public-key` (both required), `--tld-contract-id` (optional)                                                                |
+| `near_delete_account.ts` | `--signer-id`, `--beneficiary` (both required)                                                                                                |
+| `near_add_key.ts`        | `--signer-id`, `--public-key`, `--permission` (all required); `--receiver-id`, `--method-names`, `--allowance` (required for `function-call`) |
+| `near_delete_key.ts`     | `--signer-id`, `--public-key` (both required)                                                                                                 |
 
 ==========================
 <br/>

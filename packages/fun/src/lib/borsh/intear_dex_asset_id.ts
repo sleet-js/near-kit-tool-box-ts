@@ -30,9 +30,11 @@ export type INTEAR_DEX_ASSET_ID =
  * Parses an INTEAR DEX asset id string into its parts.
  * Throws when the string is not a valid asset id.
  */
-export function parseIntearDexAssetId(
-  assetId: string,
-): { kind: "near" | "nep141" | "nep245" | "nep171"; contractId?: string; tokenId?: string } {
+export function parseIntearDexAssetId(assetId: string): {
+  kind: "near" | "nep141" | "nep245" | "nep171";
+  contractId?: string;
+  tokenId?: string;
+} {
   if (assetId === "near") return { kind: "near" };
   const separator = assetId.indexOf(":");
   if (separator === -1) {
@@ -44,7 +46,9 @@ export function parseIntearDexAssetId(
   if (prefix === "nep141") {
     const contractId = assetId.slice(separator + 1);
     if (contractId.length === 0) {
-      throw new Error(`intear dex: invalid asset id "${assetId}" (missing contract id)`);
+      throw new Error(
+        `intear dex: invalid asset id "${assetId}" (missing contract id)`,
+      );
     }
     return { kind: "nep141", contractId };
   }
@@ -59,7 +63,9 @@ export function parseIntearDexAssetId(
     const contractId = rest.slice(0, tokenSeparator);
     const tokenId = rest.slice(tokenSeparator + 1);
     if (contractId.length === 0 || tokenId.length === 0) {
-      throw new Error(`intear dex: invalid asset id "${assetId}" (empty contract id or token id)`);
+      throw new Error(
+        `intear dex: invalid asset id "${assetId}" (empty contract id or token id)`,
+      );
     }
     return { kind: prefix, contractId, tokenId };
   }
@@ -89,7 +95,10 @@ export function intearDexAssetTokenId(assetId: string): string {
 }
 
 /** Writes an asset id in borsh form. */
-export function writeIntearDexAssetId(writer: BorshWriter, assetId: string): void {
+export function writeIntearDexAssetId(
+  writer: BorshWriter,
+  assetId: string,
+): void {
   const parsed = parseIntearDexAssetId(assetId);
   switch (parsed.kind) {
     case "near":

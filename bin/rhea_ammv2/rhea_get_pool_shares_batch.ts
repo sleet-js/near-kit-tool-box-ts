@@ -31,7 +31,9 @@ const poolIds = requireString(args, "pool-ids", usage)
   .map((part) => {
     const parsed = Number(part);
     if (!Number.isInteger(parsed)) {
-      throw new Error(`--pool-ids must be a comma-separated list of integers, got "${part}"`);
+      throw new Error(
+        `--pool-ids must be a comma-separated list of integers, got "${part}"`,
+      );
     }
     return parsed;
   });

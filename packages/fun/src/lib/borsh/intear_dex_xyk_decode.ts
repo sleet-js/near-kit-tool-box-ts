@@ -20,7 +20,9 @@ import type {
 
 // =================================================
 /** Reads a `FeeReceiver`. */
-export function decodeFeeReceiver(reader: BorshReader): INTEAR_DEX_XYK_FEE_RECEIVER_TYPE {
+export function decodeFeeReceiver(
+  reader: BorshReader,
+): INTEAR_DEX_XYK_FEE_RECEIVER_TYPE {
   const variant = reader.u8();
   switch (variant) {
     case 0:
@@ -30,23 +32,32 @@ export function decodeFeeReceiver(reader: BorshReader): INTEAR_DEX_XYK_FEE_RECEI
     case 2:
       return { Community: reader.string() };
     default:
-      throw new Error(`intear dex xyk: unknown fee receiver variant ${variant}`);
+      throw new Error(
+        `intear dex xyk: unknown fee receiver variant ${variant}`,
+      );
   }
 }
 
 // =================================================
 /** Reads a `CurrentFees` — the pool's fees at the current block. */
-export function decodeCurrentFees(reader: BorshReader): INTEAR_DEX_XYK_CURRENT_FEES_TYPE {
-  const receivers = reader.vec((item) => [
-    decodeFeeReceiver(item),
-    item.u32(),
-  ] as [INTEAR_DEX_XYK_FEE_RECEIVER_TYPE, number]);
+export function decodeCurrentFees(
+  reader: BorshReader,
+): INTEAR_DEX_XYK_CURRENT_FEES_TYPE {
+  const receivers = reader.vec(
+    (item) =>
+      [decodeFeeReceiver(item), item.u32()] as [
+        INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
+        number,
+      ],
+  );
   return { receivers };
 }
 
 // =================================================
 /** Reads a `FeeAmount` — the v2 per-receiver fee rule. */
-export function decodeFeeAmount(reader: BorshReader): INTEAR_DEX_XYK_FEE_AMOUNT_TYPE {
+export function decodeFeeAmount(
+  reader: BorshReader,
+): INTEAR_DEX_XYK_FEE_AMOUNT_TYPE {
   const variant = reader.u8();
   switch (variant) {
     case 0:
@@ -82,14 +93,19 @@ export function decodeFeeConfiguration(
     case 0:
       return { V1: decodeCurrentFees(reader) };
     case 1: {
-      const receivers = reader.vec((item) => [
-        decodeFeeReceiver(item),
-        decodeFeeAmount(item),
-      ] as [INTEAR_DEX_XYK_FEE_RECEIVER_TYPE, INTEAR_DEX_XYK_FEE_AMOUNT_TYPE]);
+      const receivers = reader.vec(
+        (item) =>
+          [decodeFeeReceiver(item), decodeFeeAmount(item)] as [
+            INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
+            INTEAR_DEX_XYK_FEE_AMOUNT_TYPE,
+          ],
+      );
       return { V2: { receivers } };
     }
     default:
-      throw new Error(`intear dex xyk: unknown fee configuration variant ${variant}`);
+      throw new Error(
+        `intear dex xyk: unknown fee configuration variant ${variant}`,
+      );
   }
 }
 
@@ -113,19 +129,32 @@ export function decodePoolView(reader: BorshReader): INTEAR_DEX_XYK_POOL_TYPE {
       const assets = [
         decodeAssetWithBalance(reader),
         decodeAssetWithBalance(reader),
-      ] as [INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE, INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE];
+      ] as [
+        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+      ];
       const fees = decodeCurrentFees(reader);
       const feeConfiguration = decodeFeeConfiguration(reader);
       const ownerId = reader.string();
       const locked = reader.u8() === 1;
-      return { kind: "Private", assets, fees, fee_configuration: feeConfiguration, owner_id: ownerId, locked };
+      return {
+        kind: "Private",
+        assets,
+        fees,
+        fee_configuration: feeConfiguration,
+        owner_id: ownerId,
+        locked,
+      };
     }
     case 1: {
       // Public
       const assets = [
         decodeAssetWithBalance(reader),
         decodeAssetWithBalance(reader),
-      ] as [INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE, INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE];
+      ] as [
+        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+        INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+      ];
       const fees = decodeCurrentFees(reader);
       const feeConfiguration = decodeFeeConfiguration(reader);
       const totalShares = reader.option((item) => item.u128().toString());
@@ -186,7 +215,9 @@ export function decodePoolView(reader: BorshReader): INTEAR_DEX_XYK_POOL_TYPE {
  *                 zero when the account has no entry in the pool's
  *                 share map.
  */
-export function decodePoolShare(reader: BorshReader): INTEAR_DEX_XYK_POOL_SHARE_TYPE {
+export function decodePoolShare(
+  reader: BorshReader,
+): INTEAR_DEX_XYK_POOL_SHARE_TYPE {
   if (reader.u8() === 0) return { shares: null };
   return { shares: reader.u128().toString() };
 }

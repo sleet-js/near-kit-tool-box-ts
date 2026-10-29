@@ -14,7 +14,8 @@ dotenv.config();
 export const NEAR_KIT_NETWORK: "mainnet" | "testnet" =
   (process.env.NEAR_KIT_NETWORK as "mainnet" | "testnet") || "testnet";
 
-export const NEAR_KIT_ACCOUNT_ID: string = process.env.NEAR_KIT_ACCOUNT_ID ?? "";
+export const NEAR_KIT_ACCOUNT_ID: string =
+  process.env.NEAR_KIT_ACCOUNT_ID ?? "";
 
 export const NEAR_KIT_PRIVATE_KEY: PrivateKey | undefined = process.env
   .NEAR_KIT_PRIVATE_KEY as PrivateKey | undefined;

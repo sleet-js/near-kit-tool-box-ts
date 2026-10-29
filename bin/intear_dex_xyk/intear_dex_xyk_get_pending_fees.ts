@@ -29,7 +29,11 @@ const usage =
   "bun run bin/intear_dex_xyk/intear_dex_xyk_get_pending_fees.ts --account-id <id> --asset-ids <id,id,...> [--dex-id <deployer/id>] [--contract-id <id>]";
 const args = parseArgs();
 const accountId = requireString(args, "account-id", usage);
-const assetIds = requireList(args, "asset-ids", usage) as INTEAR_DEX_ASSET_ID_STRING[];
+const assetIds = requireList(
+  args,
+  "asset-ids",
+  usage,
+) as INTEAR_DEX_ASSET_ID_STRING[];
 const contractId = resolveContractId(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),

@@ -37,13 +37,13 @@ bun run bin/intear_dex_xyk/intear_dex_xyk_get_pending_fees.ts \
 per-network default. `--dex-id` is optional too and falls back to the
 mainnet xyk dex id.
 
-| bin                                   | flags                                                                     |
-| ------------------------------------- | ------------------------------------------------------------------------- |
-| `intear_dex_xyk_get_pool_count.ts`    | —                                                                         |
-| `intear_dex_xyk_get_pool.ts`          | `--pool-id` (required)                                                   |
-| `intear_dex_xyk_get_pools.ts`         | `--start-index`, `--limit` (both optional)                                |
-| `intear_dex_xyk_get_pool_shares.ts`   | `--account-id` (required), `--pool-ids` (optional)                        |
-| `intear_dex_xyk_get_pending_fees.ts`  | `--account-id`, `--asset-ids` (both required)                              |
+| bin                                  | flags                                              |
+| ------------------------------------ | -------------------------------------------------- |
+| `intear_dex_xyk_get_pool_count.ts`   | —                                                  |
+| `intear_dex_xyk_get_pool.ts`         | `--pool-id` (required)                             |
+| `intear_dex_xyk_get_pools.ts`        | `--start-index`, `--limit` (both optional)         |
+| `intear_dex_xyk_get_pool_shares.ts`  | `--account-id` (required), `--pool-ids` (optional) |
+| `intear_dex_xyk_get_pending_fees.ts` | `--account-id`, `--asset-ids` (both required)      |
 
 ==========================
 <br/>

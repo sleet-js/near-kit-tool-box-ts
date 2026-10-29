@@ -27,10 +27,10 @@ bun run bin/wrap_near/wrap_near_withdraw.ts --amount 2000000000000000000000000
 `--contract-id` is optional on both bins — it falls back to the
 per-network default.
 
-| bin                      | flags                        |
-| ------------------------ | ---------------------------- |
-| `wrap_near_deposit.ts`   | `--amount` (required)        |
-| `wrap_near_withdraw.ts`  | `--amount` (required)        |
+| bin                     | flags                 |
+| ----------------------- | --------------------- |
+| `wrap_near_deposit.ts`  | `--amount` (required) |
+| `wrap_near_withdraw.ts` | `--amount` (required) |
 
 ==========================
 <br/>

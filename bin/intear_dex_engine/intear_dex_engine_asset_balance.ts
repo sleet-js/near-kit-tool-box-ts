@@ -35,7 +35,11 @@ const contractId = resolveContractId(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),
 );
-const assetId = requireString(args, "asset-id", usage) as INTEAR_DEX_ASSET_ID_STRING;
+const assetId = requireString(
+  args,
+  "asset-id",
+  usage,
+) as INTEAR_DEX_ASSET_ID_STRING;
 
 const accountId =
   typeof args["account-id"] === "string" ? args["account-id"] : null;

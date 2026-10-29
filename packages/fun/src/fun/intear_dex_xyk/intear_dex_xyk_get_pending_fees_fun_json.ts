@@ -10,7 +10,10 @@
 // =================================================
 import type { Near } from "near-kit";
 import { BorshReader, BorshWriter } from "../../lib/borsh/intear_dex_borsh";
-import { readIntearDexAssetId, writeIntearDexAssetId } from "../../lib/borsh/intear_dex_asset_id";
+import {
+  readIntearDexAssetId,
+  writeIntearDexAssetId,
+} from "../../lib/borsh/intear_dex_asset_id";
 import { intearDexView } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_xyk_methods_const } from "../../lib/methods/methods_intear_dex_xyk";
 import type { intear_dex_xyk_args } from "../../lib/args/intear_dex_xyk_args";
@@ -25,7 +28,9 @@ export async function intear_dex_xyk_get_pending_fees_fun_json(
 ): Promise<INTEAR_DEX_XYK_PENDING_FEES_TYPE> {
   const writer = new BorshWriter();
   writer.string(account_id);
-  writer.vec(asset_ids, (item, assetId) => writeIntearDexAssetId(item, assetId));
+  writer.vec(asset_ids, (item, assetId) =>
+    writeIntearDexAssetId(item, assetId),
+  );
   return intearDexView(
     near,
     engineContractId,

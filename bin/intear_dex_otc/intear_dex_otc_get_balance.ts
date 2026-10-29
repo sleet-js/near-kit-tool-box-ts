@@ -25,7 +25,11 @@ const usage =
   "bun run bin/intear_dex_otc/intear_dex_otc_get_balance.ts --account-id <id> --asset-id <id> [--dex-id <deployer/id>] [--contract-id <id>]";
 const args = parseArgs();
 const accountId = requireString(args, "account-id", usage);
-const assetId = requireString(args, "asset-id", usage) as INTEAR_DEX_ASSET_ID_STRING;
+const assetId = requireString(
+  args,
+  "asset-id",
+  usage,
+) as INTEAR_DEX_ASSET_ID_STRING;
 const contractId = resolveContractId(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),

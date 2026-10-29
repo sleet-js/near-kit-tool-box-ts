@@ -99,24 +99,24 @@ bun run bin/rhea_ammv2/rhea_add_simple_pool.ts \
 `--contract-id` is optional on every bin — it falls back to the
 per-network default.
 
-| bin                              | flags                                                        |
-| -------------------------------- | ------------------------------------------------------------ |
-| `rhea_get_number_of_pools.ts`    | —                                                            |
-| `rhea_get_pool.ts`               | `--pool-id` (required)                                       |
-| `rhea_get_pools.ts`              | `--from-index`, `--limit` (both optional)                    |
-| `rhea_get_deposits.ts`           | `--account-id` (required)                                    |
-| `rhea_get_deposit.ts`            | `--account-id`, `--token-id` (both required)                 |
-| `rhea_get_pool_shares.ts`        | `--pool-id`, `--account-id` (both required)                  |
-| `rhea_get_pool_shares_batch.ts`  | `--pool-ids`, `--account-id` (both required)                 |
-| `rhea_get_pool_total_shares.ts`  | `--pool-id` (required)                                       |
-| `rhea_get_account_basic_info.ts` | `--account-id` (required)                                    |
-| `rhea_metadata.ts`               | —                                                            |
-| `rhea_storage_balance_of.ts`     | `--account-id` (required)                                    |
-| `rhea_get_return.ts`             | `--pool-id`, `--token-in`, `--amount-in`, `--token-out` (all required) |
-| `rhea_storage_deposit.ts`        | `--deposit` (required)                                       |
-| `rhea_withdraw.ts`               | `--amount`, `--token-id` (both required)                     |
+| bin                              | flags                                                                                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `rhea_get_number_of_pools.ts`    | —                                                                                                                                         |
+| `rhea_get_pool.ts`               | `--pool-id` (required)                                                                                                                    |
+| `rhea_get_pools.ts`              | `--from-index`, `--limit` (both optional)                                                                                                 |
+| `rhea_get_deposits.ts`           | `--account-id` (required)                                                                                                                 |
+| `rhea_get_deposit.ts`            | `--account-id`, `--token-id` (both required)                                                                                              |
+| `rhea_get_pool_shares.ts`        | `--pool-id`, `--account-id` (both required)                                                                                               |
+| `rhea_get_pool_shares_batch.ts`  | `--pool-ids`, `--account-id` (both required)                                                                                              |
+| `rhea_get_pool_total_shares.ts`  | `--pool-id` (required)                                                                                                                    |
+| `rhea_get_account_basic_info.ts` | `--account-id` (required)                                                                                                                 |
+| `rhea_metadata.ts`               | —                                                                                                                                         |
+| `rhea_storage_balance_of.ts`     | `--account-id` (required)                                                                                                                 |
+| `rhea_get_return.ts`             | `--pool-id`, `--token-in`, `--amount-in`, `--token-out` (all required)                                                                    |
+| `rhea_storage_deposit.ts`        | `--deposit` (required)                                                                                                                    |
+| `rhea_withdraw.ts`               | `--amount`, `--token-id` (both required)                                                                                                  |
 | `rhea_swap.ts`                   | `--pool-id`, `--token-in`, `--token-out` (required); `--amount-in`, `--min-amount-out`, `--referral-id` (optional, repeatable per action) |
-| `rhea_add_simple_pool.ts`        | `--fee`, `--tokens` (both required)                          |
+| `rhea_add_simple_pool.ts`        | `--fee`, `--tokens` (both required)                                                                                                       |
 
 ==========================
 <br/>

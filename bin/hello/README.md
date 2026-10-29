@@ -25,10 +25,10 @@ bun run bin/hello/hello_set.ts --greeting "Hello from near kit"
 
 #### FLAGS
 
-| bin                  | flags                                        |
-| -------------------- | -------------------------------------------- |
-| `hello_get.ts`       | `--contract-id` (optional)                   |
-| `hello_set.ts`       | `--greeting` (required), `--contract-id` (optional) |
+| bin            | flags                                               |
+| -------------- | --------------------------------------------------- |
+| `hello_get.ts` | `--contract-id` (optional)                          |
+| `hello_set.ts` | `--greeting` (required), `--contract-id` (optional) |
 
 ==========================
 <br/>

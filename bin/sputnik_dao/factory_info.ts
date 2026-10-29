@@ -28,8 +28,7 @@ import {
   sputnik_dao_factory_get_owner_fun_json,
 } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/sputnik_dao/factory_info.ts [--contract-id <id>]";
+const usage = "bun run bin/sputnik_dao/factory_info.ts [--contract-id <id>]";
 const args = parseArgs();
 const contractId = resolveContractId(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,

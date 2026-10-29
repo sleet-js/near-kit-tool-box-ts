@@ -11,6 +11,7 @@
     "build:env": "bun run --filter '@near-kit-tool-box/env' build",
     "build:fun": "bun run --filter '@near-kit-tool-box/fun' build",
     "typecheck:bin": "bunx tsc -p tsconfig.bin.json",
+    "format": "prettier . --write",
     "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo",
     "rebuild": "bun run clean && bun run build",
     "version:sync": "bun run scripts/version-sync.ts",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@types/bun": "^1.4.3",
+    "prettier": "^3.9.10",
     "typescript": "^7.0.2"
   }
 }

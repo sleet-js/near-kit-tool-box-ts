@@ -29,10 +29,7 @@ import type { SPUTNIK_DAO_PROPOSAL_TYPE } from "../../types/sputnik_dao_types";
  */
 function is_no_result_fun(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
-  return (
-    message.includes("no result") ||
-    message.includes("returned no value")
-  );
+  return message.includes("no result") || message.includes("returned no value");
 }
 
 // =================================================

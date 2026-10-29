@@ -38,6 +38,25 @@ bun run build:env
 bun run build:fun
 ```
 
+## Format
+
+Prettier runs on the whole repo with its default settings — there is no
+prettier config file.
+
+```bash
+# Format everything in place
+bun run format
+
+# Or call prettier directly
+bunx prettier . --write
+
+# Check without writing
+bunx prettier . --list-different
+```
+
+Prettier is a root devDependency, so `bunx` resolves the local install
+instead of downloading it.
+
 ## Environment
 
 The `env` package and the bins read their config from a `.env` file in the
@@ -49,11 +68,11 @@ cp .env.example .env
 
 No `source` needed — dotenv loads `.env` from the cwd automatically.
 
-| var                    | needed for          | values                          |
-| ---------------------- | ------------------- | ------------------------------- |
-| `NEAR_KIT_NETWORK`     | everything          | `mainnet` or `testnet`          |
-| `NEAR_KIT_ACCOUNT_ID`  | the signing bins    | your account id                 |
-| `NEAR_KIT_PRIVATE_KEY` | the signing bins    | your full access key            |
+| var                    | needed for       | values                 |
+| ---------------------- | ---------------- | ---------------------- |
+| `NEAR_KIT_NETWORK`     | everything       | `mainnet` or `testnet` |
+| `NEAR_KIT_ACCOUNT_ID`  | the signing bins | your account id        |
+| `NEAR_KIT_PRIVATE_KEY` | the signing bins | your full access key   |
 
 The `NEAR_KIT_` prefix keeps these from colliding with the generic `NEAR_*`
 vars that the `near-kit` library reads on its own.

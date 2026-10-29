@@ -19,9 +19,9 @@ bun run bin/intear_dex_simple_amm/intear_dex_simple_amm_get_pool.ts \
 
 `--contract-id` is optional — it falls back to the per-network default.
 
-| bin                                | flags                                            |
-| ---------------------------------- | ------------------------------------------------ |
-| `intear_dex_simple_amm_get_pool.ts` | `--pool-id` (required), `--dex-id` (optional)   |
+| bin                                 | flags                                         |
+| ----------------------------------- | --------------------------------------------- |
+| `intear_dex_simple_amm_get_pool.ts` | `--pool-id` (required), `--dex-id` (optional) |
 
 ==========================
 <br/>

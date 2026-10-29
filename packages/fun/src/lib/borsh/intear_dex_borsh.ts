@@ -74,14 +74,20 @@ export class BorshWriter {
     return this.bytes(new TextEncoder().encode(value));
   }
 
-  option<T>(value: T | null | undefined, write: (writer: BorshWriter, value: T) => void): this {
+  option<T>(
+    value: T | null | undefined,
+    write: (writer: BorshWriter, value: T) => void,
+  ): this {
     if (value === null || value === undefined) return this.u8(0);
     this.u8(1);
     write(this, value);
     return this;
   }
 
-  vec<T>(values: readonly T[], write: (writer: BorshWriter, value: T) => void): this {
+  vec<T>(
+    values: readonly T[],
+    write: (writer: BorshWriter, value: T) => void,
+  ): this {
     this.u32(values.length);
     for (const value of values) write(this, value);
     return this;
@@ -179,18 +185,22 @@ export class BorshReader {
     if (tag === 0 && key.length === 32) return `ed25519:${base58Encode(key)}`;
     if (tag === 1 && key.length === 64) return `secp256k1:${base58Encode(key)}`;
     if (tag === 2) return `mldsa65:${base58Encode(key)}`;
-    throw new Error(`borsh: unknown public key tag ${tag} (${key.length} key bytes)`);
+    throw new Error(
+      `borsh: unknown public key tag ${tag} (${key.length} key bytes)`,
+    );
   }
 }
 
 // ---------- base58 (NEAR public key format) ----------
 
-const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+const BASE58_ALPHABET =
+  "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 export function base58Encode(bytes: Uint8Array): string {
   if (bytes.length === 0) return "";
   let leadingZeros = 0;
-  while (leadingZeros < bytes.length && bytes[leadingZeros] === 0) leadingZeros++;
+  while (leadingZeros < bytes.length && bytes[leadingZeros] === 0)
+    leadingZeros++;
   let value = 0n;
   for (const byte of bytes) value = (value << 8n) | BigInt(byte);
   let out = "";
@@ -212,11 +222,15 @@ export function bytesToBase64(bytes: Uint8Array): string {
   const globalBuffer = (
     globalThis as {
       Buffer?: {
-        from(data: string, encoding: string): { toString(encoding: string): string };
+        from(
+          data: string,
+          encoding: string,
+        ): { toString(encoding: string): string };
       };
     }
   ).Buffer;
-  if (globalBuffer) return globalBuffer.from(binary, "binary").toString("base64");
+  if (globalBuffer)
+    return globalBuffer.from(binary, "binary").toString("base64");
   throw new Error("intear dex: no base64 encoder available in this runtime");
 }
 
@@ -224,7 +238,8 @@ export function base64ToBytes(value: string): Uint8Array {
   if (typeof atob === "function") {
     const binary = atob(value);
     const out = new Uint8Array(binary.length);
-    for (let index = 0; index < binary.length; index++) out[index] = binary.charCodeAt(index);
+    for (let index = 0; index < binary.length; index++)
+      out[index] = binary.charCodeAt(index);
     return out;
   }
   const globalBuffer = (

@@ -21,8 +21,8 @@ bun run bin/pumpopoly_world/pumpopoly_world_elite_move.ts
 `--contract-id` is optional on both bins — it falls back to the
 per-network default.
 
-| bin                             | flags |
-| ------------------------------- | ----- |
+| bin                              | flags |
+| -------------------------------- | ----- |
 | `pumpopoly_world_move_player.ts` | —     |
 | `pumpopoly_world_elite_move.ts`  | —     |
 

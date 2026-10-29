@@ -27,12 +27,12 @@ bun run bin/pool/pool_ping.ts --contract-id everything.pool.near
 
 #### FLAGS
 
-| bin                             | flags                                                       |
-| ------------------------------- | ----------------------------------------------------------- |
-| `pool_get_number_of_accounts.ts` | `--contract-id` (required)                                 |
-| `pool_get_accounts.ts`          | `--contract-id` (required), `--from-index`, `--limit` (optional) |
-| `pool_deposit_and_stake.ts`     | `--contract-id`, `--deposit` (both required)               |
-| `pool_ping.ts`                  | `--contract-id` (required)                                 |
+| bin                              | flags                                                            |
+| -------------------------------- | ---------------------------------------------------------------- |
+| `pool_get_number_of_accounts.ts` | `--contract-id` (required)                                       |
+| `pool_get_accounts.ts`           | `--contract-id` (required), `--from-index`, `--limit` (optional) |
+| `pool_deposit_and_stake.ts`      | `--contract-id`, `--deposit` (both required)                     |
+| `pool_ping.ts`                   | `--contract-id` (required)                                       |
 
 ==========================
 <br/>

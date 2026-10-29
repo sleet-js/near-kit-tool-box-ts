@@ -58,17 +58,17 @@ bun run bin/sputnik_dao/factory_info.ts
 
 #### FLAGS
 
-| bin                     | flags                                                        |
-| ----------------------- | ------------------------------------------------------------ |
-| `dao_config.ts`         | `--dao` (required)                                           |
-| `dao_policy.ts`         | `--dao` (required)                                           |
-| `dao_proposals.ts`      | `--dao` (required), `--from-index`, `--limit` (optional)      |
-| `dao_proposal.ts`       | `--dao`, `--proposal-id` (both required)                     |
-| `dao_info.ts`           | `--dao` (required)                                           |
-| `dao_bounties.ts`       | `--dao` (required), `--from-index`, `--limit` (optional)      |
-| `dao_actions_log.ts`    | `--dao` (required)                                           |
-| `factory_daos.ts`       | `--from-index`, `--limit` (both optional), `--contract-id` (optional) |
-| `factory_info.ts`       | `--contract-id` (optional)                                   |
+| bin                  | flags                                                                 |
+| -------------------- | --------------------------------------------------------------------- |
+| `dao_config.ts`      | `--dao` (required)                                                    |
+| `dao_policy.ts`      | `--dao` (required)                                                    |
+| `dao_proposals.ts`   | `--dao` (required), `--from-index`, `--limit` (optional)              |
+| `dao_proposal.ts`    | `--dao`, `--proposal-id` (both required)                              |
+| `dao_info.ts`        | `--dao` (required)                                                    |
+| `dao_bounties.ts`    | `--dao` (required), `--from-index`, `--limit` (optional)              |
+| `dao_actions_log.ts` | `--dao` (required)                                                    |
+| `factory_daos.ts`    | `--from-index`, `--limit` (both optional), `--contract-id` (optional) |
+| `factory_info.ts`    | `--contract-id` (optional)                                            |
 
 ==========================
 <br/>

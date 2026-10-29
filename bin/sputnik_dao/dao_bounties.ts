@@ -34,12 +34,9 @@ const [bounties, lastBountyId] = await Promise.all([
   sputnik_dao_get_last_bounty_id_fun_json(near_kit_env, daoId),
 ]);
 // =================================================
-logResult(
-  `get_bounties ${daoId} from ${fromIndex} limit ${limit}`,
-  {
-    last_bounty_id: lastBountyId,
-    bounties,
-  },
-);
+logResult(`get_bounties ${daoId} from ${fromIndex} limit ${limit}`, {
+  last_bounty_id: lastBountyId,
+  bounties,
+});
 // =================================================
 // copyright 2026 by sleet.near

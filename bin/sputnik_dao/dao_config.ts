@@ -15,8 +15,7 @@ import {
   sputnik_dao_get_config_fun_json,
 } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/sputnik_dao/dao_config.ts --dao <name|account-id>";
+const usage = "bun run bin/sputnik_dao/dao_config.ts --dao <name|account-id>";
 const args = parseArgs();
 const daoId = sputnik_dao_account_id(requireString(args, "dao", usage));
 // =================================================

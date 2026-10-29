@@ -41,11 +41,15 @@ export async function intearDexViewRaw(
       "intear dex: the method name 'swap' is reserved by the engine and cannot be called through dex_view",
     );
   }
-  const result = await near.view(engineContractId, intear_dex_engine_methods_const.dex_view, {
-    dex_id: dexId,
-    method,
-    args: bytesToBase64(args),
-  });
+  const result = await near.view(
+    engineContractId,
+    intear_dex_engine_methods_const.dex_view,
+    {
+      dex_id: dexId,
+      method,
+      args: bytesToBase64(args),
+    },
+  );
   if (typeof result !== "string") {
     throw new Error(
       `intear dex: expected a base64 string from dex_view for ${dexId} ${method}, got ${typeof result}`,
@@ -67,7 +71,13 @@ export async function intearDexView<T>(
   args: Uint8Array,
   decode: (reader: BorshReader) => T,
 ): Promise<T> {
-  const bytes = await intearDexViewRaw(near, engineContractId, dexId, method, args);
+  const bytes = await intearDexViewRaw(
+    near,
+    engineContractId,
+    dexId,
+    method,
+    args,
+  );
   return decode(new BorshReader(bytes));
 }
 // =================================================

@@ -3,11 +3,11 @@
 This is a **Bun workspace monorepo**. All packages share dependencies and
 build with TypeScript.
 
-| package                     | what it is                                            |
-| --------------------------- | ----------------------------------------------------- |
-| `@near-kit-tool-box/web`    | Browser client (Hot Wallet Connect, localStorage)     |
-| `@near-kit-tool-box/env`    | Backend client (`.env` configuration)                  |
-| `@near-kit-tool-box/fun`    | Reusable contract functions for common NEAR contracts  |
+| package                  | what it is                                            |
+| ------------------------ | ----------------------------------------------------- |
+| `@near-kit-tool-box/web` | Browser client (Hot Wallet Connect, localStorage)     |
+| `@near-kit-tool-box/env` | Backend client (`.env` configuration)                 |
+| `@near-kit-tool-box/fun` | Reusable contract functions for common NEAR contracts |
 
 The repo layout lives in the [`tree`](../tree) file at the repo root — see that
 for the folder map and the file naming conventions.
@@ -55,7 +55,7 @@ dependencies alone.
 | Package | Key Dependencies                                                     |
 | ------- | -------------------------------------------------------------------- |
 | **web** | `@hot-labs/near-connect`, `near-kit`, `zod`                          |
-| **env** | `near-kit`, `dotenv`                                               |
+| **env** | `near-kit`, `dotenv`                                                 |
 | **fun** | `near-kit`, `zod` (method consts are vendored in `src/lib/methods/`) |
 
 All packages use:
@@ -65,6 +65,10 @@ All packages use:
 - **Build tool**: TypeScript 7 (`tsc --build --force`)
 - **Each `tsconfig.json`** has `composite: true`, `incremental: true`, and
   `tsBuildInfoFile: "./.tsbuildinfo"` (build cache lives outside `dist/`)
+
+`prettier` is a root devDependency, not a package dependency — the packages
+never import it, and `bun run format` runs it across the whole repo. See
+[setup.md](./setup.md#format).
 
 ## Package Dependencies Overview
 

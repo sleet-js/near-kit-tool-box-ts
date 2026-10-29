@@ -32,12 +32,12 @@ bun run bin/intear_dex_otc/intear_dex_otc_storage_balance_of.ts \
 `--contract-id` is optional on every bin — it falls back to the
 per-network default.
 
-| bin                                      | flags                                                                    |
-| ---------------------------------------- | ------------------------------------------------------------------------ |
-| `intear_dex_otc_get_balance.ts`          | `--account-id`, `--asset-id` (both required), `--dex-id` (optional)       |
-| `intear_dex_otc_get_authorized_key.ts`  | `--account-id` (required), `--dex-id` (optional)                          |
-| `intear_dex_otc_is_nonce_used.ts`       | `--account-id`, `--nonce` (both required), `--dex-id` (optional)           |
-| `intear_dex_otc_storage_balance_of.ts`  | `--account-id` (required), `--dex-id` (optional)                          |
+| bin                                    | flags                                                               |
+| -------------------------------------- | ------------------------------------------------------------------- |
+| `intear_dex_otc_get_balance.ts`        | `--account-id`, `--asset-id` (both required), `--dex-id` (optional) |
+| `intear_dex_otc_get_authorized_key.ts` | `--account-id` (required), `--dex-id` (optional)                    |
+| `intear_dex_otc_is_nonce_used.ts`      | `--account-id`, `--nonce` (both required), `--dex-id` (optional)    |
+| `intear_dex_otc_storage_balance_of.ts` | `--account-id` (required), `--dex-id` (optional)                    |
 
 ==========================
 <br/>

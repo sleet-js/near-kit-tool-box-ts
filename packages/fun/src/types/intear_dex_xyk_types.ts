@@ -19,9 +19,7 @@ import * as z from "zod";
 // ---------- fees ----------
 
 export type INTEAR_DEX_XYK_FEE_RECEIVER_TYPE =
-  | { Account: string }
-  | "Pool"
-  | { Community: string };
+  { Account: string } | "Pool" | { Community: string };
 
 export type INTEAR_DEX_XYK_FEE_AMOUNT_TYPE =
   | { Fixed: number }
@@ -45,7 +43,10 @@ export interface INTEAR_DEX_XYK_CURRENT_FEES_TYPE {
 }
 
 export interface INTEAR_DEX_XYK_V2_FEE_CONFIGURATION_TYPE {
-  receivers: [INTEAR_DEX_XYK_FEE_RECEIVER_TYPE, INTEAR_DEX_XYK_FEE_AMOUNT_TYPE][];
+  receivers: [
+    INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
+    INTEAR_DEX_XYK_FEE_AMOUNT_TYPE,
+  ][];
 }
 
 export type INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE =
@@ -63,7 +64,10 @@ export interface INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE {
 
 export interface INTEAR_DEX_XYK_PRIVATE_POOL_TYPE {
   kind: "Private";
-  assets: [INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE, INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE];
+  assets: [
+    INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+    INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+  ];
   fees: INTEAR_DEX_XYK_CURRENT_FEES_TYPE;
   fee_configuration: INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE;
   owner_id: string;
@@ -72,7 +76,10 @@ export interface INTEAR_DEX_XYK_PRIVATE_POOL_TYPE {
 
 export interface INTEAR_DEX_XYK_PUBLIC_POOL_TYPE {
   kind: "Public";
-  assets: [INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE, INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE];
+  assets: [
+    INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+    INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
+  ];
   fees: INTEAR_DEX_XYK_CURRENT_FEES_TYPE;
   fee_configuration: INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE;
   total_shares: string | null;
