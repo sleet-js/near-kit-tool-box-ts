@@ -362,18 +362,7 @@ export const SPUTNIK_DAO_POLICY_PARAMETERS_TYPE_Z_CONST = z.object({
 //
 // The five `ChangePolicy*` variants are the contract's SHORT CUTS to
 // editing the policy — each one patches one part of it instead of
-// carrying the whole policy the way `ChangePolicy` does. Their
-// payloads were read off live mainnet:
-//
-//   ChangePolicyAddOrUpdateRole       illumaheart.sputnik-dao.near
-//                                     proposal 2
-//   ChangePolicyRemoveRole             (see the note below)
-//   ChangePolicyUpdateDefaultVotePolicy sweat-multisig.sputnik-dao.near
-//                                     proposal 4
-//   ChangePolicyUpdateParameters       lesyk-business.sputnik-dao.near
-//                                     proposal 10
-//   FactoryInfoUpdate                  neardragons.sputnik-dao.near
-//                                     proposal 0
+// carrying the whole policy the way `ChangePolicy` does.
 export type SPUTNIK_DAO_PROPOSAL_KIND_TYPE =
   | { ChangeConfig: { config: SPUTNIK_DAO_CONFIG_TYPE } }
   | { ChangePolicy: { policy: SPUTNIK_DAO_POLICY_TYPE } }
@@ -397,39 +386,24 @@ export type SPUTNIK_DAO_PROPOSAL_KIND_TYPE =
         msg: string | null;
       };
     }
+  // PROVENANCE: contract source only — no live proposal carries it.
   | { SetStakingContract: { staking_id: string } }
   | { AddBounty: { bounty: SPUTNIK_DAO_BOUNTY_IN_PROPOSAL_TYPE } }
   | { BountyDone: { bounty_id: number; receiver_id: string } }
   | "Vote"
-  // the factory the DAO belongs to, and whether it may auto-update.
-  // PROVENANCE: live mainnet — `neardragons.sputnik-dao.near`
-  // proposal 0 and `rhea-lsd.sputnik-dao.near` proposal 4 both
-  // answer `{"factory_info":{"factory_id":"sputnik-dao.near",
-  // "auto_update":false}}`.
+  // PROVENANCE: live — `neardragons.sputnik-dao.near` proposal 0.
   | { FactoryInfoUpdate: { factory_info: SPUTNIK_DAO_FACTORY_INFO_TYPE } }
-  // one role of the policy, added or replaced.
-  // PROVENANCE: live mainnet — `illumaheart.sputnik-dao.near`
-  // proposal 2 and onwards. The payload is the contract's
-  // `RolePermission`, the same shape a policy's `roles[]` entry
-  // carries.
+  // PROVENANCE: live — `illumaheart.sputnik-dao.near` proposal 2.
   | { ChangePolicyAddOrUpdateRole: { role: SPUTNIK_DAO_ROLE_TYPE } }
-  // the NAME of one role, removed from the policy.
-  // PROVENANCE: the contract's `ProposalKind::ChangePolicyRemoveRole
-  // { role: String }`. No live proposal carries this variant, so the
-  // shape is taken from the contract source alone.
+  // PROVENANCE: contract source only — no live proposal carries it.
   | { ChangePolicyRemoveRole: { role: string } }
-  // the DAO's default vote policy, replaced.
-  // PROVENANCE: live mainnet — `sweat-multisig.sputnik-dao.near`
-  // proposal 4 answers `{"vote_policy":{"weight_kind":"RoleWeight",
-  // "quorum":"0","threshold":[59,100]}}`.
+  // PROVENANCE: live — `sweat-multisig.sputnik-dao.near` proposal 4.
   | {
       ChangePolicyUpdateDefaultVotePolicy: {
         vote_policy: SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE;
       };
     }
-  // the DAO's policy parameters, moved.
-  // PROVENANCE: live mainnet — `lesyk-business.sputnik-dao.near`
-  // proposal 10 and 30+ more across 12 DAOs.
+  // PROVENANCE: live — `lesyk-business.sputnik-dao.near` proposal 10.
   | {
       ChangePolicyUpdateParameters: {
         parameters: SPUTNIK_DAO_POLICY_PARAMETERS_TYPE;

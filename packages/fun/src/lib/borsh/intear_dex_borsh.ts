@@ -26,6 +26,12 @@
 // `view.buffer` would read the whole pool rather than the bytes the
 // view covers — the integer readers copy the bytes they read into a
 // fresh buffer first, so they stay correct for every input.
+//
+// NOTE: `@zorsh/zorsh` (the NEAR org's TypeScript-first borsh
+// library) is an alternative to this file. It was written after this
+// codec and was not used here. Switching would mean reworking the
+// decoders onto its schema API and giving up the u128-as-decimal-
+// string convention the public API uses.
 // =================================================
 
 // ---------- writers ----------

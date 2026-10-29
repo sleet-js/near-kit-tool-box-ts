@@ -12,16 +12,7 @@
 //
 // VERIFIED against live mainnet data (2026-10-29)
 //   Every shape below was decoded from the real bytes the contract
-//   returned, with zero leftover bytes in every response:
-//     - `storage_balance_of` for 4 accounts. One account holds a
-//       storage deposit, the other three have no storage registered
-//       and answer `None`.
-//     - `get_authorized_key` for 3 accounts. All three answer
-//       `None` — no account had authorized a key at capture time, so
-//       the `Some` (a public key) arm is NOT observed live.
-//     - `get_balance` for 3 account/asset pairs. All answer `None`,
-//       so the `Some` (a balance) arm is NOT observed live.
-//     - `is_nonce_used` for 3 nonces. All answer `false`.
+//   returned, with zero leftover bytes in every response.
 //
 // BORS-DECODED, NOT JSON.
 // The otc dex's views are read through the engine's `dex_view`, which

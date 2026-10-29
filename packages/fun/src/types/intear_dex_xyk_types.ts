@@ -30,11 +30,6 @@
 //     - fee amount       : `Fixed` (235), `Scheduled` (60)
 //
 // NOT observed live
-//   - the `Dynamic` fee amount. The dex rejects it outright — the
-//     upstream source answers `DynamicFeeNotImplemented` and its fee
-//     maths hits `unimplemented!()`. It is kept in the union because
-//     the contract's borsh encoding has the variant, but no mainnet
-//     pool can hold one.
 //   - a `nep245` or `nep171` asset id. Every asset registered with
 //     the xyk dex is `near` or `nep141`. The borsh encoding of all
 //     four asset id variants was checked against the contract instead:
