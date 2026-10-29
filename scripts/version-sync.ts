@@ -232,6 +232,9 @@ async function main() {
     );
     console.log("   3. Build: bun run build");
     console.log("   4. Publish all packages: bun run publish:all");
+    console.log(
+      "   Or skip it all — run the 'Release' workflow on GitHub (Actions → Release).",
+    );
   }
 }
 

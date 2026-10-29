@@ -89,6 +89,75 @@ bun run publish:all
 
 ---
 
+## Automated Release (GitHub Actions)
+
+The manual steps above are automated by
+[`.github/workflows/release.yml`](../.github/workflows/release.yml). Run it from
+**GitHub → Actions → Release → Run workflow**.
+
+### What it does
+
+1. Computes the next version from the bump type you pick
+2. Sets every `packages/*/package.json` to that one version
+3. Commits the bump and pushes a git tag
+4. Builds all packages
+5. Publishes `env` → `fun` → `web` to npm
+6. Verifies the published versions, then creates a GitHub release
+
+### The tag always matches the npm version
+
+The git tag and the npm version are the same string:
+
+```
+tag v0.3.0  <->  npm @near-kit-tool-box/env@0.3.0
+                            @near-kit-tool-box/fun@0.3.0
+                            @near-kit-tool-box/web@0.3.0
+```
+
+All three packages share one version number, so one tag covers all of them.
+
+### Choosing the version
+
+| input              | result                                     |
+| ------------------ | ------------------------------------------ |
+| bump `patch`       | `0.2.2` → `0.2.3`                          |
+| bump `minor`       | `0.2.2` → `0.3.0`                          |
+| bump `major`       | `0.2.2` → `1.0.0`                          |
+| version `1.2.3`    | exactly `1.2.3`                            |
+
+The bump base is the highest of **both** the local `package.json` versions and
+the versions already on npm, so a version that was published but never
+committed can never be reused.
+
+### Trusted publishing (no npm token)
+
+The workflow authenticates with **OIDC**, not a stored npm token. There is no
+`NPM_TOKEN` secret in this repo, and none is needed.
+
+On **npmjs.com**, each package needs a trusted publisher configured once, under
+**Package Settings → Trusted Publisher → GitHub Actions**:
+
+| field                | value                |
+| -------------------- | -------------------- |
+| Organization or user | `sleet-js`           |
+| Repository           | `near-kit-tool-box-ts` |
+| Workflow filename    | `release.yml`        |
+| Allowed actions      | `npm publish`        |
+
+> **Do this within 2 days.** A new trusted publisher configuration must
+> complete its first publish within 2 days or it expires. If it expires,
+> delete it, create a new one, and publish again within 2 days.
+>
+> The npm scope owner must match the GitHub org/user that owns the repo.
+
+### Once it is working
+
+Optionally lock it down on npmjs.com under **Package Settings → Publishing
+access → "Require two-factor authentication and disallow tokens"**. Trusted
+publishing keeps working, but token-based publishes stop.
+
+---
+
 ==========================
 <br/>
 copyright 2026 by sleet.near

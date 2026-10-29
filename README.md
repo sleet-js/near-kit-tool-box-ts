@@ -123,7 +123,7 @@ Development guides:
 - [DOCS/DEV_GUIDE.md](./DOCS/DEV_GUIDE.md) — the guide index
   - [setup.md](./DOCS/setup.md) — install, build, env vars, type check
   - [build.md](./DOCS/build.md) — the build pipeline, clean & rebuild
-  - [versioning.md](./DOCS/versioning.md) — version sync and publishing
+  - [versioning.md](./DOCS/versioning.md) — version sync, publishing, and the automated GitHub release
   - [packages.md](./DOCS/packages.md) — the packages, their deps and config
   - [testing.md](./DOCS/testing.md) — the bins as the test harness
 

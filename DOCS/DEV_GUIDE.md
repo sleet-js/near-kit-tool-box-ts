@@ -34,6 +34,10 @@ bun run publish:all                          # publish env -> fun -> web
 bun update --latest --recursive              # update every package's deps
 ```
 
+Releasing is automated — see [versioning.md](./versioning.md#automated-release-github-actions).
+GitHub **Actions → Release → Run workflow** bumps the versions, tags, publishes
+to npm, and opens a GitHub release. The git tag always equals the npm version.
+
 ---
 
 ==========================

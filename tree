@@ -31,7 +31,9 @@ near-kit-tool-box/
 │               └── amount_input_type.ts       # shared amount type, not contract-specific
 ├── bin/                                      # CLI test scripts, one folder per contract family
 │   └── _shared/                              # shared bin helpers (args, env)
-├── scripts/                                  # Development utilities (version sync)
+├── .github/
+│   └── workflows/release.yml                 # manual release: bump -> tag -> publish to npm
+├── scripts/                                  # Development utilities (version sync, release version)
 ├── DOCS/                                    # Per-contract docs and the development guides
 │   ├── SC/                                   # Per-contract documentation, one .md per smart contract
 │   ├── DEV_GUIDE.md                          # The guide index
