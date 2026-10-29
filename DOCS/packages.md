@@ -55,7 +55,7 @@ dependencies alone.
 | Package | Key Dependencies                                                     |
 | ------- | -------------------------------------------------------------------- |
 | **web** | `@hot-labs/near-connect`, `near-kit`, `zod`                          |
-| **env** | `near-kit`, `dotenv`, `zod`                                          |
+| **env** | `near-kit`, `dotenv`                                               |
 | **fun** | `near-kit`, `zod` (method consts are vendored in `src/lib/methods/`) |
 
 All packages use:
@@ -74,7 +74,7 @@ packages — the method constants are vendored inside
 
 - **@hot-labs/near-connect** - Hot Wallet Connect (web only)
 - **near-kit** - Core NEAR protocol client
-- **zod** - Runtime type validation
+- **zod** - Runtime type validation (fun only)
 - **dotenv** - Environment variable loading (env only)
 
 ## Key Concepts
