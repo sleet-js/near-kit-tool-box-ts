@@ -11,12 +11,12 @@
 // the factory has deployed — over two thousand. Page it with
 // `--from-index` and `--limit`.
 // =================================================
-import { optionalNumber, parseArgs } from "../_shared/args.js";
+import { optional_number, parse_args } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
   sputnik_dao_factory_contractid,
 } from "../_shared/env.js";
 import {
@@ -27,29 +27,29 @@ import {
 // =================================================
 const usage =
   "bun run bin/sputnik_dao/factory_daos.ts [--from-index <n>] [--limit <n>] [--contract-id <id>]";
-const args = parseArgs();
-const contractId = resolveContractId(
+const args = parse_args();
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   sputnik_dao_factory_contractid(NEAR_KIT_NETWORK),
 );
-const fromIndex = optionalNumber(args, "from-index", 0);
-const limit = optionalNumber(args, "limit", 50);
+const from_index = optional_number(args, "from-index", 0);
+const limit = optional_number(args, "limit", 50);
 
 // the count and the page are two different methods, so they are two
 // requests — they run together, so the bin waits for the slower one.
 const [number, daos] = await Promise.all([
-  sputnik_dao_factory_get_number_daos_fun_json(near_kit_env, contractId),
+  sputnik_dao_factory_get_number_daos_fun_json(near_kit_env, contract_id),
   sputnik_dao_factory_get_daos_fun_json(
     near_kit_env,
-    contractId,
-    fromIndex,
+    contract_id,
+    from_index,
     limit,
   ),
 ]);
 // =================================================
-logResult(`factory daos @ ${contractId}`, {
+log_result(`factory daos @ ${contract_id}`, {
   number_of_daos: number,
-  from_index: fromIndex,
+  from_index: from_index,
   limit,
   daos,
 });

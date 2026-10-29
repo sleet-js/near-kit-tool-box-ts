@@ -15,11 +15,11 @@ import type { INTEAR_DEX_ASSET_ID_STRING } from "../../types/intear_dex_engine_t
 // =================================================
 export async function intear_dex_engine_total_in_custody_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   asset_id: INTEAR_DEX_ASSET_ID_STRING,
 ): Promise<string | null> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.total_in_custody,
     { asset_id },
   );

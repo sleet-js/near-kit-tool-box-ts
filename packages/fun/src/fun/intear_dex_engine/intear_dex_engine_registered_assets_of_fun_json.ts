@@ -21,14 +21,14 @@ import {
 // =================================================
 export async function intear_dex_engine_registered_assets_of_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   account_id: string | null,
   dex_id: string | null,
   from_index: number,
   limit: number,
 ): Promise<INTEAR_DEX_REGISTERED_ASSET_OBJECT_TYPE[]> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.registered_assets_of,
     { account_id, dex_id, from_index, limit },
   );

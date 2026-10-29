@@ -66,14 +66,14 @@ export function sputnik_dao_account_id(name: string): string {
  * The inverse of {@link sputnik_dao_account_id}: `huggies.sputnik-dao.near`
  * becomes `huggies`.
  *
- * @param accountId - the DAO's account id
+ * @param account_id - the DAO's account id
  * @returns the DAO's name
  */
-export function sputnik_dao_name(accountId: string): string {
+export function sputnik_dao_name(account_id: string): string {
   const suffix = ".sputnik-dao.near";
-  return accountId.endsWith(suffix)
-    ? accountId.slice(0, accountId.length - suffix.length)
-    : accountId;
+  return account_id.endsWith(suffix)
+    ? account_id.slice(0, account_id.length - suffix.length)
+    : account_id;
 }
 // =================================================
 // copyright 2026 by sleet.near

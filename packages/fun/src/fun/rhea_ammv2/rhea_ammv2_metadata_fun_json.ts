@@ -10,10 +10,10 @@ import {
 // =================================================
 export async function rhea_ammv2_metadata_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
 ): Promise<RHEA_AMMV2_METADATA_TYPE> {
   const result = await near.view(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.metadata,
     {},
   );

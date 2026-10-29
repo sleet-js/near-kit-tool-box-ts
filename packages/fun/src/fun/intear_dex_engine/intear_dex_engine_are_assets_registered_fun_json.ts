@@ -19,12 +19,12 @@ import type {
 // =================================================
 export async function intear_dex_engine_are_assets_registered_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   asset_ids: INTEAR_DEX_ASSET_ID_STRING[],
   for_: INTEAR_DEX_ACCOUNT_OR_DEX_ID,
 ): Promise<boolean> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.are_assets_registered,
     { asset_ids, for: for_ },
   );

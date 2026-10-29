@@ -13,12 +13,12 @@ import type { sputnik_dao_args } from "../../lib/args/sputnik_dao_args";
 // =================================================
 export async function sputnik_dao_factory_get_daos_fun_json(
   near: Near,
-  factoryContractId: string,
+  factory_contract_id: string,
   from_index: sputnik_dao_args["from_index"],
   limit: sputnik_dao_args["limit"],
 ): Promise<string[]> {
   const result = await near.view(
-    factoryContractId,
+    factory_contract_id,
     sputnik_dao_factory_methods_const.get_daos,
     { from_index, limit },
   );

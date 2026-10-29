@@ -33,21 +33,21 @@
 //     --referral-id ref.huggies.testnet
 // =================================================
 import type { rhea_ammv2_swap_action_type } from "../../packages/fun/src/index.js";
-import { parseArgs } from "../_shared/args.js";
+import { parse_args } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
   rhea_ammv2_contractid,
-  requireSigner,
-  resolveContractId,
+  require_signer,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { rhea_ammv2_swap_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/rhea_ammv2/rhea_swap.ts --pool-id <id> --token-in <id> --token-out <id> [--amount-in <raw>] [--min-amount-out <raw>] [--referral-id <id>]";
-const args = parseArgs();
-requireSigner(usage);
+const args = parse_args();
+require_signer(usage);
 
 // =================================================
 // Rebuild the action list from the raw flag order.
@@ -62,39 +62,39 @@ requireSigner(usage);
 // =================================================
 // Per-flag queue of values, in the order they appeared on the command line.
 const queues = new Map<string, string[]>();
-let pendingFlag: string | undefined;
-let pendingValue: string | undefined;
+let pending_flag: string | undefined;
+let pending_value: string | undefined;
 
-for (const argvItem of process.argv.slice(2)) {
-  if (argvItem.startsWith("--")) {
-    const body = argvItem.slice(2);
+for (const argv_item of process.argv.slice(2)) {
+  if (argv_item.startsWith("--")) {
+    const body = argv_item.slice(2);
     const eq = body.indexOf("=");
     const name = eq === -1 ? body : body.slice(0, eq);
-    const inlineValue = eq === -1 ? undefined : body.slice(eq + 1);
-    pendingFlag = name;
-    pendingValue = inlineValue;
-    if (inlineValue !== undefined) {
+    const inline_value = eq === -1 ? undefined : body.slice(eq + 1);
+    pending_flag = name;
+    pending_value = inline_value;
+    if (inline_value !== undefined) {
       const queue = queues.get(name) ?? [];
-      queue.push(inlineValue);
+      queue.push(inline_value);
       queues.set(name, queue);
-      pendingFlag = undefined;
-      pendingValue = undefined;
+      pending_flag = undefined;
+      pending_value = undefined;
     }
     continue;
   }
   // A bare value belongs to the flag that came right before it.
-  if (pendingFlag !== undefined && pendingValue === undefined) {
-    const queue = queues.get(pendingFlag) ?? [];
-    queue.push(argvItem);
-    queues.set(pendingFlag, queue);
-    pendingFlag = undefined;
-    pendingValue = undefined;
+  if (pending_flag !== undefined && pending_value === undefined) {
+    const queue = queues.get(pending_flag) ?? [];
+    queue.push(argv_item);
+    queues.set(pending_flag, queue);
+    pending_flag = undefined;
+    pending_value = undefined;
   }
 }
 
 // =================================================
 // Reads every queued value for a flag, in order.
-const takeAll = (flag: string): string[] => {
+const take_all = (flag: string): string[] => {
   const queue = queues.get(flag) ?? [];
   const values = [...queue];
   queue.length = 0;
@@ -106,28 +106,28 @@ const actions: rhea_ammv2_swap_action_type[] = [];
 // =================================================
 // Actions are driven by the `--pool-id` queue; every other action flag
 // is consumed one value per action, in command-line order.
-const poolIds = takeAll("pool-id");
-const tokenIns = takeAll("token-in");
-const tokenOuts = takeAll("token-out");
-const amountIns = takeAll("amount-in");
-const minAmountOuts = takeAll("min-amount-out");
+const pool_ids = take_all("pool-id");
+const token_ins = take_all("token-in");
+const token_outs = take_all("token-out");
+const amount_ins = take_all("amount-in");
+const min_amount_outs = take_all("min-amount-out");
 
-if (poolIds.length === 0) {
+if (pool_ids.length === 0) {
   console.error("error: --pool-id is required");
   console.error(`usage: ${usage}`);
   process.exit(1);
 }
 
-for (let i = 0; i < poolIds.length; i++) {
-  const poolId = Number(poolIds[i]);
-  if (!Number.isFinite(poolId)) {
-    console.error(`error: --pool-id must be a number (got "${poolIds[i]}")`);
+for (let i = 0; i < pool_ids.length; i++) {
+  const pool_id = Number(pool_ids[i]);
+  if (!Number.isFinite(pool_id)) {
+    console.error(`error: --pool-id must be a number (got "${pool_ids[i]}")`);
     console.error(`usage: ${usage}`);
     process.exit(1);
   }
-  const tokenIn = tokenIns[i];
-  const tokenOut = tokenOuts[i];
-  if (tokenIn === undefined || tokenOut === undefined) {
+  const token_in = token_ins[i];
+  const token_out = token_outs[i];
+  if (token_in === undefined || token_out === undefined) {
     console.error(
       "error: every swap action needs --pool-id, --token-in and --token-out",
     );
@@ -135,12 +135,12 @@ for (let i = 0; i < poolIds.length; i++) {
     process.exit(1);
   }
   const action: rhea_ammv2_swap_action_type = {
-    pool_id: poolId,
-    token_in: tokenIn,
-    token_out: tokenOut,
-    min_amount_out: minAmountOuts[i] ?? "0",
+    pool_id: pool_id,
+    token_in: token_in,
+    token_out: token_out,
+    min_amount_out: min_amount_outs[i] ?? "0",
   };
-  if (amountIns[i] !== undefined) action.amount_in = amountIns[i];
+  if (amount_ins[i] !== undefined) action.amount_in = amount_ins[i];
   actions.push(action);
 }
 
@@ -150,16 +150,21 @@ if (actions.length === 0) {
   process.exit(1);
 }
 
-const referralId =
+const referral_id =
   typeof args["referral-id"] === "string" ? args["referral-id"] : "";
-const contractId = resolveContractId(
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   rhea_ammv2_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `swap ${actions.length} action(s) @ ${contractId}`,
-  await rhea_ammv2_swap_fun_json(near_kit_env, contractId, actions, referralId),
+log_result(
+  `swap ${actions.length} action(s) @ ${contract_id}`,
+  await rhea_ammv2_swap_fun_json(
+    near_kit_env,
+    contract_id,
+    actions,
+    referral_id,
+  ),
 );
 // =================================================
 // copyright 2026 by sleet.near

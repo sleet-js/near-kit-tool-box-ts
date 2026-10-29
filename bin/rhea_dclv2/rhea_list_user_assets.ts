@@ -4,31 +4,31 @@
 // usage:
 //   bun run bin/rhea_dclv2/rhea_list_user_assets.ts --account-id <id> [--contract-id <id>]
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
+import { parse_args, require_string } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
   rhea_dclv2_contractid,
 } from "../_shared/env.js";
 import { rhea_dclv2_list_user_assets_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/rhea_dclv2/rhea_list_user_assets.ts --account-id <id> [--contract-id <id>]";
-const args = parseArgs();
-const accountId = requireString(args, "account-id", usage);
-const contractId = resolveContractId(
+const args = parse_args();
+const account_id = require_string(args, "account-id", usage);
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   rhea_dclv2_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `list_user_assets ${accountId} @ ${contractId}`,
+log_result(
+  `list_user_assets ${account_id} @ ${contract_id}`,
   await rhea_dclv2_list_user_assets_fun_json(
     near_kit_env,
-    contractId,
-    accountId,
+    contract_id,
+    account_id,
   ),
 );
 // =================================================

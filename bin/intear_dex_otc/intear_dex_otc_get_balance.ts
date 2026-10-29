@@ -8,13 +8,13 @@
 //   bun run bin/intear_dex_otc/intear_dex_otc_get_balance.ts \
 //     --account-id <id> --asset-id <id> [--dex-id <deployer/id>] [--contract-id <id>]
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
+import { parse_args, require_string } from "../_shared/args.js";
 import {
   intear_dex_engine_contractid,
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import {
   intear_dex_otc_get_balance_fun_json,
@@ -23,28 +23,28 @@ import {
 // =================================================
 const usage =
   "bun run bin/intear_dex_otc/intear_dex_otc_get_balance.ts --account-id <id> --asset-id <id> [--dex-id <deployer/id>] [--contract-id <id>]";
-const args = parseArgs();
-const accountId = requireString(args, "account-id", usage);
-const assetId = requireString(
+const args = parse_args();
+const account_id = require_string(args, "account-id", usage);
+const asset_id = require_string(
   args,
   "asset-id",
   usage,
 ) as INTEAR_DEX_ASSET_ID_STRING;
-const contractId = resolveContractId(
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),
 );
 // The otc dex is not deployed on mainnet — pass its dex id explicitly.
-const dexId = requireString(args, "dex-id", usage);
+const dex_id = require_string(args, "dex-id", usage);
 // =================================================
-logResult(
-  `otc balance of ${assetId} for ${accountId} @ ${dexId}`,
+log_result(
+  `otc balance of ${asset_id} for ${account_id} @ ${dex_id}`,
   await intear_dex_otc_get_balance_fun_json(
     near_kit_env,
-    contractId,
-    dexId,
-    accountId,
-    assetId,
+    contract_id,
+    dex_id,
+    account_id,
+    asset_id,
   ),
 );
 // =================================================

@@ -7,30 +7,30 @@
 // usage:
 //   bun run bin/rhea_ammv2/rhea_storage_deposit.ts --deposit "0.00125 NEAR" [--contract-id <id>]
 // =================================================
-import { parseArgs, requireAmount } from "../_shared/args.js";
+import { parse_args, require_amount } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
   rhea_ammv2_contractid,
-  requireSigner,
-  resolveContractId,
+  require_signer,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { rhea_ammv2_storage_deposit_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   'bun run bin/rhea_ammv2/rhea_storage_deposit.ts --deposit "0.00125 NEAR" [--contract-id <id>]';
-const args = parseArgs();
-const deposit = requireAmount(args, "deposit", usage);
-requireSigner(usage);
-const contractId = resolveContractId(
+const args = parse_args();
+const deposit = require_amount(args, "deposit", usage);
+require_signer(usage);
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   rhea_ammv2_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `storage_deposit @ ${contractId}`,
-  await rhea_ammv2_storage_deposit_fun_json(near_kit_env, contractId, deposit),
+log_result(
+  `storage_deposit @ ${contract_id}`,
+  await rhea_ammv2_storage_deposit_fun_json(near_kit_env, contract_id, deposit),
 );
 // =================================================
 // copyright 2026 by sleet.near

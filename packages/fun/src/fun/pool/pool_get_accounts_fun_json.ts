@@ -11,12 +11,12 @@ import type { POOL_GET_ACCOUNTS_ACCOUNTS_TYPE } from "../../types/pool_types";
 // =================================================
 export async function pool_get_accounts_fun_json(
   near: Near,
-  pool_contractId: string,
+  pool_contract_id: string,
   from_index: number,
   limit: number,
 ): Promise<POOL_GET_ACCOUNTS_ACCOUNTS_TYPE> {
   const result = await near.view(
-    pool_contractId,
+    pool_contract_id,
     pool_methods_const.get_accounts,
     { from_index, limit },
   );

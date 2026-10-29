@@ -13,10 +13,10 @@ import type { SPUTNIK_DAO_CONFIG_TYPE } from "../../types/sputnik_dao_types";
 // =================================================
 export async function sputnik_dao_get_config_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
 ): Promise<SPUTNIK_DAO_CONFIG_TYPE> {
   const result = await near.view(
-    daoContractId,
+    dao_contract_id,
     sputnik_dao_methods_const.get_config,
     {},
   );

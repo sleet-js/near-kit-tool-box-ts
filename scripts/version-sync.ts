@@ -14,13 +14,13 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-interface PackageInfo {
+interface package_info {
   name: string;
   path: string;
   version: string;
 }
 
-function parseVersion(version: string): {
+function parse_version(version: string): {
   major: number;
   minor: number;
   patch: number;
@@ -33,7 +33,7 @@ function parseVersion(version: string): {
   };
 }
 
-function versionToString(v: {
+function version_to_string(v: {
   major: number;
   minor: number;
   patch: number;
@@ -41,38 +41,38 @@ function versionToString(v: {
   return `${v.major}.${v.minor}.${v.patch}`;
 }
 
-function compareVersions(a: string, b: string): number {
-  const pa = parseVersion(a);
-  const pb = parseVersion(b);
+function compare_versions(a: string, b: string): number {
+  const pa = parse_version(a);
+  const pb = parse_version(b);
   if (pa.major !== pb.major) return pa.major - pb.major;
   if (pa.minor !== pb.minor) return pa.minor - pb.minor;
   return pa.patch - pb.patch;
 }
 
-function getWorkspacePackages(): PackageInfo[] {
-  const rootPackagePath = join(import.meta.dir, "..");
-  const rootPackage = JSON.parse(
-    readFileSync(join(rootPackagePath, "package.json"), "utf-8"),
+function get_workspace_packages(): package_info[] {
+  const root_package_path = join(import.meta.dir, "..");
+  const root_package = JSON.parse(
+    readFileSync(join(root_package_path, "package.json"), "utf-8"),
   );
 
-  const workspaces = rootPackage.workspaces || [];
-  const packages: PackageInfo[] = [];
+  const workspaces = root_package.workspaces || [];
+  const packages: package_info[] = [];
 
   for (const workspace of workspaces) {
     // Handle glob patterns like "packages/*"
     if (workspace.includes("*")) {
-      const baseDir = join(rootPackagePath, workspace.split("*")[0]);
+      const base_dir = join(root_package_path, workspace.split("*")[0]);
       try {
-        const entries = readdirSync(baseDir);
+        const entries = readdirSync(base_dir);
         for (const entry of entries) {
-          const entryPath = join(baseDir, entry);
-          if (statSync(entryPath).isDirectory()) {
-            const packageJsonPath = join(entryPath, "package.json");
+          const entry_path = join(base_dir, entry);
+          if (statSync(entry_path).isDirectory()) {
+            const package_json_path = join(entry_path, "package.json");
             try {
-              const pkg = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+              const pkg = JSON.parse(readFileSync(package_json_path, "utf-8"));
               packages.push({
                 name: pkg.name,
-                path: entryPath,
+                path: entry_path,
                 version: pkg.version || "0.0.0",
               });
             } catch {
@@ -85,12 +85,16 @@ function getWorkspacePackages(): PackageInfo[] {
       }
     } else {
       // Direct path
-      const packageJsonPath = join(rootPackagePath, workspace, "package.json");
+      const package_json_path = join(
+        root_package_path,
+        workspace,
+        "package.json",
+      );
       try {
-        const pkg = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+        const pkg = JSON.parse(readFileSync(package_json_path, "utf-8"));
         packages.push({
           name: pkg.name,
-          path: join(rootPackagePath, workspace),
+          path: join(root_package_path, workspace),
           version: pkg.version || "0.0.0",
         });
       } catch {
@@ -104,24 +108,28 @@ function getWorkspacePackages(): PackageInfo[] {
   return packages;
 }
 
-function findHighestVersion(packages: PackageInfo[]): string {
+function find_highest_version(packages: package_info[]): string {
   return packages.reduce((highest, pkg) => {
-    return compareVersions(pkg.version, highest) > 0 ? pkg.version : highest;
+    return compare_versions(pkg.version, highest) > 0 ? pkg.version : highest;
   }, "0.0.0");
 }
 
-function bumpVersion(
+function bump_version(
   version: string,
   type: "patch" | "minor" | "major",
 ): string {
-  const v = parseVersion(version);
+  const v = parse_version(version);
   switch (type) {
     case "major":
-      return versionToString({ major: v.major + 1, minor: 0, patch: 0 });
+      return version_to_string({ major: v.major + 1, minor: 0, patch: 0 });
     case "minor":
-      return versionToString({ major: v.major, minor: v.minor + 1, patch: 0 });
+      return version_to_string({
+        major: v.major,
+        minor: v.minor + 1,
+        patch: 0,
+      });
     case "patch":
-      return versionToString({
+      return version_to_string({
         major: v.major,
         minor: v.minor,
         patch: v.patch + 1,
@@ -131,18 +139,18 @@ function bumpVersion(
 
 async function main() {
   const args = Bun.argv.slice(2);
-  const dryRun = args.includes("--dry-run");
-  const versionArg = args.find(
+  const dry_run = args.includes("--dry-run");
+  const version_arg = args.find(
     (arg) =>
       !arg.startsWith("--") && !["patch", "minor", "major"].includes(arg),
   );
-  const bumpTypeArg = args.find((arg) =>
+  const bump_type_arg = args.find((arg) =>
     ["patch", "minor", "major"].includes(arg),
   ) as "patch" | "minor" | "major" | undefined;
 
   console.log("🔍 Scanning workspace packages...\n");
 
-  const packages = getWorkspacePackages();
+  const packages = get_workspace_packages();
 
   if (packages.length === 0) {
     console.error("❌ No workspace packages found");
@@ -154,38 +162,38 @@ async function main() {
     console.log(`  ${pkg.name.padEnd(50)} ${pkg.version}`);
   });
 
-  let targetVersion: string;
+  let target_version: string;
 
-  if (versionArg) {
+  if (version_arg) {
     // Specific version provided
-    targetVersion = versionArg;
-    console.log(`\n🎯 Setting all packages to version: ${targetVersion}`);
+    target_version = version_arg;
+    console.log(`\n🎯 Setting all packages to version: ${target_version}`);
   } else {
     // Find highest and bump
-    const highestVersion = findHighestVersion(packages);
-    console.log(`\n📊 Highest version: ${highestVersion}`);
+    const highest_version = find_highest_version(packages);
+    console.log(`\n📊 Highest version: ${highest_version}`);
 
-    const bumpType = bumpTypeArg || "patch";
-    targetVersion = bumpVersion(highestVersion, bumpType);
+    const bump_type = bump_type_arg || "patch";
+    target_version = bump_version(highest_version, bump_type);
     console.log(
-      `🚀 Bumping all packages to ${targetVersion} (${bumpType} bump)`,
+      `🚀 Bumping all packages to ${target_version} (${bump_type} bump)`,
     );
   }
 
-  if (dryRun) {
+  if (dry_run) {
     console.log("\n🔎 DRY RUN - No files will be modified\n");
-    const packagesToUpdate = packages.filter(
-      (pkg) => pkg.version !== targetVersion,
+    const packages_to_update = packages.filter(
+      (pkg) => pkg.version !== target_version,
     );
-    console.log(`\n📝 Would update ${packagesToUpdate.length} packages:`);
-    packagesToUpdate.forEach((pkg) => {
-      console.log(`  ${pkg.name}: ${pkg.version} → ${targetVersion}`);
+    console.log(`\n📝 Would update ${packages_to_update.length} packages:`);
+    packages_to_update.forEach((pkg) => {
+      console.log(`  ${pkg.name}: ${pkg.version} → ${target_version}`);
     });
 
-    const unchangedCount = packages.length - packagesToUpdate.length;
-    if (unchangedCount > 0) {
+    const unchanged_count = packages.length - packages_to_update.length;
+    if (unchanged_count > 0) {
       console.log(
-        `\n✅ ${unchangedCount} packages already at ${targetVersion}`,
+        `\n✅ ${unchanged_count} packages already at ${target_version}`,
       );
     }
     return;
@@ -194,33 +202,36 @@ async function main() {
   // Update all packages
   console.log("\n✏️  Updating packages...\n");
 
-  let updatedCount = 0;
+  let updated_count = 0;
   for (const pkg of packages) {
-    if (pkg.version === targetVersion) {
-      console.log(`  ⏭️  ${pkg.name} (already at ${targetVersion})`);
+    if (pkg.version === target_version) {
+      console.log(`  ⏭️  ${pkg.name} (already at ${target_version})`);
       continue;
     }
 
-    const packageJsonPath = join(pkg.path, "package.json");
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+    const package_json_path = join(pkg.path, "package.json");
+    const package_json = JSON.parse(readFileSync(package_json_path, "utf-8"));
 
-    const oldVersion = packageJson.version;
-    packageJson.version = targetVersion;
+    const old_version = package_json.version;
+    package_json.version = target_version;
 
-    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + "\n");
-    console.log(`  ✅ ${pkg.name}: ${oldVersion} → ${targetVersion}`);
-    updatedCount++;
+    writeFileSync(
+      package_json_path,
+      JSON.stringify(package_json, null, 2) + "\n",
+    );
+    console.log(`  ✅ ${pkg.name}: ${old_version} → ${target_version}`);
+    updated_count++;
   }
 
   console.log(
-    `\n✅ Successfully updated ${updatedCount}/${packages.length} packages to version ${targetVersion}`,
+    `\n✅ Successfully updated ${updated_count}/${packages.length} packages to version ${target_version}`,
   );
 
-  if (updatedCount > 0) {
+  if (updated_count > 0) {
     console.log("\n💡 Next steps:");
     console.log("   1. Review changes: git diff");
     console.log(
-      `   2. Commit: git commit -m 'chore: bump all packages to v${targetVersion}'`,
+      `   2. Commit: git commit -m 'chore: bump all packages to v${target_version}'`,
     );
     console.log("   3. Build: bun run build");
     console.log("   4. Publish all packages: bun run publish:all");

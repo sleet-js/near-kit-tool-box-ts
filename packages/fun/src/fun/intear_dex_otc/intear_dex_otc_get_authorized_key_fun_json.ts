@@ -9,26 +9,26 @@
 // another account submit the `match` call on its behalf.
 // =================================================
 import type { Near } from "near-kit";
-import { BorshReader, BorshWriter } from "../../lib/borsh/intear_dex_borsh";
-import { intearDexView } from "../../lib/borsh/intear_dex_view";
+import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";
+import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_otc_methods_const } from "../../lib/methods/methods_intear_dex_otc";
 import type { intear_dex_otc_args } from "../../lib/args/intear_dex_otc_args";
 import type { INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE } from "../../types/intear_dex_otc_types";
 // =================================================
 export async function intear_dex_otc_get_authorized_key_fun_json(
   near: Near,
-  engineContractId: string,
-  dexId: string,
+  engine_contract_id: string,
+  dex_id: string,
   account_id: intear_dex_otc_args["owner_account_id"],
 ): Promise<INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE> {
-  const args = new BorshWriter().string(account_id).toBytes();
-  return intearDexView(
+  const args = new borsh_writer().string(account_id).to_bytes();
+  return intear_dex_view(
     near,
-    engineContractId,
-    dexId,
+    engine_contract_id,
+    dex_id,
     intear_dex_otc_methods_const.get_authorized_key,
     args,
-    (reader: BorshReader) => reader.option((item) => item.publicKey()),
+    (reader: borsh_reader) => reader.option((item) => item.public_key()),
   );
 }
 // =================================================

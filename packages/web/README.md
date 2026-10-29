@@ -15,9 +15,9 @@ bun add @near-kit-tool-box/web
 import {
   near_kit_client,
   near_connect_client,
-  toggleNetwork,
-  setNetwork_mainnet,
-  setNetwork_testnet,
+  toggle_network,
+  set_network_mainnet,
+  set_network_testnet,
 } from "@near-kit-tool-box/web";
 ```
 

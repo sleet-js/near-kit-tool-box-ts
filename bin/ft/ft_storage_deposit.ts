@@ -7,18 +7,18 @@
 // usage:
 //   bun run bin/ft/ft_storage_deposit.ts --contract-id <id>
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
-import { logResult, near_kit_env, requireSigner } from "../_shared/env.js";
+import { parse_args, require_string } from "../_shared/args.js";
+import { log_result, near_kit_env, require_signer } from "../_shared/env.js";
 import { ft_storage_deposit_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage = "bun run bin/ft/ft_storage_deposit.ts --contract-id <id>";
-const args = parseArgs();
-const contractId = requireString(args, "contract-id", usage);
-requireSigner(usage);
+const args = parse_args();
+const contract_id = require_string(args, "contract-id", usage);
+require_signer(usage);
 // =================================================
-logResult(
-  `storage_deposit @ ${contractId}`,
-  await ft_storage_deposit_fun_json(near_kit_env, contractId),
+log_result(
+  `storage_deposit @ ${contract_id}`,
+  await ft_storage_deposit_fun_json(near_kit_env, contract_id),
 );
 // =================================================
 // copyright 2026 by sleet.near

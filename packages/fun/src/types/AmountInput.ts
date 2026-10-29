@@ -1,6 +1,6 @@
 // ===========================================
-type NearAmountString = `${number} NEAR`;
-type YoctoAmountString = `${bigint} yocto`;
+type near_amount_string = `${number} NEAR`;
+type yocto_amount_string = `${bigint} yocto`;
 // ===========================================
-export type AmountInput = `${number} NEAR` | `${bigint} yocto` | bigint;
+export type AMOUNT_INPUT = `${number} NEAR` | `${bigint} yocto` | bigint;
 // ===========================================

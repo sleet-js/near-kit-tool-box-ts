@@ -35,14 +35,14 @@ function is_no_result_fun(error: unknown): boolean {
 // =================================================
 export async function sputnik_dao_get_proposals_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
   from_index: sputnik_dao_args["from_index"],
   limit: sputnik_dao_args["limit"],
 ): Promise<SPUTNIK_DAO_PROPOSAL_TYPE[]> {
   let result: unknown;
   try {
     result = await near.view(
-      daoContractId,
+      dao_contract_id,
       sputnik_dao_methods_const.get_proposals,
       { from_index, limit },
     );

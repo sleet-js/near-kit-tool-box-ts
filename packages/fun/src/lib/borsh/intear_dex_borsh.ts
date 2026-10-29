@@ -24,7 +24,7 @@
 
 // ---------- writers ----------
 
-export class BorshWriter {
+export class borsh_writer {
   private chunks: Uint8Array[] = [];
 
   u8(value: number): this {
@@ -60,12 +60,12 @@ export class BorshWriter {
 
   bytes(value: Uint8Array): this {
     this.u32(value.length);
-    this.chunksPush(value);
+    this.chunks_push(value);
     return this;
   }
 
   /** Appends raw bytes without a length prefix. */
-  chunksPush(value: Uint8Array): this {
+  chunks_push(value: Uint8Array): this {
     this.chunks.push(value);
     return this;
   }
@@ -76,7 +76,7 @@ export class BorshWriter {
 
   option<T>(
     value: T | null | undefined,
-    write: (writer: BorshWriter, value: T) => void,
+    write: (writer: borsh_writer, value: T) => void,
   ): this {
     if (value === null || value === undefined) return this.u8(0);
     this.u8(1);
@@ -86,14 +86,14 @@ export class BorshWriter {
 
   vec<T>(
     values: readonly T[],
-    write: (writer: BorshWriter, value: T) => void,
+    write: (writer: borsh_writer, value: T) => void,
   ): this {
     this.u32(values.length);
     for (const value of values) write(this, value);
     return this;
   }
 
-  toBytes(): Uint8Array {
+  to_bytes(): Uint8Array {
     let total = 0;
     for (const chunk of this.chunks) total += chunk.length;
     const out = new Uint8Array(total);
@@ -108,7 +108,7 @@ export class BorshWriter {
 
 // ---------- readers ----------
 
-export class BorshReader {
+export class borsh_reader {
   private offset = 0;
 
   constructor(private readonly data: Uint8Array) {}
@@ -155,14 +155,14 @@ export class BorshReader {
     return new TextDecoder().decode(this.bytes());
   }
 
-  option<T>(read: (reader: BorshReader) => T): T | null {
+  option<T>(read: (reader: borsh_reader) => T): T | null {
     const tag = this.u8();
     if (tag === 0) return null;
     if (tag !== 1) throw new Error(`borsh: invalid option tag ${tag}`);
     return read(this);
   }
 
-  vec<T>(read: (reader: BorshReader) => T): T[] {
+  vec<T>(read: (reader: borsh_reader) => T): T[] {
     const length = this.u32();
     const out: T[] = [];
     for (let index = 0; index < length; index++) out.push(read(this));
@@ -177,14 +177,15 @@ export class BorshReader {
    * a one byte tag (`0` ed25519, `1` secp256k1, `2` ml-dsa-65)
    * followed by the raw key bytes.
    */
-  publicKey(): string {
+  public_key(): string {
     const raw = this.bytes();
     if (raw.length === 0) throw new Error("borsh: empty public key");
     const tag = raw[0] as number;
     const key = raw.subarray(1);
-    if (tag === 0 && key.length === 32) return `ed25519:${base58Encode(key)}`;
-    if (tag === 1 && key.length === 64) return `secp256k1:${base58Encode(key)}`;
-    if (tag === 2) return `mldsa65:${base58Encode(key)}`;
+    if (tag === 0 && key.length === 32) return `ed25519:${base58_encode(key)}`;
+    if (tag === 1 && key.length === 64)
+      return `secp256k1:${base58_encode(key)}`;
+    if (tag === 2) return `mldsa65:${base58_encode(key)}`;
     throw new Error(
       `borsh: unknown public key tag ${tag} (${key.length} key bytes)`,
     );
@@ -196,11 +197,11 @@ export class BorshReader {
 const BASE58_ALPHABET =
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
-export function base58Encode(bytes: Uint8Array): string {
+export function base58_encode(bytes: Uint8Array): string {
   if (bytes.length === 0) return "";
-  let leadingZeros = 0;
-  while (leadingZeros < bytes.length && bytes[leadingZeros] === 0)
-    leadingZeros++;
+  let leading_zeros = 0;
+  while (leading_zeros < bytes.length && bytes[leading_zeros] === 0)
+    leading_zeros++;
   let value = 0n;
   for (const byte of bytes) value = (value << 8n) | BigInt(byte);
   let out = "";
@@ -209,17 +210,17 @@ export function base58Encode(bytes: Uint8Array): string {
     value /= 58n;
     out = BASE58_ALPHABET[Number(rest)] + out;
   }
-  return "1".repeat(leadingZeros) + out;
+  return "1".repeat(leading_zeros) + out;
 }
 
 // ---------- base64 (the engine's `dex_view` envelope) ----------
 
-export function bytesToBase64(bytes: Uint8Array): string {
+export function bytes_to_base64(bytes: Uint8Array): string {
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
   if (typeof btoa === "function") return btoa(binary);
   // Node runtimes without a global `btoa`.
-  const globalBuffer = (
+  const global_buffer = (
     globalThis as {
       Buffer?: {
         from(
@@ -229,12 +230,12 @@ export function bytesToBase64(bytes: Uint8Array): string {
       };
     }
   ).Buffer;
-  if (globalBuffer)
-    return globalBuffer.from(binary, "binary").toString("base64");
+  if (global_buffer)
+    return global_buffer.from(binary, "binary").toString("base64");
   throw new Error("intear dex: no base64 encoder available in this runtime");
 }
 
-export function base64ToBytes(value: string): Uint8Array {
+export function base64_to_bytes(value: string): Uint8Array {
   if (typeof atob === "function") {
     const binary = atob(value);
     const out = new Uint8Array(binary.length);
@@ -242,12 +243,12 @@ export function base64ToBytes(value: string): Uint8Array {
       out[index] = binary.charCodeAt(index);
     return out;
   }
-  const globalBuffer = (
+  const global_buffer = (
     globalThis as {
       Buffer?: { from(data: string, encoding: string): Uint8Array };
     }
   ).Buffer;
-  if (globalBuffer) return new Uint8Array(globalBuffer.from(value, "base64"));
+  if (global_buffer) return new Uint8Array(global_buffer.from(value, "base64"));
   throw new Error("intear dex: no base64 decoder available in this runtime");
 }
 // =================================================

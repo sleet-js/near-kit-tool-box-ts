@@ -11,14 +11,14 @@
 //   bun run bin/intear_dex_xyk/intear_dex_xyk_get_pending_fees.ts \
 //     --account-id <id> --asset-ids <id,id,...> [--dex-id <deployer/id>] [--contract-id <id>]
 // =================================================
-import { parseArgs, requireList, requireString } from "../_shared/args.js";
+import { parse_args, require_list, require_string } from "../_shared/args.js";
 import {
   intear_dex_engine_contractid,
   intear_dex_xyk_dex_id,
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import {
   intear_dex_xyk_get_pending_fees_fun_json,
@@ -27,30 +27,30 @@ import {
 // =================================================
 const usage =
   "bun run bin/intear_dex_xyk/intear_dex_xyk_get_pending_fees.ts --account-id <id> --asset-ids <id,id,...> [--dex-id <deployer/id>] [--contract-id <id>]";
-const args = parseArgs();
-const accountId = requireString(args, "account-id", usage);
-const assetIds = requireList(
+const args = parse_args();
+const account_id = require_string(args, "account-id", usage);
+const asset_ids = require_list(
   args,
   "asset-ids",
   usage,
 ) as INTEAR_DEX_ASSET_ID_STRING[];
-const contractId = resolveContractId(
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),
 );
-const dexId = resolveContractId(
+const dex_id = resolve_contract_id(
   typeof args["dex-id"] === "string" ? args["dex-id"] : undefined,
   intear_dex_xyk_dex_id(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `xyk pending fees of ${accountId} @ ${dexId}`,
+log_result(
+  `xyk pending fees of ${account_id} @ ${dex_id}`,
   await intear_dex_xyk_get_pending_fees_fun_json(
     near_kit_env,
-    contractId,
-    dexId,
-    accountId,
-    assetIds,
+    contract_id,
+    dex_id,
+    account_id,
+    asset_ids,
   ),
 );
 // =================================================

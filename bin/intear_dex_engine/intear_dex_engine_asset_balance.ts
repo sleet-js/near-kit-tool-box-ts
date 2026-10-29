@@ -14,48 +14,48 @@
 //   bun run bin/intear_dex_engine/intear_dex_engine_asset_balance.ts \
 //     --asset-id <id> (--account-id <id> | --dex-id <deployer/id>) [--contract-id <id>]
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
+import { parse_args, require_string } from "../_shared/args.js";
 import {
   intear_dex_engine_contractid,
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import {
   intear_dex_engine_asset_balance_of_fun_json,
-  intearDexAccountOrDexId,
+  intear_dex_account_or_dex_id,
   type INTEAR_DEX_ASSET_ID_STRING,
 } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/intear_dex_engine/intear_dex_engine_asset_balance.ts --asset-id <id> (--account-id <id> | --dex-id <deployer/id>) [--contract-id <id>]";
-const args = parseArgs();
-const contractId = resolveContractId(
+const args = parse_args();
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),
 );
-const assetId = requireString(
+const asset_id = require_string(
   args,
   "asset-id",
   usage,
 ) as INTEAR_DEX_ASSET_ID_STRING;
 
-const accountId =
+const account_id =
   typeof args["account-id"] === "string" ? args["account-id"] : null;
-const dexId = typeof args["dex-id"] === "string" ? args["dex-id"] : null;
-if (accountId === null && dexId === null) {
-  requireString(args, "account-id", usage);
+const dex_id = typeof args["dex-id"] === "string" ? args["dex-id"] : null;
+if (account_id === null && dex_id === null) {
+  require_string(args, "account-id", usage);
 }
-const of = intearDexAccountOrDexId((accountId ?? dexId) as string);
+const of = intear_dex_account_or_dex_id((account_id ?? dex_id) as string);
 // =================================================
-logResult(
-  `asset balance of ${assetId} @ ${contractId}`,
+log_result(
+  `asset balance of ${asset_id} @ ${contract_id}`,
   await intear_dex_engine_asset_balance_of_fun_json(
     near_kit_env,
-    contractId,
+    contract_id,
     of,
-    assetId,
+    asset_id,
   ),
 );
 // =================================================

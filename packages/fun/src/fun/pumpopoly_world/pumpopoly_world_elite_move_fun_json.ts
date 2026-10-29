@@ -10,10 +10,10 @@ import { pumpopoly_world_methods_const } from "../../lib/methods/methods_pumpopo
 // =================================================
 export async function pumpopoly_world_elite_move_fun_json(
   near: Near,
-  pumpopoly_world_contractId: string,
+  pumpopoly_world_contract_id: string,
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    pumpopoly_world_contractId,
+    pumpopoly_world_contract_id,
     pumpopoly_world_methods_const.elite_move,
     { contract_id: "1" },
     { gas: "100 Tgas" },

@@ -9,10 +9,10 @@ import { ft_methods_const } from "../../lib/methods/methods_ft";
 // =================================================
 export async function ft_storage_deposit_fun_json(
   near: Near,
-  ft_contractId: string,
+  ft_contract_id: string,
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    ft_contractId,
+    ft_contract_id,
     ft_methods_const.storage_deposit,
     {},
     { attachedDeposit: "0.00125 NEAR" },

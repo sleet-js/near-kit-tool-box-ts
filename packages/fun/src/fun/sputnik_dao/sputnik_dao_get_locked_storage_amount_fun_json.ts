@@ -9,10 +9,10 @@ import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao
 // =================================================
 export async function sputnik_dao_get_locked_storage_amount_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
 ): Promise<string> {
   const result = await near.view(
-    daoContractId,
+    dao_contract_id,
     sputnik_dao_methods_const.get_locked_storage_amount,
     {},
   );

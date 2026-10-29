@@ -12,10 +12,10 @@ import { intear_dex_engine_methods_const } from "../../lib/methods/methods_intea
 // =================================================
 export async function intear_dex_engine_is_paused_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
 ): Promise<boolean> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.is_paused,
     {},
   );

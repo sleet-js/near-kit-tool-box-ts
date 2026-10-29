@@ -9,39 +9,39 @@
 // never collected a fee for is simply absent from the map.
 // =================================================
 import type { Near } from "near-kit";
-import { BorshReader, BorshWriter } from "../../lib/borsh/intear_dex_borsh";
+import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";
 import {
-  readIntearDexAssetId,
-  writeIntearDexAssetId,
+  read_intear_dex_asset_id,
+  write_intear_dex_asset_id,
 } from "../../lib/borsh/intear_dex_asset_id";
-import { intearDexView } from "../../lib/borsh/intear_dex_view";
+import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_xyk_methods_const } from "../../lib/methods/methods_intear_dex_xyk";
 import type { intear_dex_xyk_args } from "../../lib/args/intear_dex_xyk_args";
 import type { INTEAR_DEX_XYK_PENDING_FEES_TYPE } from "../../types/intear_dex_xyk_types";
 // =================================================
 export async function intear_dex_xyk_get_pending_fees_fun_json(
   near: Near,
-  engineContractId: string,
-  dexId: string,
+  engine_contract_id: string,
+  dex_id: string,
   account_id: intear_dex_xyk_args["account_id"],
   asset_ids: intear_dex_xyk_args["asset_ids"],
 ): Promise<INTEAR_DEX_XYK_PENDING_FEES_TYPE> {
-  const writer = new BorshWriter();
+  const writer = new borsh_writer();
   writer.string(account_id);
-  writer.vec(asset_ids, (item, assetId) =>
-    writeIntearDexAssetId(item, assetId),
+  writer.vec(asset_ids, (item, asset_id) =>
+    write_intear_dex_asset_id(item, asset_id),
   );
-  return intearDexView(
+  return intear_dex_view(
     near,
-    engineContractId,
-    dexId,
+    engine_contract_id,
+    dex_id,
     intear_dex_xyk_methods_const.get_pending_fees,
-    writer.toBytes(),
-    (reader: BorshReader) => {
+    writer.to_bytes(),
+    (reader: borsh_reader) => {
       const entries = reader.vec((item) => {
-        const assetId = readIntearDexAssetId(item);
+        const asset_id = read_intear_dex_asset_id(item);
         const amount = item.u128().toString();
-        return [assetId, amount] as const;
+        return [asset_id, amount] as const;
       });
       return Object.fromEntries(entries) as INTEAR_DEX_XYK_PENDING_FEES_TYPE;
     },

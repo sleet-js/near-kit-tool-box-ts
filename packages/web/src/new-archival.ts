@@ -12,7 +12,7 @@ const near_kit_testnet_archival = new Near({
   rpcUrl: "https://archival-rpc.testnet.fastnear.com",
 });
 // ==============================================
-function getStoredNetworkId(): "mainnet" | "testnet" {
+function get_stored_network_id(): "mainnet" | "testnet" {
   const raw = localStorage.getItem(NETWORK_STORAGE_KEY);
   const value = (raw || "mainnet").trim().toLowerCase();
   return value === "testnet" ? "testnet" : "mainnet";
@@ -20,15 +20,15 @@ function getStoredNetworkId(): "mainnet" | "testnet" {
 // ==============================================
 // ==============================================
 export function near_kit_client_archival() {
-  const networkId = getStoredNetworkId();
+  const network_id = get_stored_network_id();
   const client =
-    networkId === "testnet"
+    network_id === "testnet"
       ? near_kit_testnet_archival
       : near_kit_mainnet_archival;
-  console.log("[near_kit_client] networkId:", networkId);
+  console.log("[near_kit_client] networkId:", network_id);
   console.log(
     "[near_kit_client] client:",
-    networkId === "testnet"
+    network_id === "testnet"
       ? "near_kit_testnet_archival"
       : "near_kit_mainnet_archival",
   );

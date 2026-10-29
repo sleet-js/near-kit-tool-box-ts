@@ -11,11 +11,11 @@ import {
 // =================================================
 export async function rhea_dclv2_get_pools_fun_json(
   near: Near,
-  rhea_dclv2_contractId: string,
+  rhea_dclv2_contract_id: string,
   pool_ids: rhea_dclv2_args["pool_ids"],
 ): Promise<RHEA_DCLV2_POOL_TYPE[]> {
   const result = await near.view(
-    rhea_dclv2_contractId,
+    rhea_dclv2_contract_id,
     rhea_dclv2_methods_const.get_pools,
     { pool_ids },
   );

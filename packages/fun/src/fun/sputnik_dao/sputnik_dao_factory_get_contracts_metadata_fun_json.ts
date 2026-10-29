@@ -14,10 +14,10 @@ import type { SPUTNIK_DAO_CONTRACT_METADATA_TYPE } from "../../types/sputnik_dao
 // =================================================
 export async function sputnik_dao_factory_get_contracts_metadata_fun_json(
   near: Near,
-  factoryContractId: string,
+  factory_contract_id: string,
 ): Promise<[string, SPUTNIK_DAO_CONTRACT_METADATA_TYPE][]> {
   const result = await near.view(
-    factoryContractId,
+    factory_contract_id,
     sputnik_dao_factory_methods_const.get_contracts_metadata,
     {},
   );

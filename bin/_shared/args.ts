@@ -11,14 +11,14 @@
 //   - `--no-flag` resolves a boolean flag to `false`.
 //   - Unknown flags are ignored so callers can pass extras safely.
 // =================================================
-import type { AmountInput } from "../../packages/fun/src/index.js";
+import type { AMOUNT_INPUT } from "../../packages/fun/src/index.js";
 
-export type Args = Record<string, string | boolean>;
+export type ARGS = Record<string, string | boolean>;
 
 // =================================================
 // Parses `process.argv.slice(2)` into a flat flag map.
-export function parseArgs(argv: string[] = process.argv.slice(2)): Args {
-  const args: Args = {};
+export function parse_args(argv: string[] = process.argv.slice(2)): ARGS {
+  const args: ARGS = {};
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
     if (token === undefined) continue;
@@ -50,7 +50,11 @@ export function parseArgs(argv: string[] = process.argv.slice(2)): Args {
 
 // =================================================
 // Reads a required string flag. Exits with a usage hint when missing.
-export function requireString(args: Args, flag: string, usage: string): string {
+export function require_string(
+  args: ARGS,
+  flag: string,
+  usage: string,
+): string {
   const value = args[flag];
   if (typeof value !== "string" || value.length === 0) {
     fail(`missing required flag --${flag}`, usage);
@@ -60,8 +64,8 @@ export function requireString(args: Args, flag: string, usage: string): string {
 
 // =================================================
 // Reads an optional string flag, falling back to `fallback`.
-export function optionalString(
-  args: Args,
+export function optional_string(
+  args: ARGS,
   flag: string,
   fallback: string,
 ): string {
@@ -72,7 +76,11 @@ export function optionalString(
 
 // =================================================
 // Reads a required integer flag. Exits when missing or not an integer.
-export function requireNumber(args: Args, flag: string, usage: string): number {
+export function require_number(
+  args: ARGS,
+  flag: string,
+  usage: string,
+): number {
   const value = args[flag];
   if (typeof value !== "string") {
     fail(`missing required flag --${flag}`, usage);
@@ -86,8 +94,8 @@ export function requireNumber(args: Args, flag: string, usage: string): number {
 
 // =================================================
 // Reads an optional integer flag, falling back to `fallback`.
-export function optionalNumber(
-  args: Args,
+export function optional_number(
+  args: ARGS,
   flag: string,
   fallback: number,
 ): number {
@@ -102,8 +110,12 @@ export function optionalNumber(
 
 // =================================================
 // Reads a comma separated list flag into a string array.
-export function requireList(args: Args, flag: string, usage: string): string[] {
-  const value = requireString(args, flag, usage);
+export function require_list(
+  args: ARGS,
+  flag: string,
+  usage: string,
+): string[] {
+  const value = require_string(args, flag, usage);
   const list = value
     .split(",")
     .map((item) => item.trim())
@@ -115,19 +127,19 @@ export function requireList(args: Args, flag: string, usage: string): string[] {
 }
 
 // =================================================
-// Reads an amount flag and narrows it to the `AmountInput` shape the
+// Reads an amount flag and narrows it to the `AMOUNT_INPUT` shape the
 // fun helpers expect: `"<number> NEAR"`, `"<bigint> yocto"`, or a
 // bigint. Anything else is rejected with a clear message.
-export function requireAmount(
-  args: Args,
+export function require_amount(
+  args: ARGS,
   flag: string,
   usage: string,
-): AmountInput {
-  const value = requireString(args, flag, usage).trim();
-  const nearMatch = /^(\d+(?:\.\d+)?)\s+NEAR$/.exec(value);
-  if (nearMatch) return `${nearMatch[1]} NEAR` as AmountInput;
-  const yoctoMatch = /^(\d+)\s+yocto$/.exec(value);
-  if (yoctoMatch) return `${yoctoMatch[1]} yocto` as AmountInput;
+): AMOUNT_INPUT {
+  const value = require_string(args, flag, usage).trim();
+  const near_match = /^(\d+(?:\.\d+)?)\s+NEAR$/.exec(value);
+  if (near_match) return `${near_match[1]} NEAR` as AMOUNT_INPUT;
+  const yocto_match = /^(\d+)\s+yocto$/.exec(value);
+  if (yocto_match) return `${yocto_match[1]} yocto` as AMOUNT_INPUT;
   if (/^\d+$/.test(value)) return BigInt(value);
   fail(
     `flag --${flag} must be an amount like "2 NEAR", "1000 yocto", or a raw yocto integer (got "${value}")`,
@@ -146,7 +158,7 @@ export function fail(message: string, usage: string): never {
 // =================================================
 // Prints a friendly "not configured" message and exits with code 1.
 // Used by bins that need a signer (account id + private key).
-export function failMissingSigner(usage: string): never {
+export function fail_missing_signer(usage: string): never {
   console.error("error: a signer is required for this call.");
   console.error(
     "  set NEAR_KIT_ACCOUNT_ID and NEAR_KIT_PRIVATE_KEY in your .env file",

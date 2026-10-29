@@ -15,7 +15,11 @@
 // the engine's `swap_simple` / `dex_call` paths instead.
 // =================================================
 import type { Near } from "near-kit";
-import { BorshReader, base64ToBytes, bytesToBase64 } from "./intear_dex_borsh";
+import {
+  borsh_reader,
+  base64_to_bytes,
+  bytes_to_base64,
+} from "./intear_dex_borsh";
 import { intear_dex_engine_methods_const } from "../methods/methods_intear_dex_engine";
 
 // =================================================
@@ -24,15 +28,15 @@ import { intear_dex_engine_methods_const } from "../methods/methods_intear_dex_e
  * bytes of the response.
  *
  * @param near - the NEAR client
- * @param engineContractId - the engine account id (`dex.intear.near`)
- * @param dexId - the sub-dex id, `<deployer>/<id>`
+ * @param engine_contract_id - the engine account id (`dex.intear.near`)
+ * @param dex_id - the sub-dex id, `<deployer>/<id>`
  * @param method - the sub-dex view method name
  * @param args - the borsh-encoded sub-dex arguments
  */
-export async function intearDexViewRaw(
+export async function intear_dex_view_raw(
   near: Near,
-  engineContractId: string,
-  dexId: string,
+  engine_contract_id: string,
+  dex_id: string,
   method: string,
   args: Uint8Array,
 ): Promise<Uint8Array> {
@@ -42,20 +46,20 @@ export async function intearDexViewRaw(
     );
   }
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.dex_view,
     {
-      dex_id: dexId,
+      dex_id: dex_id,
       method,
-      args: bytesToBase64(args),
+      args: bytes_to_base64(args),
     },
   );
   if (typeof result !== "string") {
     throw new Error(
-      `intear dex: expected a base64 string from dex_view for ${dexId} ${method}, got ${typeof result}`,
+      `intear dex: expected a base64 string from dex_view for ${dex_id} ${method}, got ${typeof result}`,
     );
   }
-  return base64ToBytes(result);
+  return base64_to_bytes(result);
 }
 
 // =================================================
@@ -63,22 +67,22 @@ export async function intearDexViewRaw(
  * Calls a sub-dex view through the engine and decodes the borsh
  * response with `decode`.
  */
-export async function intearDexView<T>(
+export async function intear_dex_view<T>(
   near: Near,
-  engineContractId: string,
-  dexId: string,
+  engine_contract_id: string,
+  dex_id: string,
   method: string,
   args: Uint8Array,
-  decode: (reader: BorshReader) => T,
+  decode: (reader: borsh_reader) => T,
 ): Promise<T> {
-  const bytes = await intearDexViewRaw(
+  const bytes = await intear_dex_view_raw(
     near,
-    engineContractId,
-    dexId,
+    engine_contract_id,
+    dex_id,
     method,
     args,
   );
-  return decode(new BorshReader(bytes));
+  return decode(new borsh_reader(bytes));
 }
 // =================================================
 // copyright 2026 by sleet.near

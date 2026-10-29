@@ -9,11 +9,11 @@ import type { greeting_args } from "../../lib/args/greeting_args";
 // =================================================
 export async function greeting_set_greeting_fun_json(
   near: Near,
-  greeting_contractId: string,
+  greeting_contract_id: string,
   greeting: greeting_args["greeting"],
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    greeting_contractId,
+    greeting_contract_id,
     greeting_methods_const.set_greeting,
     { greeting },
     { gas: "3 Tgas" },

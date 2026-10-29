@@ -14,10 +14,10 @@ import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao
 // =================================================
 export async function sputnik_dao_get_last_proposal_id_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
 ): Promise<string> {
   const result = await near.view(
-    daoContractId,
+    dao_contract_id,
     sputnik_dao_methods_const.get_last_proposal_id,
     {},
   );

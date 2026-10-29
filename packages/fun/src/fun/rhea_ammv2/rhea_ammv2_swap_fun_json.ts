@@ -15,12 +15,12 @@ import type {
 // =================================================
 export async function rhea_ammv2_swap_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   actions: rhea_ammv2_swap_action_type[],
   referral_id: rhea_ammv2_args["referral_id"],
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.swap,
     { actions, referral_id },
   );

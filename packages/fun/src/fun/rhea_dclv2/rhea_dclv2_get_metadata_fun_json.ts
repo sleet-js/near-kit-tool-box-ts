@@ -10,10 +10,10 @@ import {
 // =================================================
 export async function rhea_dclv2_get_metadata_fun_json(
   near: Near,
-  rhea_dclv2_contractId: string,
+  rhea_dclv2_contract_id: string,
 ): Promise<RHEA_DCLV2_METADATA_TYPE> {
   const result = await near.view(
-    rhea_dclv2_contractId,
+    rhea_dclv2_contract_id,
     rhea_dclv2_methods_const.get_metadata,
     {},
   );

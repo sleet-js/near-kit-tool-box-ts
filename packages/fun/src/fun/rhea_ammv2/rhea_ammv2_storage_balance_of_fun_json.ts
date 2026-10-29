@@ -13,11 +13,11 @@ import type { STORAGE_BALANCE_OF_RESPONSE_TYPE } from "../../types/storage_balan
 // =================================================
 export async function rhea_ammv2_storage_balance_of_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   account_id: rhea_ammv2_args["account_id"],
 ): Promise<STORAGE_BALANCE_OF_RESPONSE_TYPE> {
   const result = await near.view(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.storage_balance_of,
     { account_id },
   );

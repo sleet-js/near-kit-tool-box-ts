@@ -11,11 +11,11 @@ import {
 // =================================================
 export async function rhea_ammv2_get_account_basic_info_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   account_id: rhea_ammv2_args["account_id"],
 ): Promise<RHEA_AMMV2_ACCOUNT_BASIC_INFO_TYPE> {
   const result = await near.view(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.get_account_basic_info,
     { account_id },
   );

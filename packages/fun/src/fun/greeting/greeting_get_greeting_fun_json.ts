@@ -8,10 +8,10 @@ import { greeting_methods_const } from "../../lib/methods/methods_greeting";
 // =================================================
 export async function greeting_get_greeting_fun_json(
   near: Near,
-  greeting_contractId: string,
+  greeting_contract_id: string,
 ): Promise<string> {
   const result = await near.view(
-    greeting_contractId,
+    greeting_contract_id,
     greeting_methods_const.get_greeting,
   );
   return result as string;

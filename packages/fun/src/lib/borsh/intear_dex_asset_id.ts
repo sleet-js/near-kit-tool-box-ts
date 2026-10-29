@@ -16,7 +16,7 @@
 //   - `nep245:<id>:<t>` → variant 2 + String + String
 //   - `nep171:<id>:<t>` → variant 3 + String + String
 // =================================================
-import { BorshReader, BorshWriter } from "./intear_dex_borsh";
+import { borsh_reader, borsh_writer } from "./intear_dex_borsh";
 
 // =================================================
 export type INTEAR_DEX_ASSET_ID =
@@ -30,47 +30,47 @@ export type INTEAR_DEX_ASSET_ID =
  * Parses an INTEAR DEX asset id string into its parts.
  * Throws when the string is not a valid asset id.
  */
-export function parseIntearDexAssetId(assetId: string): {
+export function parse_intear_dex_asset_id(asset_id: string): {
   kind: "near" | "nep141" | "nep245" | "nep171";
-  contractId?: string;
-  tokenId?: string;
+  contract_id?: string;
+  token_id?: string;
 } {
-  if (assetId === "near") return { kind: "near" };
-  const separator = assetId.indexOf(":");
+  if (asset_id === "near") return { kind: "near" };
+  const separator = asset_id.indexOf(":");
   if (separator === -1) {
     throw new Error(
-      `intear dex: invalid asset id "${assetId}" (expected "near", "nep141:<id>", "nep245:<id>:<token>" or "nep171:<id>:<token>")`,
+      `intear dex: invalid asset id "${asset_id}" (expected "near", "nep141:<id>", "nep245:<id>:<token>" or "nep171:<id>:<token>")`,
     );
   }
-  const prefix = assetId.slice(0, separator);
+  const prefix = asset_id.slice(0, separator);
   if (prefix === "nep141") {
-    const contractId = assetId.slice(separator + 1);
-    if (contractId.length === 0) {
+    const contract_id = asset_id.slice(separator + 1);
+    if (contract_id.length === 0) {
       throw new Error(
-        `intear dex: invalid asset id "${assetId}" (missing contract id)`,
+        `intear dex: invalid asset id "${asset_id}" (missing contract id)`,
       );
     }
-    return { kind: "nep141", contractId };
+    return { kind: "nep141", contract_id: contract_id };
   }
   if (prefix === "nep245" || prefix === "nep171") {
-    const rest = assetId.slice(separator + 1);
-    const tokenSeparator = rest.indexOf(":");
-    if (tokenSeparator === -1) {
+    const rest = asset_id.slice(separator + 1);
+    const token_separator = rest.indexOf(":");
+    if (token_separator === -1) {
       throw new Error(
-        `intear dex: invalid asset id "${assetId}" (missing token id after the contract id)`,
+        `intear dex: invalid asset id "${asset_id}" (missing token id after the contract id)`,
       );
     }
-    const contractId = rest.slice(0, tokenSeparator);
-    const tokenId = rest.slice(tokenSeparator + 1);
-    if (contractId.length === 0 || tokenId.length === 0) {
+    const contract_id = rest.slice(0, token_separator);
+    const token_id = rest.slice(token_separator + 1);
+    if (contract_id.length === 0 || token_id.length === 0) {
       throw new Error(
-        `intear dex: invalid asset id "${assetId}" (empty contract id or token id)`,
+        `intear dex: invalid asset id "${asset_id}" (empty contract id or token id)`,
       );
     }
-    return { kind: prefix, contractId, tokenId };
+    return { kind: prefix, contract_id: contract_id, token_id: token_id };
   }
   throw new Error(
-    `intear dex: invalid asset id "${assetId}" (unknown prefix "${prefix}")`,
+    `intear dex: invalid asset id "${asset_id}" (unknown prefix "${prefix}")`,
   );
 }
 
@@ -88,42 +88,42 @@ export function parseIntearDexAssetId(assetId: string): {
  * This is the id the token registry is asked about, so it is how a
  * balance held inside the engine is matched to the token's metadata.
  */
-export function intearDexAssetTokenId(assetId: string): string {
-  const parsed = parseIntearDexAssetId(assetId);
+export function intear_dex_asset_token_id(asset_id: string): string {
+  const parsed = parse_intear_dex_asset_id(asset_id);
   if (parsed.kind === "near") return "near";
-  return parsed.contractId as string;
+  return parsed.contract_id as string;
 }
 
 /** Writes an asset id in borsh form. */
-export function writeIntearDexAssetId(
-  writer: BorshWriter,
-  assetId: string,
+export function write_intear_dex_asset_id(
+  writer: borsh_writer,
+  asset_id: string,
 ): void {
-  const parsed = parseIntearDexAssetId(assetId);
+  const parsed = parse_intear_dex_asset_id(asset_id);
   switch (parsed.kind) {
     case "near":
       writer.u8(0);
       return;
     case "nep141":
       writer.u8(1);
-      writer.string(parsed.contractId as string);
+      writer.string(parsed.contract_id as string);
       return;
     case "nep245":
       writer.u8(2);
-      writer.string(parsed.contractId as string);
-      writer.string(parsed.tokenId as string);
+      writer.string(parsed.contract_id as string);
+      writer.string(parsed.token_id as string);
       return;
     case "nep171":
       writer.u8(3);
-      writer.string(parsed.contractId as string);
-      writer.string(parsed.tokenId as string);
+      writer.string(parsed.contract_id as string);
+      writer.string(parsed.token_id as string);
       return;
   }
 }
 
 // =================================================
 /** Reads an asset id in borsh form. */
-export function readIntearDexAssetId(reader: BorshReader): string {
+export function read_intear_dex_asset_id(reader: borsh_reader): string {
   const variant = reader.u8();
   switch (variant) {
     case 0:

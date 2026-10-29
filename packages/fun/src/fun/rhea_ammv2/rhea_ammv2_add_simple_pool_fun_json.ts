@@ -11,12 +11,12 @@ import type { rhea_ammv2_args } from "../../lib/args/rhea_ammv2_args";
 // =================================================
 export async function rhea_ammv2_add_simple_pool_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   fee: rhea_ammv2_args["fee"],
   tokens: rhea_ammv2_args["tokens"],
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.add_simple_pool,
     { fee, tokens },
   );

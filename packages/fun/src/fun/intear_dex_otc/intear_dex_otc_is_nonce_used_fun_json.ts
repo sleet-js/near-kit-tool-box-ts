@@ -9,28 +9,28 @@
 // used yet.
 // =================================================
 import type { Near } from "near-kit";
-import { BorshReader, BorshWriter } from "../../lib/borsh/intear_dex_borsh";
-import { intearDexView } from "../../lib/borsh/intear_dex_view";
+import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";
+import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_otc_methods_const } from "../../lib/methods/methods_intear_dex_otc";
 import type { intear_dex_otc_args } from "../../lib/args/intear_dex_otc_args";
 // =================================================
 export async function intear_dex_otc_is_nonce_used_fun_json(
   near: Near,
-  engineContractId: string,
-  dexId: string,
+  engine_contract_id: string,
+  dex_id: string,
   account_id: intear_dex_otc_args["account_id"],
   nonce: intear_dex_otc_args["nonce"],
 ): Promise<boolean> {
-  const writer = new BorshWriter();
+  const writer = new borsh_writer();
   writer.u128(nonce);
   writer.string(account_id);
-  return intearDexView(
+  return intear_dex_view(
     near,
-    engineContractId,
-    dexId,
+    engine_contract_id,
+    dex_id,
     intear_dex_otc_methods_const.is_nonce_used,
-    writer.toBytes(),
-    (reader: BorshReader) => reader.u8() === 1,
+    writer.to_bytes(),
+    (reader: borsh_reader) => reader.u8() === 1,
   );
 }
 // =================================================

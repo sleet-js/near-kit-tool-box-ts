@@ -6,18 +6,18 @@
 // usage:
 //   bun run bin/pool/pool_get_number_of_accounts.ts --contract-id <pool_id>
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
-import { logResult, near_kit_env } from "../_shared/env.js";
+import { parse_args, require_string } from "../_shared/args.js";
+import { log_result, near_kit_env } from "../_shared/env.js";
 import { pool_get_number_of_accounts_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/pool/pool_get_number_of_accounts.ts --contract-id <pool_id>";
-const args = parseArgs();
-const contractId = requireString(args, "contract-id", usage);
+const args = parse_args();
+const contract_id = require_string(args, "contract-id", usage);
 // =================================================
-logResult(
-  `get_number_of_accounts @ ${contractId}`,
-  await pool_get_number_of_accounts_fun_json(near_kit_env, contractId),
+log_result(
+  `get_number_of_accounts @ ${contract_id}`,
+  await pool_get_number_of_accounts_fun_json(near_kit_env, contract_id),
 );
 // =================================================
 // copyright 2026 by sleet.near

@@ -13,11 +13,11 @@ import { intear_dex_engine_methods_const } from "../../lib/methods/methods_intea
 // =================================================
 export async function intear_dex_engine_dex_code_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   dex_id: string,
 ): Promise<string> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.dex_code,
     { dex_id },
   );

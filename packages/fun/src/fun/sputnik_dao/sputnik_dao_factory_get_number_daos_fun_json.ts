@@ -9,10 +9,10 @@ import { sputnik_dao_factory_methods_const } from "../../lib/methods/methods_spu
 // =================================================
 export async function sputnik_dao_factory_get_number_daos_fun_json(
   near: Near,
-  factoryContractId: string,
+  factory_contract_id: string,
 ): Promise<number> {
   const result = await near.view(
-    factoryContractId,
+    factory_contract_id,
     sputnik_dao_factory_methods_const.get_number_daos,
     {},
   );

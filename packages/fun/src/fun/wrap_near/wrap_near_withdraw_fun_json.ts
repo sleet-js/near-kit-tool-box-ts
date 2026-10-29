@@ -9,11 +9,11 @@ import { wrap_near_methods_const } from "../../lib/methods/methods_wrap_near";
 // =================================================
 export async function wrap_near_withdraw_fun_json(
   near: Near,
-  wrap_contractId: string,
+  wrap_contract_id: string,
   amount: string,
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    wrap_contractId,
+    wrap_contract_id,
     wrap_near_methods_const.near_withdraw,
     { amount },
     { attachedDeposit: "1 yocto" },

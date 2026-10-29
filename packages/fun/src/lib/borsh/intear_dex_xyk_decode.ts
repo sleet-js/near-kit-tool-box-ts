@@ -6,8 +6,8 @@
 // The shapes mirror `xyk_dex_types` in the INTEAR DEX source:
 //   https://github.com/INTEARnear/dex/tree/main/dexes/xyk/types
 // =================================================
-import { BorshReader } from "./intear_dex_borsh";
-import { readIntearDexAssetId } from "./intear_dex_asset_id";
+import { borsh_reader } from "./intear_dex_borsh";
+import { read_intear_dex_asset_id } from "./intear_dex_asset_id";
 import type {
   INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
   INTEAR_DEX_XYK_CURRENT_FEES_TYPE,
@@ -20,8 +20,8 @@ import type {
 
 // =================================================
 /** Reads a `FeeReceiver`. */
-export function decodeFeeReceiver(
-  reader: BorshReader,
+export function decode_fee_receiver(
+  reader: borsh_reader,
 ): INTEAR_DEX_XYK_FEE_RECEIVER_TYPE {
   const variant = reader.u8();
   switch (variant) {
@@ -40,12 +40,12 @@ export function decodeFeeReceiver(
 
 // =================================================
 /** Reads a `CurrentFees` — the pool's fees at the current block. */
-export function decodeCurrentFees(
-  reader: BorshReader,
+export function decode_current_fees(
+  reader: borsh_reader,
 ): INTEAR_DEX_XYK_CURRENT_FEES_TYPE {
   const receivers = reader.vec(
     (item) =>
-      [decodeFeeReceiver(item), item.u32()] as [
+      [decode_fee_receiver(item), item.u32()] as [
         INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
         number,
       ],
@@ -55,8 +55,8 @@ export function decodeCurrentFees(
 
 // =================================================
 /** Reads a `FeeAmount` — the v2 per-receiver fee rule. */
-export function decodeFeeAmount(
-  reader: BorshReader,
+export function decode_fee_amount(
+  reader: borsh_reader,
 ): INTEAR_DEX_XYK_FEE_AMOUNT_TYPE {
   const variant = reader.u8();
   switch (variant) {
@@ -85,17 +85,17 @@ export function decodeFeeAmount(
 
 // =================================================
 /** Reads a `FeeConfiguration`. */
-export function decodeFeeConfiguration(
-  reader: BorshReader,
+export function decode_fee_configuration(
+  reader: borsh_reader,
 ): INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE {
   const variant = reader.u8();
   switch (variant) {
     case 0:
-      return { V1: decodeCurrentFees(reader) };
+      return { V1: decode_current_fees(reader) };
     case 1: {
       const receivers = reader.vec(
         (item) =>
-          [decodeFeeReceiver(item), decodeFeeAmount(item)] as [
+          [decode_fee_receiver(item), decode_fee_amount(item)] as [
             INTEAR_DEX_XYK_FEE_RECEIVER_TYPE,
             INTEAR_DEX_XYK_FEE_AMOUNT_TYPE,
           ],
@@ -111,91 +111,93 @@ export function decodeFeeConfiguration(
 
 // =================================================
 /** Reads an `AssetWithBalance`. */
-export function decodeAssetWithBalance(
-  reader: BorshReader,
+export function decode_asset_with_balance(
+  reader: borsh_reader,
 ): INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE {
-  const assetId = readIntearDexAssetId(reader);
+  const asset_id = read_intear_dex_asset_id(reader);
   const balance = reader.u128().toString();
-  return { asset_id: assetId, balance };
+  return { asset_id: asset_id, balance };
 }
 
 // =================================================
 /** Reads a `PoolView`. */
-export function decodePoolView(reader: BorshReader): INTEAR_DEX_XYK_POOL_TYPE {
+export function decode_pool_view(
+  reader: borsh_reader,
+): INTEAR_DEX_XYK_POOL_TYPE {
   const variant = reader.u8();
   switch (variant) {
     case 0: {
       // Private
       const assets = [
-        decodeAssetWithBalance(reader),
-        decodeAssetWithBalance(reader),
+        decode_asset_with_balance(reader),
+        decode_asset_with_balance(reader),
       ] as [
         INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
         INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
       ];
-      const fees = decodeCurrentFees(reader);
-      const feeConfiguration = decodeFeeConfiguration(reader);
-      const ownerId = reader.string();
+      const fees = decode_current_fees(reader);
+      const fee_configuration = decode_fee_configuration(reader);
+      const owner_id = reader.string();
       const locked = reader.u8() === 1;
       return {
         kind: "Private",
         assets,
         fees,
-        fee_configuration: feeConfiguration,
-        owner_id: ownerId,
+        fee_configuration: fee_configuration,
+        owner_id: owner_id,
         locked,
       };
     }
     case 1: {
       // Public
       const assets = [
-        decodeAssetWithBalance(reader),
-        decodeAssetWithBalance(reader),
+        decode_asset_with_balance(reader),
+        decode_asset_with_balance(reader),
       ] as [
         INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
         INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE,
       ];
-      const fees = decodeCurrentFees(reader);
-      const feeConfiguration = decodeFeeConfiguration(reader);
-      const totalShares = reader.option((item) => item.u128().toString());
+      const fees = decode_current_fees(reader);
+      const fee_configuration = decode_fee_configuration(reader);
+      const total_shares = reader.option((item) => item.u128().toString());
       return {
         kind: "Public",
         assets,
         fees,
-        fee_configuration: feeConfiguration,
-        total_shares: totalShares,
+        fee_configuration: fee_configuration,
+        total_shares: total_shares,
       };
     }
     case 2: {
       // Launch
-      const nearAmount = reader.u128().toString();
-      const launchedAsset = decodeAssetWithBalance(reader);
-      const fees = decodeCurrentFees(reader);
-      const feeConfiguration = decodeFeeConfiguration(reader);
-      const phantomLiquidityNear = reader.u128().toString();
+      const near_amount = reader.u128().toString();
+      const launched_asset = decode_asset_with_balance(reader);
+      const fees = decode_current_fees(reader);
+      const fee_configuration = decode_fee_configuration(reader);
+      const phantom_liquidity_near = reader.u128().toString();
       return {
         kind: "Launch",
-        near_amount: nearAmount,
-        launched_asset: launchedAsset,
+        near_amount: near_amount,
+        launched_asset: launched_asset,
         fees,
-        fee_configuration: feeConfiguration,
-        phantom_liquidity_near: phantomLiquidityNear,
+        fee_configuration: fee_configuration,
+        phantom_liquidity_near: phantom_liquidity_near,
       };
     }
     case 3: {
       // LaunchV2
-      const quoteAsset = decodeAssetWithBalance(reader);
-      const launchedAsset = decodeAssetWithBalance(reader);
-      const fees = decodeCurrentFees(reader);
-      const feeConfiguration = decodeFeeConfiguration(reader);
-      const phantomLiquidity = reader.u128().toString();
+      const quote_asset = decode_asset_with_balance(reader);
+      const launched_asset = decode_asset_with_balance(reader);
+      const fees = decode_current_fees(reader);
+      const fee_configuration = decode_fee_configuration(reader);
+      const phantom_liquidity = reader.u128().toString();
       return {
         kind: "LaunchV2",
-        quote_asset: quoteAsset,
-        launched_asset: launchedAsset,
+        quote_asset: quote_asset,
+        launched_asset: launched_asset,
         fees,
-        fee_configuration: feeConfiguration,
-        phantom_liquidity: phantomLiquidity,
+        fee_configuration: fee_configuration,
+        phantom_liquidity: phantom_liquidity,
       };
     }
     default:
@@ -215,8 +217,8 @@ export function decodePoolView(reader: BorshReader): INTEAR_DEX_XYK_POOL_TYPE {
  *                 zero when the account has no entry in the pool's
  *                 share map.
  */
-export function decodePoolShare(
-  reader: BorshReader,
+export function decode_pool_share(
+  reader: borsh_reader,
 ): INTEAR_DEX_XYK_POOL_SHARE_TYPE {
   if (reader.u8() === 0) return { shares: null };
   return { shares: reader.u128().toString() };

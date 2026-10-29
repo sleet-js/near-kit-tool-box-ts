@@ -25,7 +25,7 @@ import {
   sputnik_dao_factory_contractid,
   wrap_near_contractid,
 } from "../../packages/fun/src/index.js";
-import { failMissingSigner } from "./args.js";
+import { fail_missing_signer } from "./args.js";
 // =================================================
 export {
   NEAR_KIT_ACCOUNT_ID,
@@ -44,21 +44,21 @@ export {
 
 // =================================================
 // True when the environment carries a usable signer.
-export function hasSigner(): boolean {
+export function has_signer(): boolean {
   return NEAR_KIT_ACCOUNT_ID.length > 0 && !!NEAR_KIT_PRIVATE_KEY;
 }
 
 // =================================================
 // Exits with a clear message when no signer is configured.
-export function requireSigner(usage: string): void {
-  if (!hasSigner()) failMissingSigner(usage);
+export function require_signer(usage: string): void {
+  if (!has_signer()) fail_missing_signer(usage);
 }
 
 // =================================================
 // Resolves a contract id for the active network.
 // `explicit` (from a CLI flag) wins; otherwise the per-network default
 // for that contract is used.
-export function resolveContractId(
+export function resolve_contract_id(
   explicit: string | undefined,
   fallback: string,
 ): string {
@@ -72,7 +72,7 @@ export function resolveContractId(
 // BigInt is not JSON-serializable, so it is stringified on the way
 // out — a 128-bit amount reads better as a string than as a number
 // anyway.
-export function logResult(label: string, value: unknown): void {
+export function log_result(label: string, value: unknown): void {
   console.log(`--- ${label} ---`);
   console.log(
     JSON.stringify(

@@ -149,7 +149,7 @@ export { sputnik_dao_factory_get_owner_fun_json } from "./fun/sputnik_dao/sputni
 
 // ---------- shared types ----------
 // ===========================================
-export type { AmountInput } from "./types/AmountInput";
+export type { AMOUNT_INPUT } from "./types/AmountInput";
 export type { FT_METADATA_TYPE } from "./types/ft_metadata_get_response_type";
 export type { RHEA_AMMV2_GET_POOL_TYPE } from "./types/rhea_ammv2_get_pool_type";
 export type { RHEA_AMMV2_GET_DEPOSITS_TYPE } from "./types/rhea_ammv2_get_deposits_type";
@@ -240,18 +240,18 @@ export type { intear_dex_simple_amm_args } from "./lib/args/intear_dex_simple_am
 export type { sputnik_dao_args } from "./lib/args/sputnik_dao_args";
 export type { INTEAR_DEX_ASSET_ID } from "./lib/borsh/intear_dex_asset_id";
 export {
-  parseIntearDexAssetId,
-  readIntearDexAssetId,
-  writeIntearDexAssetId,
-  intearDexAssetTokenId,
+  parse_intear_dex_asset_id,
+  read_intear_dex_asset_id,
+  write_intear_dex_asset_id,
+  intear_dex_asset_token_id,
 } from "./lib/borsh/intear_dex_asset_id";
-export { intearDexAccountOrDexId } from "./lib/borsh/intear_dex_account_or_dex_id";
+export { intear_dex_account_or_dex_id } from "./lib/borsh/intear_dex_account_or_dex_id";
 export {
-  BorshReader,
-  BorshWriter,
-  base58Encode,
-  base64ToBytes,
-  bytesToBase64,
+  borsh_reader,
+  borsh_writer,
+  base58_encode,
+  base64_to_bytes,
+  bytes_to_base64,
 } from "./lib/borsh/intear_dex_borsh";
 
 // ---------- shared method-name constants ----------

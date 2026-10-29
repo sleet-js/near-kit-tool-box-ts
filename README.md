@@ -24,14 +24,14 @@ Browser client with Hot Wallet Connect and localStorage network switching.
 import {
   near_kit_client,
   near_connect_client,
-  toggleNetwork,
-  setNetwork_mainnet,
-  setNetwork_testnet,
-  getStoredNetworkId,
+  toggle_network,
+  set_network_mainnet,
+  set_network_testnet,
+  get_stored_network_id,
 } from "@near-kit-tool-box/web";
 
 import { rhea_ammv2_contractid } from "@near-kit-tool-box/fun";
-const id = rhea_ammv2_contractid(getStoredNetworkId());
+const id = rhea_ammv2_contractid(get_stored_network_id());
 ```
 
 ### @near-kit-tool-box/env
@@ -88,7 +88,7 @@ import {
   // Generic view — for any contract not in the toolbox
   near_kit_contract_view_fun_json,
   // Types
-  AmountInput,
+  AMOUNT_INPUT,
   INTEAR_DEX_XYK_POOL_TYPE,
 } from "@near-kit-tool-box/fun";
 ```

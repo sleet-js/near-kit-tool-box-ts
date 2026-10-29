@@ -14,11 +14,11 @@ import type { sputnik_dao_args } from "../../lib/args/sputnik_dao_args";
 // =================================================
 export async function sputnik_dao_get_bounty_claims_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
   account_id: sputnik_dao_args["account_id"],
 ): Promise<unknown[]> {
   const result = await near.view(
-    daoContractId,
+    dao_contract_id,
     sputnik_dao_methods_const.get_bounty_claims,
     { account_id },
   );

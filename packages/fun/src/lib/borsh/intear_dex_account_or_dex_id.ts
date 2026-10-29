@@ -20,7 +20,7 @@ import type { INTEAR_DEX_ACCOUNT_OR_DEX_ID } from "../../types/intear_dex_engine
  * A string holding a `/` is read as a dex id, anything else as an
  * account id — the same rule the INTEAR DEX management CLI uses.
  */
-export function intearDexAccountOrDexId(
+export function intear_dex_account_or_dex_id(
   value: string,
 ): INTEAR_DEX_ACCOUNT_OR_DEX_ID {
   if (value.includes("/")) return { Dex: value };

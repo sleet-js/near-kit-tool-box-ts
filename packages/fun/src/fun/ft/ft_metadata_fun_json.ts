@@ -13,10 +13,10 @@ import {
 // =================================================
 export async function ft_metadata_fun_json(
   near: Near,
-  ft_contractId: string,
+  ft_contract_id: string,
 ): Promise<FT_METADATA_TYPE> {
   const result = await near.view(
-    ft_contractId,
+    ft_contract_id,
     ft_methods_const.ft_metadata,
     {},
   );

@@ -13,8 +13,12 @@
 // other tokens are 18, so read the decimals from the token registry —
 // never from a guess. An empty token id means NEAR.
 // =================================================
-import { optionalNumber, parseArgs, requireString } from "../_shared/args.js";
-import { logResult, near_kit_env } from "../_shared/env.js";
+import {
+  optional_number,
+  parse_args,
+  require_string,
+} from "../_shared/args.js";
+import { log_result, near_kit_env } from "../_shared/env.js";
 import {
   sputnik_dao_account_id,
   sputnik_dao_get_bounties_fun_json,
@@ -24,17 +28,17 @@ import {
 // =================================================
 const usage =
   "bun run bin/sputnik_dao/dao_bounties.ts --dao <name|account-id> [--from-index <n>] [--limit <n>]";
-const args = parseArgs();
-const daoId = sputnik_dao_account_id(requireString(args, "dao", usage));
-const fromIndex = optionalNumber(args, "from-index", 0);
-const limit = optionalNumber(args, "limit", 50);
+const args = parse_args();
+const dao_id = sputnik_dao_account_id(require_string(args, "dao", usage));
+const from_index = optional_number(args, "from-index", 0);
+const limit = optional_number(args, "limit", 50);
 
 const [bounties, lastBountyId] = await Promise.all([
-  sputnik_dao_get_bounties_fun_json(near_kit_env, daoId, fromIndex, limit),
-  sputnik_dao_get_last_bounty_id_fun_json(near_kit_env, daoId),
+  sputnik_dao_get_bounties_fun_json(near_kit_env, dao_id, from_index, limit),
+  sputnik_dao_get_last_bounty_id_fun_json(near_kit_env, dao_id),
 ]);
 // =================================================
-logResult(`get_bounties ${daoId} from ${fromIndex} limit ${limit}`, {
+log_result(`get_bounties ${dao_id} from ${from_index} limit ${limit}`, {
   last_bounty_id: lastBountyId,
   bounties,
 });

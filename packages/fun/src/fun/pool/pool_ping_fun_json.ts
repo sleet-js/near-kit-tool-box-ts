@@ -9,9 +9,9 @@ import { pool_methods_const } from "../../lib/methods/methods_pool";
 // =================================================
 export async function pool_ping_fun_json(
   near: Near,
-  pool_contractId: string,
+  pool_contract_id: string,
 ): Promise<FinalExecutionOutcome> {
-  const result = await near.call(pool_contractId, pool_methods_const.ping, {
+  const result = await near.call(pool_contract_id, pool_methods_const.ping, {
     gas: "30 Tgas",
   });
   return result;

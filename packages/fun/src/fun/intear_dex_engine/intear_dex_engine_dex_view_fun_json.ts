@@ -15,16 +15,16 @@
 // `Uint8Array` for methods that take none.
 // =================================================
 import type { Near } from "near-kit";
-import { intearDexViewRaw } from "../../lib/borsh/intear_dex_view";
+import { intear_dex_view_raw } from "../../lib/borsh/intear_dex_view";
 // =================================================
 export async function intear_dex_engine_dex_view_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   dex_id: string,
   method: string,
   args: Uint8Array,
 ): Promise<Uint8Array> {
-  return intearDexViewRaw(near, engineContractId, dex_id, method, args);
+  return intear_dex_view_raw(near, engine_contract_id, dex_id, method, args);
 }
 // =================================================
 // copyright 2026 by sleet.near

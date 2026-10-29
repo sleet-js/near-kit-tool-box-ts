@@ -11,12 +11,12 @@ import {
 // =================================================
 export async function rhea_dclv2_list_pools_fun_json(
   near: Near,
-  rhea_dclv2_contractId: string,
+  rhea_dclv2_contract_id: string,
   from_index: rhea_dclv2_args["from_index"],
   limit: rhea_dclv2_args["limit"],
 ): Promise<RHEA_DCLV2_POOL_TYPE[]> {
   const result = await near.view(
-    rhea_dclv2_contractId,
+    rhea_dclv2_contract_id,
     rhea_dclv2_methods_const.list_pools,
     { from_index, limit },
   );

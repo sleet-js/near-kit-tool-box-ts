@@ -4,33 +4,33 @@
 // usage:
 //   bun run bin/rhea_ammv2/rhea_get_deposit.ts --account-id <id> --token-id <id> [--contract-id <id>]
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
+import { parse_args, require_string } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
   rhea_ammv2_contractid,
 } from "../_shared/env.js";
 import { rhea_ammv2_get_deposit_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/rhea_ammv2/rhea_get_deposit.ts --account-id <id> --token-id <id> [--contract-id <id>]";
-const args = parseArgs();
-const accountId = requireString(args, "account-id", usage);
-const tokenId = requireString(args, "token-id", usage);
-const contractId = resolveContractId(
+const args = parse_args();
+const account_id = require_string(args, "account-id", usage);
+const token_id = require_string(args, "token-id", usage);
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   rhea_ammv2_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `get_deposit ${accountId} ${tokenId} @ ${contractId}`,
+log_result(
+  `get_deposit ${account_id} ${token_id} @ ${contract_id}`,
   await rhea_ammv2_get_deposit_fun_json(
     near_kit_env,
-    contractId,
-    accountId,
-    tokenId,
+    contract_id,
+    account_id,
+    token_id,
   ),
 );
 // =================================================

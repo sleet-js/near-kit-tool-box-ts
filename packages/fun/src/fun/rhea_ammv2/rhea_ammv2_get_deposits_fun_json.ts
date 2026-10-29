@@ -13,11 +13,11 @@ import type { RHEA_AMMV2_GET_DEPOSITS_TYPE } from "../../types/rhea_ammv2_get_de
 // =================================================
 export async function rhea_ammv2_get_deposits_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   account_id: rhea_ammv2_args["account_id"],
 ): Promise<RHEA_AMMV2_GET_DEPOSITS_TYPE> {
   const result = await near.view(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.get_deposits,
     { account_id },
   );

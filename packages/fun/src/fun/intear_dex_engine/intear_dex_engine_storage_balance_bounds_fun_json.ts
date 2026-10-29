@@ -15,10 +15,10 @@ import {
 // =================================================
 export async function intear_dex_engine_storage_balance_bounds_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
 ): Promise<INTEAR_DEX_STORAGE_BALANCE_BOUNDS_TYPE> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.storage_balance_bounds,
     {},
   );

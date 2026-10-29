@@ -13,12 +13,12 @@
 // so the factory's defaults and a dao's own `version` are worth
 // reading together.
 // =================================================
-import { parseArgs } from "../_shared/args.js";
+import { parse_args } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
   sputnik_dao_factory_contractid,
 } from "../_shared/env.js";
 import {
@@ -29,27 +29,27 @@ import {
 } from "../../packages/fun/src/index.js";
 // =================================================
 const usage = "bun run bin/sputnik_dao/factory_info.ts [--contract-id <id>]";
-const args = parseArgs();
-const contractId = resolveContractId(
+const args = parse_args();
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   sputnik_dao_factory_contractid(NEAR_KIT_NETWORK),
 );
 
 const [defaultVersion, defaultCodeHash, contractsMetadata, owner] =
   await Promise.all([
-    sputnik_dao_factory_get_default_version_fun_json(near_kit_env, contractId),
+    sputnik_dao_factory_get_default_version_fun_json(near_kit_env, contract_id),
     sputnik_dao_factory_get_default_code_hash_fun_json(
       near_kit_env,
-      contractId,
+      contract_id,
     ),
     sputnik_dao_factory_get_contracts_metadata_fun_json(
       near_kit_env,
-      contractId,
+      contract_id,
     ),
-    sputnik_dao_factory_get_owner_fun_json(near_kit_env, contractId),
+    sputnik_dao_factory_get_owner_fun_json(near_kit_env, contract_id),
   ]);
 // =================================================
-logResult(`factory info @ ${contractId}`, {
+log_result(`factory info @ ${contract_id}`, {
   owner,
   default_version: defaultVersion,
   default_code_hash: defaultCodeHash,

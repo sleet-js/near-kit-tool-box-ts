@@ -8,10 +8,10 @@ import { pool_methods_const } from "../../lib/methods/methods_pool";
 // =================================================
 export async function pool_get_number_of_accounts_fun_json(
   near: Near,
-  pool_contractId: string,
+  pool_contract_id: string,
 ): Promise<number> {
   const result = await near.view(
-    pool_contractId,
+    pool_contract_id,
     pool_methods_const.get_number_of_accounts,
   );
   return result as number;

@@ -12,39 +12,43 @@
 //   bun run bin/intear_dex_engine/intear_dex_engine_balances.ts \
 //     (--account-id <id> | --dex-id <deployer/id>) [--limit <n>] [--contract-id <id>]
 // =================================================
-import { optionalNumber, parseArgs, requireString } from "../_shared/args.js";
+import {
+  optional_number,
+  parse_args,
+  require_string,
+} from "../_shared/args.js";
 import {
   intear_dex_engine_contractid,
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { intear_dex_engine_registered_assets_of_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/intear_dex_engine/intear_dex_engine_balances.ts (--account-id <id> | --dex-id <deployer/id>) [--limit <n>] [--contract-id <id>]";
-const args = parseArgs();
-const contractId = resolveContractId(
+const args = parse_args();
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),
 );
-const limit = optionalNumber(args, "limit", 50);
+const limit = optional_number(args, "limit", 50);
 
-const accountId =
+const account_id =
   typeof args["account-id"] === "string" ? args["account-id"] : null;
-const dexId = typeof args["dex-id"] === "string" ? args["dex-id"] : null;
-if (accountId === null && dexId === null) {
-  requireString(args, "account-id", usage);
+const dex_id = typeof args["dex-id"] === "string" ? args["dex-id"] : null;
+if (account_id === null && dex_id === null) {
+  require_string(args, "account-id", usage);
 }
 // =================================================
-logResult(
-  `registered assets of ${accountId ?? dexId} @ ${contractId}`,
+log_result(
+  `registered assets of ${account_id ?? dex_id} @ ${contract_id}`,
   await intear_dex_engine_registered_assets_of_fun_json(
     near_kit_env,
-    contractId,
-    accountId,
-    dexId,
+    contract_id,
+    account_id,
+    dex_id,
     0,
     limit,
   ),

@@ -10,22 +10,22 @@
 // of the swap message — this view only tells you which key to trust.
 // =================================================
 import type { Near } from "near-kit";
-import { BorshReader } from "../../lib/borsh/intear_dex_borsh";
-import { intearDexView } from "../../lib/borsh/intear_dex_view";
+import { borsh_reader } from "../../lib/borsh/intear_dex_borsh";
+import { intear_dex_view } from "../../lib/borsh/intear_dex_view";
 import { intear_dex_xyk_methods_const } from "../../lib/methods/methods_intear_dex_xyk";
 // =================================================
 export async function intear_dex_xyk_get_fee_discount_signer_fun_json(
   near: Near,
-  engineContractId: string,
-  dexId: string,
+  engine_contract_id: string,
+  dex_id: string,
 ): Promise<string | null> {
-  return intearDexView(
+  return intear_dex_view(
     near,
-    engineContractId,
-    dexId,
+    engine_contract_id,
+    dex_id,
     intear_dex_xyk_methods_const.get_fee_discount_signer,
     new Uint8Array(),
-    (reader: BorshReader) => reader.option((item) => item.publicKey()),
+    (reader: borsh_reader) => reader.option((item) => item.public_key()),
   );
 }
 // =================================================

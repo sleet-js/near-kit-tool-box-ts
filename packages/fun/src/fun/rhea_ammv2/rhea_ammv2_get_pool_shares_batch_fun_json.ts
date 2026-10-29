@@ -24,12 +24,12 @@ import type { RHEA_AMMV2_POOL_SHARES_BATCH_TYPE } from "../../types/rhea_ammv2_v
 // =================================================
 export async function rhea_ammv2_get_pool_shares_batch_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   pool_ids: rhea_ammv2_args["pool_ids"],
   account_id: rhea_ammv2_args["account_id"],
 ): Promise<RHEA_AMMV2_POOL_SHARES_BATCH_TYPE> {
   const result = await near.view(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.get_pool_shares_batch,
     { pool_ids, account_id },
   );

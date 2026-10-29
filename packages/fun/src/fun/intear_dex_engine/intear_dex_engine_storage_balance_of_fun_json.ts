@@ -17,11 +17,11 @@ import {
 // =================================================
 export async function intear_dex_engine_storage_balance_of_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   account_id: string,
 ): Promise<INTEAR_DEX_STORAGE_BALANCE_TYPE | null> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.storage_balance_of,
     { account_id },
   );

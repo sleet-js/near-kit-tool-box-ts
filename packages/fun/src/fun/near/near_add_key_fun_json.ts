@@ -1,7 +1,7 @@
 // =================================================
 // near_add_key_fun_json
 //
-// Local NEAR account action: append an access key to `signerId`.
+// Local NEAR account action: append an access key to `signer_id`.
 // `permission` is the NEAR-kit `AccessKeyPermission` enum (full-access
 // or function-call). The transaction is signed and submitted through
 // the supplied `near` client.
@@ -10,13 +10,13 @@ import type { FinalExecutionOutcome } from "near-kit";
 // =================================================
 export async function near_add_key_fun_json(
   near: Near,
-  signerId: string,
-  publicKey: string,
+  signer_id: string,
+  public_key: string,
   permission: Parameters<ReturnType<typeof near.transaction>["addKey"]>[1],
 ): Promise<FinalExecutionOutcome> {
   const result = await near
-    .transaction(signerId)
-    .addKey(publicKey, permission)
+    .transaction(signer_id)
+    .addKey(public_key, permission)
     .send();
   return result as FinalExecutionOutcome;
 }

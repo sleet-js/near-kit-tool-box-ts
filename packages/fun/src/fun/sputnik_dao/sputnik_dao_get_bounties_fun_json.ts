@@ -16,12 +16,12 @@ import type { SPUTNIK_DAO_BOUNTY_TYPE } from "../../types/sputnik_dao_types";
 // =================================================
 export async function sputnik_dao_get_bounties_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
   from_index: sputnik_dao_args["from_index"],
   limit: sputnik_dao_args["limit"],
 ): Promise<SPUTNIK_DAO_BOUNTY_TYPE[]> {
   const result = await near.view(
-    daoContractId,
+    dao_contract_id,
     sputnik_dao_methods_const.get_bounties,
     { from_index, limit },
   );

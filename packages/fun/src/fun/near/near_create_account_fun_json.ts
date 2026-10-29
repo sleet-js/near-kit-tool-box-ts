@@ -11,12 +11,12 @@ import { near_methods_const } from "../../lib/methods/methods_near";
 // =================================================
 export async function near_create_account_fun_json(
   near: Near,
-  tld_contractId: string,
+  tld_contract_id: string,
   new_account_id: string,
   new_public_key: string,
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    tld_contractId,
+    tld_contract_id,
     near_methods_const.create_account,
     { new_account_id, new_public_key },
     { gas: "30 Tgas" },

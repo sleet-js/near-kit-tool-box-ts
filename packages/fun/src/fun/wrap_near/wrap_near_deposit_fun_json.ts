@@ -6,15 +6,15 @@
 // `wrap_contractId` should be `wrap.testnet` or `wrap.near`.
 import type { FinalExecutionOutcome, Near } from "near-kit";
 import { wrap_near_methods_const } from "../../lib/methods/methods_wrap_near";
-import type { AmountInput } from "../../types/AmountInput";
+import type { AMOUNT_INPUT } from "../../types/AmountInput";
 // =================================================
 export async function wrap_near_deposit_fun_json(
   near: Near,
-  wrap_contractId: string,
-  amount: AmountInput,
+  wrap_contract_id: string,
+  amount: AMOUNT_INPUT,
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    wrap_contractId,
+    wrap_contract_id,
     wrap_near_methods_const.near_deposit,
     {},
     { attachedDeposit: amount },

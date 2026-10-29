@@ -14,11 +14,11 @@ import type { SPUTNIK_DAO_DELEGATION_BALANCE_TYPE } from "../../types/sputnik_da
 // =================================================
 export async function sputnik_dao_delegation_balance_of_fun_json(
   near: Near,
-  daoContractId: string,
+  dao_contract_id: string,
   account_id: sputnik_dao_args["account_id"],
 ): Promise<SPUTNIK_DAO_DELEGATION_BALANCE_TYPE> {
   const result = await near.view(
-    daoContractId,
+    dao_contract_id,
     sputnik_dao_methods_const.delegation_balance_of,
     { account_id },
   );

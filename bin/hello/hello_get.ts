@@ -6,26 +6,26 @@
 // usage:
 //   bun run bin/hello/hello_get.ts [--contract-id <id>]
 // =================================================
-import { parseArgs } from "../_shared/args.js";
+import { parse_args } from "../_shared/args.js";
 import {
   greeting_contractid,
-  logResult,
+  log_result,
   NEAR_KIT_NETWORK,
   near_kit_env,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { greeting_get_greeting_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage = "bun run bin/hello/hello_get.ts [--contract-id <id>]";
-const args = parseArgs();
-const contractId = resolveContractId(
+const args = parse_args();
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   greeting_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `get_greeting @ ${contractId} (${NEAR_KIT_NETWORK})`,
-  await greeting_get_greeting_fun_json(near_kit_env, contractId),
+log_result(
+  `get_greeting @ ${contract_id} (${NEAR_KIT_NETWORK})`,
+  await greeting_get_greeting_fun_json(near_kit_env, contract_id),
 );
 // =================================================
 // copyright 2026 by sleet.near

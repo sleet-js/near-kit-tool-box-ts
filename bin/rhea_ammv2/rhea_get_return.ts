@@ -8,37 +8,37 @@
 //   bun run bin/rhea_ammv2/rhea_get_return.ts --pool-id <id> --token-in <id>
 //     --amount-in <raw> --token-out <id> [--contract-id <id>]
 // =================================================
-import { parseArgs, requireNumber, requireString } from "../_shared/args.js";
+import { parse_args, require_number, require_string } from "../_shared/args.js";
 import {
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
   rhea_ammv2_contractid,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { rhea_ammv2_get_return_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/rhea_ammv2/rhea_get_return.ts --pool-id <id> --token-in <id> --amount-in <raw> --token-out <id> [--contract-id <id>]";
-const args = parseArgs();
-const poolId = requireNumber(args, "pool-id", usage);
-const tokenIn = requireString(args, "token-in", usage);
-const amountIn = requireString(args, "amount-in", usage);
-const tokenOut = requireString(args, "token-out", usage);
-const contractId = resolveContractId(
+const args = parse_args();
+const pool_id = require_number(args, "pool-id", usage);
+const token_in = require_string(args, "token-in", usage);
+const amount_in = require_string(args, "amount-in", usage);
+const token_out = require_string(args, "token-out", usage);
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   rhea_ammv2_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `get_return pool ${poolId} @ ${contractId}`,
+log_result(
+  `get_return pool ${pool_id} @ ${contract_id}`,
   await rhea_ammv2_get_return_fun_json(
     near_kit_env,
-    contractId,
-    poolId,
-    tokenIn,
-    amountIn,
-    tokenOut,
+    contract_id,
+    pool_id,
+    token_in,
+    amount_in,
+    token_out,
   ),
 );
 // =================================================

@@ -12,12 +12,12 @@ import type { rhea_ammv2_args } from "../../lib/args/rhea_ammv2_args";
 // =================================================
 export async function rhea_ammv2_withdraw_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   amount: rhea_ammv2_args["amount"],
   token_id: rhea_ammv2_args["token_id"],
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.withdraw,
     {
       amount,

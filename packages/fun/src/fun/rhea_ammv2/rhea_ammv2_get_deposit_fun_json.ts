@@ -7,12 +7,12 @@ import type { rhea_ammv2_args } from "../../lib/args/rhea_ammv2_args";
 // =================================================
 export async function rhea_ammv2_get_deposit_fun_json(
   near: Near,
-  rhea_ammv2_contractId: string,
+  rhea_ammv2_contract_id: string,
   account_id: rhea_ammv2_args["account_id"],
   token_id: rhea_ammv2_args["token_id"],
 ): Promise<string> {
   const result = await near.view(
-    rhea_ammv2_contractId,
+    rhea_ammv2_contract_id,
     rhea_ammv2_methods_const.get_deposit,
     { account_id, token_id },
   );

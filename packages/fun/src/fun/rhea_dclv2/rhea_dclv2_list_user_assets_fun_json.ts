@@ -8,11 +8,11 @@ import type { RHEA_DCLV2_USER_ASSETS_TYPE } from "../../types/rhea_dclv2_types";
 // =================================================
 export async function rhea_dclv2_list_user_assets_fun_json(
   near: Near,
-  rhea_dclv2_contractId: string,
+  rhea_dclv2_contract_id: string,
   account_id: rhea_dclv2_args["account_id"],
 ): Promise<RHEA_DCLV2_USER_ASSETS_TYPE> {
   const result = await near.view(
-    rhea_dclv2_contractId,
+    rhea_dclv2_contract_id,
     rhea_dclv2_methods_const.list_user_assets,
     { account_id },
   );

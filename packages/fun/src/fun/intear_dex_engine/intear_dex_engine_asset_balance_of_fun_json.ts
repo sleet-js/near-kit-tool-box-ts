@@ -23,12 +23,12 @@ import type {
 // =================================================
 export async function intear_dex_engine_asset_balance_of_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
   of: INTEAR_DEX_ACCOUNT_OR_DEX_ID,
   asset_id: INTEAR_DEX_ASSET_ID_STRING,
 ): Promise<string | null> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.asset_balance_of,
     { of, asset_id },
   );

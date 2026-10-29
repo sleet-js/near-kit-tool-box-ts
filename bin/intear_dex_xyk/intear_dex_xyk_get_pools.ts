@@ -6,38 +6,38 @@
 // usage:
 //   bun run bin/intear_dex_xyk/intear_dex_xyk_get_pools.ts [--start-index <n>] [--limit <n>] [--dex-id <deployer/id>] [--contract-id <id>]
 // =================================================
-import { optionalNumber, parseArgs } from "../_shared/args.js";
+import { optional_number, parse_args } from "../_shared/args.js";
 import {
   intear_dex_engine_contractid,
   intear_dex_xyk_dex_id,
-  logResult,
+  log_result,
   near_kit_env,
   NEAR_KIT_NETWORK,
-  resolveContractId,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { intear_dex_xyk_get_pools_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   "bun run bin/intear_dex_xyk/intear_dex_xyk_get_pools.ts [--start-index <n>] [--limit <n>] [--dex-id <deployer/id>] [--contract-id <id>]";
-const args = parseArgs();
-const startIndex = optionalNumber(args, "start-index", 0);
-const limit = optionalNumber(args, "limit", 10);
-const contractId = resolveContractId(
+const args = parse_args();
+const start_index = optional_number(args, "start-index", 0);
+const limit = optional_number(args, "limit", 10);
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   intear_dex_engine_contractid(NEAR_KIT_NETWORK),
 );
-const dexId = resolveContractId(
+const dex_id = resolve_contract_id(
   typeof args["dex-id"] === "string" ? args["dex-id"] : undefined,
   intear_dex_xyk_dex_id(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `xyk pools ${startIndex}..${startIndex + limit} @ ${dexId}`,
+log_result(
+  `xyk pools ${start_index}..${start_index + limit} @ ${dex_id}`,
   await intear_dex_xyk_get_pools_fun_json(
     near_kit_env,
-    contractId,
-    dexId,
-    startIndex,
+    contract_id,
+    dex_id,
+    start_index,
     limit,
   ),
 );

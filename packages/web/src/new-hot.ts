@@ -37,35 +37,35 @@ const near_kit_testnet = new Near({
 // Single source of truth for reading/validating the stored network id.
 // Any value that is not exactly "testnet" (after trim + lowercase) is
 // treated as "mainnet", so every caller agrees on the current network.
-function normalizeNetworkId(raw: string | null): "mainnet" | "testnet" {
+function normalize_network_id(raw: string | null): "mainnet" | "testnet" {
   const value = (raw || "mainnet").trim().toLowerCase();
   return value === "testnet" ? "testnet" : "mainnet";
 }
-export function getStoredNetworkId(): "mainnet" | "testnet" {
-  return normalizeNetworkId(localStorage.getItem(NETWORK_STORAGE_KEY));
+export function get_stored_network_id(): "mainnet" | "testnet" {
+  return normalize_network_id(localStorage.getItem(NETWORK_STORAGE_KEY));
 }
 // ==============================================
 // ==============================================
 export function near_kit_client() {
-  const networkId = getStoredNetworkId();
-  const client = networkId === "testnet" ? near_kit_testnet : near_kit_mainnet;
-  console.log("[near_kit_client] networkId:", networkId);
+  const network_id = get_stored_network_id();
+  const client = network_id === "testnet" ? near_kit_testnet : near_kit_mainnet;
+  console.log("[near_kit_client] networkId:", network_id);
   console.log(
     "[near_kit_client] client:",
-    networkId === "testnet" ? "near_kit_testnet" : "near_kit_mainnet",
+    network_id === "testnet" ? "near_kit_testnet" : "near_kit_mainnet",
   );
 
   return client;
 }
 // ==============================================
 export function near_connect_client() {
-  const networkId = getStoredNetworkId();
+  const network_id = get_stored_network_id();
   const client =
-    networkId === "testnet" ? near_connect_testnet : near_connect_mainnet;
-  console.log("[near_connect_client] networkId:", networkId);
+    network_id === "testnet" ? near_connect_testnet : near_connect_mainnet;
+  console.log("[near_connect_client] networkId:", network_id);
   console.log(
     "[near_connect_client] client:",
-    networkId === "testnet" ? "near_connect_testnet" : "near_connect_mainnet",
+    network_id === "testnet" ? "near_connect_testnet" : "near_connect_mainnet",
   );
 
   return client;

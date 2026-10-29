@@ -11,12 +11,12 @@ import type { ft_args } from "../../lib/args/ft_args";
 // =================================================
 export async function ft_transfer_fun_json(
   near: Near,
-  ft_contractId: string,
+  ft_contract_id: string,
   receiver_id: ft_args["receiver_id"],
   amount: ft_args["amount"],
 ): Promise<FinalExecutionOutcome> {
   const result = await near.call(
-    ft_contractId,
+    ft_contract_id,
     ft_methods_const.ft_transfer,
     { amount, receiver_id },
     { attachedDeposit: "0.000000000000000000000001 NEAR" },

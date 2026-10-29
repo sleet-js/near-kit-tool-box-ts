@@ -18,10 +18,10 @@ import {
 // =================================================
 export async function intear_dex_engine_contract_source_metadata_fun_json(
   near: Near,
-  engineContractId: string,
+  engine_contract_id: string,
 ): Promise<INTEAR_DEX_CONTRACT_SOURCE_METADATA_TYPE> {
   const result = await near.view(
-    engineContractId,
+    engine_contract_id,
     intear_dex_engine_methods_const.contract_source_metadata,
     {},
   );

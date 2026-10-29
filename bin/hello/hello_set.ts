@@ -6,30 +6,30 @@
 // usage:
 //   bun run bin/hello/hello_set.ts --greeting "Hello NEAR" [--contract-id <id>]
 // =================================================
-import { parseArgs, requireString } from "../_shared/args.js";
+import { parse_args, require_string } from "../_shared/args.js";
 import {
   greeting_contractid,
-  logResult,
+  log_result,
   NEAR_KIT_NETWORK,
   near_kit_env,
-  requireSigner,
-  resolveContractId,
+  require_signer,
+  resolve_contract_id,
 } from "../_shared/env.js";
 import { greeting_set_greeting_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
 const usage =
   'bun run bin/hello/hello_set.ts --greeting "Hello NEAR" [--contract-id <id>]';
-const args = parseArgs();
-const greeting = requireString(args, "greeting", usage);
-requireSigner(usage);
-const contractId = resolveContractId(
+const args = parse_args();
+const greeting = require_string(args, "greeting", usage);
+require_signer(usage);
+const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   greeting_contractid(NEAR_KIT_NETWORK),
 );
 // =================================================
-logResult(
-  `set_greeting @ ${contractId} (${NEAR_KIT_NETWORK})`,
-  await greeting_set_greeting_fun_json(near_kit_env, contractId, greeting),
+log_result(
+  `set_greeting @ ${contract_id} (${NEAR_KIT_NETWORK})`,
+  await greeting_set_greeting_fun_json(near_kit_env, contract_id, greeting),
 );
 // =================================================
 // copyright 2026 by sleet.near

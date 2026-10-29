@@ -25,8 +25,8 @@ import type { Near } from "near-kit";
  * Calls one contract view method and returns its result.
  *
  * @param near - the NEAR client
- * @param contractId - the contract account id
- * @param methodName - the view method to call
+ * @param contract_id - the contract account id
+ * @param method_name - the view method to call
  * @param args - the JSON arguments; defaults to `{}`
  * @returns the parsed JSON result
  *
@@ -38,13 +38,13 @@ import type { Near } from "near-kit";
  */
 export async function near_kit_contract_view_fun<T>(
   near: Near,
-  contractId: string,
-  methodName: string,
+  contract_id: string,
+  method_name: string,
   args: Record<string, unknown> = {},
 ): Promise<T> {
-  const result = await near.view<T>(contractId, methodName, args);
+  const result = await near.view<T>(contract_id, method_name, args);
   if (result === undefined) {
-    throw new Error(`${contractId}.${methodName} returned no value`);
+    throw new Error(`${contract_id}.${method_name} returned no value`);
   }
   return result;
 }
@@ -57,18 +57,18 @@ export async function near_kit_contract_view_fun<T>(
  * that think of the result as JSON rather than as a decoded value.
  *
  * @param near - the NEAR client
- * @param contractId - the contract account id
- * @param methodName - the view method to call
+ * @param contract_id - the contract account id
+ * @param method_name - the view method to call
  * @param args - the JSON arguments; defaults to `{}`
  * @returns the parsed JSON result
  */
 export async function near_kit_contract_view_fun_json<T>(
   near: Near,
-  contractId: string,
-  methodName: string,
+  contract_id: string,
+  method_name: string,
   args: Record<string, unknown> = {},
 ): Promise<T> {
-  return near_kit_contract_view_fun<T>(near, contractId, methodName, args);
+  return near_kit_contract_view_fun<T>(near, contract_id, method_name, args);
 }
 // =================================================
 // copyright 2026 by sleet.near

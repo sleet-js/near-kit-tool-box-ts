@@ -58,7 +58,7 @@ export const RHEA_DCLV2_POOL_TYPE_Z_CONST = z
   })
   .loose()
   .transform((value) => {
-    const stableKeys = [
+    const stable_keys = [
       "pool_id",
       "token_x",
       "token_y",
@@ -85,7 +85,7 @@ export const RHEA_DCLV2_POOL_TYPE_Z_CONST = z
       ...value,
       extra: Object.fromEntries(
         Object.entries(value).filter(
-          ([key]) => !(stableKeys as readonly string[]).includes(key),
+          ([key]) => !(stable_keys as readonly string[]).includes(key),
         ),
       ),
     };
@@ -116,7 +116,7 @@ export const RHEA_DCLV2_LIQUIDITY_TYPE_Z_CONST = z
   })
   .loose()
   .transform((value) => {
-    const stableKeys = [
+    const stable_keys = [
       "lpt_id",
       "owner_id",
       "pool_id",
@@ -128,7 +128,7 @@ export const RHEA_DCLV2_LIQUIDITY_TYPE_Z_CONST = z
       ...value,
       extra: Object.fromEntries(
         Object.entries(value).filter(
-          ([key]) => !(stableKeys as readonly string[]).includes(key),
+          ([key]) => !(stable_keys as readonly string[]).includes(key),
         ),
       ),
     };
