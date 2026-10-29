@@ -42,4 +42,6 @@ directory automatically. (An `export` prefix is also parsed, if you prefer it.)
 - `NEAR_KIT_NETWORK` is constrained to `"mainnet"` or `"testnet"` — for custom RPC URLs, build a `Near` instance directly
 - The `NEAR_KIT_` prefix avoids colliding with the generic `NEAR_*` env vars read by the `near-kit` library itself
 
+==========================
+<br/>
 copyright 2026 by sleet.near

@@ -36,4 +36,6 @@ import {
 - FT (Fungible Token) standard functions
 - wrapNEAR deposit/withdraw functions
 
+==========================
+<br/>
 copyright 2026 by sleet.near

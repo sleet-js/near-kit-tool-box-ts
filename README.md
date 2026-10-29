@@ -145,6 +145,6 @@ const balance = await ft_balance_of_fun_json(
 );
 ```
 
-==================
+==========================
 <br/>
 copyright 2026 by sleet.near

@@ -52,6 +52,6 @@ work without a signer; call bins need `NEAR_KIT_ACCOUNT_ID` and
 
 
 
----
-
+==========================
+<br/>
 copyright 2026 by sleet.near
