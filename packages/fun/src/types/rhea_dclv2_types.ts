@@ -9,17 +9,34 @@ import * as z from "zod";
 //              `get_metadata`
 //   verified : 2026-10-28, against the live mainnet response
 //
-// DCL v2 pool and liquidity responses include optional pool-specific
-// fields. The schemas preserve these in `extra`, so new contract fields
-// do not make a typed view fail.
+// VERIFIED SHAPES
+//   `get_pool` answers with 23 fields. The pool id is a composite
+//   string — `<hash>|<token>|<fee>` — e.g.
+//   `17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1|wrap.near|100`
+//   and `token_x` is the HASH, not an account id. Checked across 4
+//   live pools; every field had the type declared below.
 //
-// The `get_metadata` view answers with 12 fields:
+//   `get_user_asset` answers with a BARE decimal string ("0"), not an
+//   object. The token and the account are both in the request.
+//
+//   `list_user_assets` answers with a `{ token_id: balance }` map.
+//
+//   `get_metadata` answers with 12 fields:
 //   `version`, `owner_id`, `farming_contract_id`, `next_owner_id`,
 //   `next_owner_accept_deadline`, `wnear_id`, `state`, `operators`,
 //   `protocol_fee_rate`, `pool_count`, `user_count`
-// `pool_count` and `user_count` are JSON STRINGS there ("6275",
-// "7921") and `protocol_fee_rate` is a JSON number. The schema below
-// names only `protocol_fee_rate` and keeps the rest in `extra`.
+//   `pool_count` and `user_count` are JSON STRINGS there ("6275",
+//   "7921") and `protocol_fee_rate` is a JSON number. The schema below
+//   names only `protocol_fee_rate` and keeps the rest in `extra`.
+//
+// NOT YET VERIFIED
+//   `RHEA_DCLV2_LIQUIDITY_TYPE` — the liquidity views need an `lpt_id`
+//   that no known account holds, so its field list is still
+//   hand-written.
+//
+// DCL v2 pool and liquidity responses include optional pool-specific
+// fields. The schemas preserve these in `extra`, so new contract fields
+// do not make a typed view fail.
 // =================================================
 
 export interface RHEA_DCLV2_POOL_TYPE {
@@ -44,6 +61,10 @@ export interface RHEA_DCLV2_POOL_TYPE {
   total_fee_x_charged?: string;
   total_fee_y_charged?: string;
   state?: string;
+  // the tokens allowed in the pool, or `null` when it is open.
+  whitelist?: string[] | null;
+  // the tax the pool charges, or `null` when it charges none.
+  tax?: string | null;
   extra: Record<string, unknown>;
 }
 
@@ -70,6 +91,8 @@ export const RHEA_DCLV2_POOL_TYPE_Z_CONST = z
     total_fee_x_charged: z.string().optional(),
     total_fee_y_charged: z.string().optional(),
     state: z.string().optional(),
+    whitelist: z.array(z.string()).nullable().optional(),
+    tax: z.string().nullable().optional(),
   })
   .loose()
   .transform((value) => {
@@ -95,6 +118,8 @@ export const RHEA_DCLV2_POOL_TYPE_Z_CONST = z
       "total_fee_x_charged",
       "total_fee_y_charged",
       "state",
+      "whitelist",
+      "tax",
     ] as const;
     return {
       ...value,
@@ -153,26 +178,17 @@ export const RHEA_DCLV2_LIQUIDITIES_TYPE_Z_CONST = z.array(
   RHEA_DCLV2_LIQUIDITY_TYPE_Z_CONST,
 );
 
-export interface RHEA_DCLV2_USER_ASSET_TYPE {
-  token_id?: string;
-  balance?: string;
-  extra: Record<string, unknown>;
-}
+// The internal balance ONE account holds of ONE token.
+//
+// The live answer is a bare decimal string, not an object: the
+// `get_user_asset` view on `dclv2.ref-labs.near` answers `"0"` for an
+// account with no balance. The token and the account are both in the
+// request, so the response needs to repeat neither.
+export type RHEA_DCLV2_USER_ASSET_TYPE = string;
 
 export const RHEA_DCLV2_USER_ASSET_TYPE_Z_CONST = z
-  .object({
-    token_id: z.string().optional(),
-    balance: z.string().optional(),
-  })
-  .loose()
-  .transform((value) => ({
-    ...value,
-    extra: Object.fromEntries(
-      Object.entries(value).filter(
-        ([key]) => !["token_id", "balance"].includes(key),
-      ),
-    ),
-  })) satisfies z.ZodType<RHEA_DCLV2_USER_ASSET_TYPE>;
+  .string()
+  .regex(/^\d+$/) satisfies z.ZodType<RHEA_DCLV2_USER_ASSET_TYPE>;
 
 export interface RHEA_DCLV2_USER_ASSETS_TYPE {
   [token_id: string]: string;

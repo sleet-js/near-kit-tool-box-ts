@@ -236,34 +236,47 @@ the rhea_ammv2 drift survived.
 
 ## 5. Open risks
 
-1. **`RHEA_DCLV2_POOL_TYPE` is unverified.** The field list is
-   hand-written and was never confirmed against a live response. Six
-   fields are _required_ in the schema (`pool_id`, `token_x`,
-   `token_y`, `fee`, `total_x`, `total_y`), so if a live pool uses
-   different names the helper **throws** rather than degrading. Same
-   for `RHEA_DCLV2_LIQUIDITY_TYPE` and `RHEA_DCLV2_USER_ASSET_TYPE`.
-   `RHEA_DCLV2_USER_ASSETS_TYPE` was added by analogy with the AMM's
-   `get_deposits`, not observed.
-   → _Next thing to check._ The factory-list approach worked well for
-   finding a DAO with bounties; the same idea may find a live DCL pool.
+1. **`RHEA_DCLV2_LIQUIDITY_TYPE` is still unverified.** The liquidity
+   views need an `lpt_id` that no known account holds, so its field
+   list (`lpt_id`, `owner_id`, `pool_id`, `left_point`, `right_point`,
+   `amount`) is still hand-written. `left_point` and `right_point` are
+   _required_ in the schema, so a name mismatch would throw. Every
+   other DCL v2 type is now verified — see below.
 
-2. **`RHEA_DCLV2_METADATA_TYPE` is lossy.** Correct, but
-   `pool_count` and `user_count` land untyped in `extra`. The live
-   `get_metadata` returns 11 fields; the type names one.
-
-3. **Sputnik proposal-kind variants never seen live**:
+2. **Sputnik proposal-kind variants never seen live**:
    `SetStakingContract`, `FactoryInfoUpdate`, `ChangePolicyAddOrUpdateRole`,
    `ChangePolicyRemoveRole`, `ChangePolicyUpdateDefaultVotePolicy`,
    `ChangePolicyUpdateParameters`. All typed `unknown`, so they
    degrade rather than throw.
 
-4. **The borsh types were not re-derived** against a live `dex_view`
+3. **The borsh types were not re-derived** against a live `dex_view`
    payload — `INTEAR_DEX_XYK_*`, `INTEAR_DEX_OTC_*`,
    `INTEAR_DEX_SIMPLE_AMM_*`.
 
-5. **`near-kit-tool-box-skills`** (the sibling repo) almost certainly
+4. **`near-kit-tool-box-skills`** (the sibling repo) almost certainly
    still references the old names and needs the same treatment.
    `AGENTS.md` says to keep the two in sync.
+
+### Resolved since these notes were first written
+
+`RHEA_DCLV2_POOL_TYPE` and `RHEA_DCLV2_USER_ASSET_TYPE` are now
+verified against live mainnet responses:
+
+- **The pool id is a composite string** — `<hash>|<token>|<fee>`, e.g.
+  `17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1|wrap.near|100`
+  — and `token_x` is the **hash**, not an account id. The live pool
+  answers with 23 fields; the type now names all 23, and `extra` is
+  empty. Checked across 4 live pools.
+- **`get_user_asset` answers with a bare decimal string** (`"0"`), not
+  an object. The type declared `{ token_id?, balance? }`, so the
+  helper would have thrown on every call. It is now a string alias.
+- `list_user_assets` answers with a `{ token_id: balance }` map —
+  confirmed.
+- `pool_id` is optional for `get_user_asset`, so the helper's args
+  were already right.
+- `RHEA_DCLV2_METADATA_TYPE` is still lossy: `pool_count` and
+  `user_count` land untyped in `extra`. The live `get_metadata`
+  returns 11 fields; the type names one.
 
 ---
 
@@ -281,6 +294,8 @@ the rhea_ammv2 drift survived.
   `deadline` → `max_deadline`; `proposer` and `completed` dropped
 - `SPUTNIK_DAO_VOTE_POLICY_TYPE.threshold` widened to
   `string | number[]`
+- `RHEA_DCLV2_USER_ASSET_TYPE` is now a string alias (was an object
+  type) — the contract answers with a bare balance string
 - `sputnik_dao_get_bounty_claims_fun_json` narrowed from
   `Promise<unknown[]>` to `Promise<SPUTNIK_DAO_BOUNTY_CLAIM_TYPE[]>`
 - **behaviour change**: a view that today returns a value the schema
