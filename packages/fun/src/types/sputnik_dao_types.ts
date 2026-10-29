@@ -62,16 +62,29 @@ export type SPUTNIK_DAO_ROLE_KIND_TYPE =
 
 // The vote policy of ONE ROLE, for one kind of proposal.
 //
-// Its `threshold` is a plain string — the number of votes that must
-// come in for the proposal to pass. The live `huggies` DAO answers
-// `"1"` here.
+// Its `threshold` is the contract's `VoteThreshold` variant, and it
+// has TWO wire forms:
+//
+//   threshold: "5"          a plain count — the votes that must come in
+//   threshold: [31, 50]     a `[for, against]` pair
+//
+// Both occur in live DAOs. Over 83 DAOs read on 2026-10-28 the
+// per-role threshold was an array 156 times and a string 10 times:
+// `continent-dao.sputnik-dao.near` answers `"5"`, while
+// `fradao.sputnik-dao.near` answers `[50, 100]` for its "Council"
+// role. The two are not a difference between DAOs — a single DAO can
+// carry both.
+//
+// So the threshold is a union. A caller that only wants "does this
+// policy have a count or a ratio" checks the variant; a caller that
+// wants the number narrows first.
 export interface SPUTNIK_DAO_VOTE_POLICY_TYPE {
   // `RoleWeight`, `TokenWeight` or `FixedWeight`.
   weight_kind: string;
   // the quorum, as a string.
   quorum: string;
-  // the threshold, as a string.
-  threshold: string;
+  // the threshold — a count, or a `[for, against]` pair.
+  threshold: string | number[];
 }
 
 // The DAO's DEFAULT vote policy, the one that applies to a proposal
@@ -108,7 +121,7 @@ export interface SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE {
 export const SPUTNIK_DAO_VOTE_POLICY_TYPE_Z_CONST = z.object({
   weight_kind: z.string(),
   quorum: z.string(),
-  threshold: z.string(),
+  threshold: z.union([z.string(), z.array(z.number())]),
 }) satisfies z.ZodType<SPUTNIK_DAO_VOTE_POLICY_TYPE>;
 
 export const SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE_Z_CONST = z.object({
