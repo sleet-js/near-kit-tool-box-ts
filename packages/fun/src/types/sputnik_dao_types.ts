@@ -21,10 +21,18 @@ import {
 //              `get_default_version`, `get_dao_list`, `get_daos`,
 //              `get_number_daos`, `get_owner`, `get_default_code_hash`
 //   verified : 2026-10-28, against live mainnet responses.
+//              2026-10-29, re-swept across the factory's whole DAO
+//              list — 2035 DAOs, ~24k proposals read.
 //
 // The shapes below were read off the live responses, not from the
 // contract source. The contract's enums carry every variant, not only
 // the ones seen on one DAO, so a caller can pattern-match on them.
+//
+// Where a variant never showed up live, its payload shape comes from
+// the contract's own source —
+// `near-daos/sputnik-dao-contract`, `sputnikdao2/src/proposals.rs`,
+// `sputnikdao2/src/policy.rs`, `sputnikdao2/src/upgrade.rs` — and the
+// comment on that variant says so.
 //
 // `get_policy` answers with SIX top-level fields:
 //   `roles`, `default_vote_policy`, `proposal_bond`, `proposal_period`,
@@ -109,13 +117,27 @@ export interface SPUTNIK_DAO_VOTE_POLICY_TYPE {
 //
 // The two types still share their `weight_kind` and `quorum` fields,
 // so those stay a shared base interface.
+//
+// ONE EXCEPTION, found on live mainnet: the default threshold is not
+// always the pair. `hos-root.sputnik-dao.near` answers `"3"` — a
+// plain count — for both `get_policy` and every `ChangePolicy`
+// proposal it carries. `hos-root-staging.sputnik-dao.near` answers
+// `"3"` the same way. The contract's `WeightOrRatio` is untagged, so
+// a single `Weight` serializes as a bare number and a `Ratio` as a
+// pair; the default vote policy simply happened to be set to a
+// weight on those two DAOs.
+//
+// So the default threshold is a union too. The split between the two
+// types stays — they are still different contract types — but each
+// threshold is narrowed only where the live data actually narrows it.
 export interface SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE {
   // `RoleWeight`, `TokenWeight` or `FixedWeight`.
   weight_kind: string;
   // the quorum, as a string.
   quorum: string;
-  // the threshold, as a `[for, against]` pair of numbers.
-  threshold: number[];
+  // the threshold — a `[for, against]` pair, or a plain count on the
+  // DAOs that set the default policy to a weight.
+  threshold: number[] | string;
 }
 
 export const SPUTNIK_DAO_VOTE_POLICY_TYPE_Z_CONST = z.object({
@@ -127,7 +149,7 @@ export const SPUTNIK_DAO_VOTE_POLICY_TYPE_Z_CONST = z.object({
 export const SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE_Z_CONST = z.object({
   weight_kind: z.string(),
   quorum: z.string(),
-  threshold: z.array(z.number()),
+  threshold: z.union([z.string(), z.array(z.number())]),
 }) satisfies z.ZodType<SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE>;
 
 // One role in the DAO's policy.
@@ -182,6 +204,25 @@ export const SPUTNIK_DAO_POLICY_TYPE_Z_CONST = z.object({
   bounty_bond: z.string(),
   bounty_forgiveness_period: z.string(),
 }) satisfies z.ZodType<SPUTNIK_DAO_POLICY_TYPE>;
+
+// =================================================
+// --- MISC --------------------------------
+// The factory a DAO belongs to, from `get_factory_info`.
+//
+// It also rides inside a `FactoryInfoUpdate` proposal, so it sits
+// here — before the proposal kinds — and not down in the misc
+// section.
+export interface SPUTNIK_DAO_FACTORY_INFO_TYPE {
+  // the factory's account id.
+  factory_id: string;
+  // whether the DAO follows the factory's default code.
+  auto_update: boolean;
+}
+
+export const SPUTNIK_DAO_FACTORY_INFO_TYPE_Z_CONST = z.object({
+  factory_id: z.string(),
+  auto_update: z.boolean(),
+}) satisfies z.ZodType<SPUTNIK_DAO_FACTORY_INFO_TYPE>;
 
 // =================================================
 // --- BOUNTIES ----------------------------
@@ -275,6 +316,40 @@ export const SPUTNIK_DAO_FUNCTION_CALL_ACTION_TYPE_Z_CONST = z.object({
   gas: z.string(),
 }) satisfies z.ZodType<SPUTNIK_DAO_FUNCTION_CALL_ACTION_TYPE>;
 
+// The four policy parameters a `ChangePolicyUpdateParameters`
+// proposal can move.
+//
+// Every field is OPTIONAL on the wire. The contract's
+// `PolicyParameters` is four `Option`s, and a proposal that changes
+// only the proposal period leaves the other three as JSON `null`.
+// The live `lesyk-business.sputnik-dao.near` proposal 10 answers
+// `{"proposal_bond":null,"proposal_period":"86400000000000",
+// "bounty_bond":null,"bounty_forgiveness_period":null}`.
+//
+// A field that IS set is a decimal string, the same string form the
+// policy itself carries: `dao-builders.sputnik-dao.near` proposal 0
+// answers `"proposal_bond":"10000000000000000000000"`.
+//
+// PROVENANCE: live mainnet, and the contract's own `PolicyParameters`
+// (near-daos/sputnik-dao-contract, `sputnikdao2/src/proposals.rs`).
+export interface SPUTNIK_DAO_POLICY_PARAMETERS_TYPE {
+  // the bond a proposal has to carry.
+  proposal_bond: string | null;
+  // how long a proposal stays open, in nanoseconds.
+  proposal_period: string | null;
+  // the bond a bounty has to carry.
+  bounty_bond: string | null;
+  // how long a bounty stays claimable, in nanoseconds.
+  bounty_forgiveness_period: string | null;
+}
+
+export const SPUTNIK_DAO_POLICY_PARAMETERS_TYPE_Z_CONST = z.object({
+  proposal_bond: z.string().nullable(),
+  proposal_period: z.string().nullable(),
+  bounty_bond: z.string().nullable(),
+  bounty_forgiveness_period: z.string().nullable(),
+}) satisfies z.ZodType<SPUTNIK_DAO_POLICY_PARAMETERS_TYPE>;
+
 // The kind of a proposal.
 // Every variant the contract knows is listed here. The contract
 // answers with the variant name as the key, so the shape is
@@ -284,6 +359,21 @@ export const SPUTNIK_DAO_FUNCTION_CALL_ACTION_TYPE_Z_CONST = z.object({
 // string `"Vote"`, not with an object. That is what the live
 // `ref-finance` DAO answers for its first proposal, so the type
 // carries the string form.
+//
+// The five `ChangePolicy*` variants are the contract's SHORT CUTS to
+// editing the policy — each one patches one part of it instead of
+// carrying the whole policy the way `ChangePolicy` does. Their
+// payloads were read off live mainnet:
+//
+//   ChangePolicyAddOrUpdateRole       illumaheart.sputnik-dao.near
+//                                     proposal 2
+//   ChangePolicyRemoveRole             (see the note below)
+//   ChangePolicyUpdateDefaultVotePolicy sweat-multisig.sputnik-dao.near
+//                                     proposal 4
+//   ChangePolicyUpdateParameters       lesyk-business.sputnik-dao.near
+//                                     proposal 10
+//   FactoryInfoUpdate                  neardragons.sputnik-dao.near
+//                                     proposal 0
 export type SPUTNIK_DAO_PROPOSAL_KIND_TYPE =
   | { ChangeConfig: { config: SPUTNIK_DAO_CONFIG_TYPE } }
   | { ChangePolicy: { policy: SPUTNIK_DAO_POLICY_TYPE } }
@@ -311,11 +401,40 @@ export type SPUTNIK_DAO_PROPOSAL_KIND_TYPE =
   | { AddBounty: { bounty: SPUTNIK_DAO_BOUNTY_IN_PROPOSAL_TYPE } }
   | { BountyDone: { bounty_id: number; receiver_id: string } }
   | "Vote"
-  | { FactoryInfoUpdate: { factory_info: unknown } }
-  | { ChangePolicyAddOrUpdateRole: unknown }
-  | { ChangePolicyRemoveRole: unknown }
-  | { ChangePolicyUpdateDefaultVotePolicy: unknown }
-  | { ChangePolicyUpdateParameters: unknown };
+  // the factory the DAO belongs to, and whether it may auto-update.
+  // PROVENANCE: live mainnet — `neardragons.sputnik-dao.near`
+  // proposal 0 and `rhea-lsd.sputnik-dao.near` proposal 4 both
+  // answer `{"factory_info":{"factory_id":"sputnik-dao.near",
+  // "auto_update":false}}`.
+  | { FactoryInfoUpdate: { factory_info: SPUTNIK_DAO_FACTORY_INFO_TYPE } }
+  // one role of the policy, added or replaced.
+  // PROVENANCE: live mainnet — `illumaheart.sputnik-dao.near`
+  // proposal 2 and onwards. The payload is the contract's
+  // `RolePermission`, the same shape a policy's `roles[]` entry
+  // carries.
+  | { ChangePolicyAddOrUpdateRole: { role: SPUTNIK_DAO_ROLE_TYPE } }
+  // the NAME of one role, removed from the policy.
+  // PROVENANCE: the contract's `ProposalKind::ChangePolicyRemoveRole
+  // { role: String }`. No live proposal carries this variant, so the
+  // shape is taken from the contract source alone.
+  | { ChangePolicyRemoveRole: { role: string } }
+  // the DAO's default vote policy, replaced.
+  // PROVENANCE: live mainnet — `sweat-multisig.sputnik-dao.near`
+  // proposal 4 answers `{"vote_policy":{"weight_kind":"RoleWeight",
+  // "quorum":"0","threshold":[59,100]}}`.
+  | {
+      ChangePolicyUpdateDefaultVotePolicy: {
+        vote_policy: SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE;
+      };
+    }
+  // the DAO's policy parameters, moved.
+  // PROVENANCE: live mainnet — `lesyk-business.sputnik-dao.near`
+  // proposal 10 and 30+ more across 12 DAOs.
+  | {
+      ChangePolicyUpdateParameters: {
+        parameters: SPUTNIK_DAO_POLICY_PARAMETERS_TYPE;
+      };
+    };
 
 // The status of a proposal.
 export type SPUTNIK_DAO_PROPOSAL_STATUS_TYPE =
@@ -432,11 +551,27 @@ const sputnik_dao_proposal_kind_z_const = z.union([
     }),
   }),
   z.literal("Vote"),
-  z.object({ FactoryInfoUpdate: z.object({ factory_info: z.unknown() }) }),
-  z.object({ ChangePolicyAddOrUpdateRole: z.unknown() }),
-  z.object({ ChangePolicyRemoveRole: z.unknown() }),
-  z.object({ ChangePolicyUpdateDefaultVotePolicy: z.unknown() }),
-  z.object({ ChangePolicyUpdateParameters: z.unknown() }),
+  z.object({
+    FactoryInfoUpdate: z.object({
+      factory_info: SPUTNIK_DAO_FACTORY_INFO_TYPE_Z_CONST,
+    }),
+  }),
+  z.object({
+    ChangePolicyAddOrUpdateRole: z.object({
+      role: SPUTNIK_DAO_ROLE_TYPE_Z_CONST,
+    }),
+  }),
+  z.object({ ChangePolicyRemoveRole: z.object({ role: z.string() }) }),
+  z.object({
+    ChangePolicyUpdateDefaultVotePolicy: z.object({
+      vote_policy: SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE_Z_CONST,
+    }),
+  }),
+  z.object({
+    ChangePolicyUpdateParameters: z.object({
+      parameters: SPUTNIK_DAO_POLICY_PARAMETERS_TYPE_Z_CONST,
+    }),
+  }),
 ]) satisfies z.ZodType<SPUTNIK_DAO_PROPOSAL_KIND_TYPE>;
 
 export const SPUTNIK_DAO_PROPOSAL_TYPE_Z_CONST = z.object({
@@ -500,18 +635,10 @@ export const SPUTNIK_DAO_ACTIONS_LOG_TYPE_Z_CONST = z.array(
 
 // =================================================
 // --- MISC --------------------------------
-// The factory a DAO belongs to, from `get_factory_info`.
-export interface SPUTNIK_DAO_FACTORY_INFO_TYPE {
-  // the factory's account id.
-  factory_id: string;
-  // whether the DAO follows the factory's default code.
-  auto_update: boolean;
-}
-
-export const SPUTNIK_DAO_FACTORY_INFO_TYPE_Z_CONST = z.object({
-  factory_id: z.string(),
-  auto_update: z.boolean(),
-}) satisfies z.ZodType<SPUTNIK_DAO_FACTORY_INFO_TYPE>;
+// `SPUTNIK_DAO_FACTORY_INFO_TYPE` and its schema live up in the
+// policy section, because a `FactoryInfoUpdate` proposal carries
+// one.
+// =================================================
 
 // One published version of the DAO contract, from the factory.
 export interface SPUTNIK_DAO_CONTRACT_METADATA_TYPE {
