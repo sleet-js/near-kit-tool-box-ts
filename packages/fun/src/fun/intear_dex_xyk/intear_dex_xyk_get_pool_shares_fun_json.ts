@@ -13,6 +13,8 @@
 //
 // The shares are the LP tokens of the pool. A share is worth its
 // pro-rata part of the pool's two assets.
+//
+// VERIFIED live (2026-10-29): all three states occur on mainnet.
 // =================================================
 import type { Near } from "near-kit";
 import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";

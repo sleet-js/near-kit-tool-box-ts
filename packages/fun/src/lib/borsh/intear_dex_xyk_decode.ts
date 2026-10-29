@@ -5,6 +5,17 @@
 //
 // The shapes mirror `xyk_dex_types` in the INTEAR DEX source:
 //   https://github.com/INTEARnear/dex/tree/main/dexes/xyk/types
+//
+// VERIFIED against live mainnet data (2026-10-29)
+//   All 303 pools of `slimedragon.near/xyk` were fetched with
+//   `get_pools` and decoded here. Every one of them decoded with zero
+//   leftover bytes, so the field order and the variant numbers below
+//   are exact. The variants seen live:
+//     - pool view         : `Private`, `Public`, `Launch`, `LaunchV2`
+//     - fee configuration : `V1`, `V2`
+//     - fee receiver      : `Account`, `Pool`, `Community`
+//     - fee amount        : `Fixed`, `Scheduled`
+//   The `Dynamic` fee amount never appears: the dex refuses to use it.
 // =================================================
 import { borsh_reader } from "./intear_dex_borsh";
 import { read_intear_dex_asset_id } from "./intear_dex_asset_id";
@@ -67,12 +78,18 @@ export function decode_fee_amount(
       // do not fit a JS number, so they stay decimal strings.
       const start: [string, number] = [reader.u64().toString(), reader.u32()];
       const end: [string, number] = [reader.u64().toString(), reader.u32()];
+      // `ScheduledFeeCurve` has exactly one variant, `Linear`.
+      // VERIFIED live: every scheduled fee the mainnet pools carry
+      // uses it.
       const curve = reader.u8();
+      if (curve !== 0) {
+        throw new Error(`intear dex xyk: unknown scheduled fee curve ${curve}`);
+      }
       return {
         Scheduled: {
           start,
           end,
-          curve: curve === 0 ? "Linear" : (String(curve) as "Linear"),
+          curve: "Linear",
         },
       };
     }
@@ -210,10 +227,14 @@ export function decode_pool_view(
 // `get_pool_shares` returns.
 // The dex answers with one `Option` per pool:
 //   - `None`    — the pool is not a public pool, so it has no
-//                 per-account share map at all
+//                 per-account share map at all, OR the pool is a
+//                 public pool the account has no entry in
 //   - `Some(n)` — the account holds `n` shares in that pool. `n` is
-//                 zero when the account has no entry in the pool's
-//                 share map.
+//                 zero when the account is registered in the pool's
+//                 share map but holds nothing.
+//
+// VERIFIED live: all three states — `null`, `"0"` and a positive
+// amount — were observed in the mainnet responses.
 export function decode_pool_share(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_POOL_SHARE_TYPE {

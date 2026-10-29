@@ -5,7 +5,30 @@
 //   contract : `dex.intear.near` (mainnet) — the INTEAR DEX engine,
 //              sub-dex `simple-amm`
 //   methods  : `get_pool` (read through the engine's `dex_view`)
-//   verified : 2026-10-28, against the live mainnet response
+//   verified : 2026-10-29 — NOT verified against live data, see below
+//
+// NOT VERIFIED against live mainnet data (2026-10-29)
+//   The `simple-amm` sub-dex is **not deployed on mainnet**, so there
+//   was no live response to check these shapes against. The engine
+//   holds exactly two sub-dexes, and both were found:
+//     - `slimedragon.near/xyk`
+//     - `slimedragon.near/otc`
+//   `deploy_dex_code` is the only way to register a sub-dex, and every
+//   such call in the engine's whole transaction history named either
+//   `xyk` or `otc`. Every other dex id answers the engine's
+//   `dex_view` with `Dex code not found`.
+//
+//   The shapes below therefore come from the dex's own source, and
+//   they are ASSUMED, not verified. The source says the pool is:
+//     struct SimplePool {
+//         assets: (AssetWithBalance, AssetWithBalance),
+//         owner_id: AccountId,
+//     }
+//   which is what these types describe.
+//
+//   When a `simple-amm` dex is deployed on mainnet, check these
+//   shapes against its live `get_pool` response and update this
+//   header.
 //
 // BORS-DECODED, NOT JSON.
 // The simple-amm dex's views are read through the engine's `dex_view`,
@@ -19,11 +42,20 @@
 // provider per pool, constant-product math, no shares.
 // =================================================
 
+// One asset of a pool, with the balance the pool holds of it.
+//
+// ASSUMED (see the header): same shape as the xyk dex's asset, so
+// `asset_id` is the asset id string and `balance` is a decimal
+// string, because the balance is a u128.
 export interface INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE {
   asset_id: string;
   balance: string;
 }
 
+// A simple-amm pool.
+//
+// ASSUMED (see the header): the pool's two assets and its single
+// liquidity provider.
 export interface INTEAR_DEX_SIMPLE_AMM_POOL_TYPE {
   assets: [
     INTEAR_DEX_SIMPLE_AMM_ASSET_WITH_BALANCE_TYPE,

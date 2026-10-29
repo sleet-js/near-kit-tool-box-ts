@@ -20,6 +20,12 @@
 // Amounts are u128 and are carried as decimal strings on the public
 // API, matching the rest of this package (and the NEAR JSON
 // convention of using strings for 128-bit integers).
+//
+// The reader takes any `Uint8Array`, and that includes a Node
+// `Buffer`. A `Buffer` is a view into a shared pool, so reading
+// `view.buffer` would read the whole pool rather than the bytes the
+// view covers — the integer readers copy the bytes they read into a
+// fresh buffer first, so they stay correct for every input.
 // =================================================
 
 // ---------- writers ----------
@@ -133,18 +139,33 @@ export class borsh_reader {
   }
 
   u32(): number {
-    return new DataView(this.take(4).slice().buffer).getUint32(0, true);
+    return this.data_view(4).getUint32(0, true);
   }
 
   u64(): bigint {
-    return new DataView(this.take(8).slice().buffer).getBigUint64(0, true);
+    return this.data_view(8).getBigUint64(0, true);
   }
 
   u128(): bigint {
-    const view = new DataView(this.take(16).slice().buffer);
+    const view = this.data_view(16);
     const lo = view.getBigUint64(0, true);
     const hi = view.getBigUint64(8, true);
     return (hi << 64n) | lo;
+  }
+
+  // A `DataView` over the next `length` bytes.
+  //
+  // The bytes are copied into a fresh buffer on purpose: `take()` hands
+  // back a view into the input, and a Node `Buffer` is a view into a
+  // shared pool, so `view.buffer` is the whole pool rather than the
+  // bytes the view covers. Reading the pool's `ArrayBuffer` at offset 0
+  // would return the wrong numbers. Copying first keeps the read
+  // correct for every kind of input, `Buffer` included.
+  private data_view(length: number): DataView {
+    const bytes = this.take(length);
+    const copy = new Uint8Array(length);
+    copy.set(bytes);
+    return new DataView(copy.buffer);
   }
 
   bytes(): Uint8Array {

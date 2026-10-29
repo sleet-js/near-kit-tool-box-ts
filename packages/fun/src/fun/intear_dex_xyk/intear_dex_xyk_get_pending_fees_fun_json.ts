@@ -7,6 +7,10 @@
 //
 // Only the assets asked for are looked up. An asset the account has
 // never collected a fee for is simply absent from the map.
+//
+// The dex answers with a borsh `HashMap<AssetId, U128>`, which goes
+// over the wire as a length followed by that many (key, value) pairs.
+// The decoder reads it as a vector of pairs, which is the same bytes.
 // =================================================
 import type { Near } from "near-kit";
 import { borsh_reader, borsh_writer } from "../../lib/borsh/intear_dex_borsh";

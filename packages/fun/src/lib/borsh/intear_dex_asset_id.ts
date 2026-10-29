@@ -15,6 +15,19 @@
 //   - `nep141:<id>`     → variant 1 + String
 //   - `nep245:<id>:<t>` → variant 2 + String + String
 //   - `nep171:<id>:<t>` → variant 3 + String + String
+//
+// VERIFIED against live mainnet data (2026-10-29)
+//   The variant numbers were checked against the contract itself: the
+//   xyk dex's `get_pending_fees` and the otc dex's `get_balance` both
+//   take a borsh `Vec<AssetId>` / `AssetId`, and the contract
+//   deserialized all four forms without a panic — `near`, `nep141`,
+//   `nep245` and `nep171`.
+//
+//   The *values* a live response carries are a narrower set: every
+//   asset registered with the xyk and otc dexes is `near` or
+//   `nep141`, and every pool asset is one of those two. So the
+//   `nep245` and `nep171` arms are verified as accepted input, but
+//   not observed coming back out of the contract.
 // =================================================
 import { borsh_reader, borsh_writer } from "./intear_dex_borsh";
 
