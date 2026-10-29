@@ -6,24 +6,14 @@ A monorepo containing three packages for NEAR development:
 - **@near-kit-tool-box/env** - Backend/environment NEAR KIT client setup with .env support
 - **@near-kit-tool-box/fun** - Reusable contract functions for common NEAR contracts
 
-## Quick Start
+## Install
 
 ```bash
 bun install
 bun run build
 ```
 
-`bun install` at the root installs the dependencies for all three workspace
-packages.
-
-## Documentation
-
-- [DOCS/DEV_GUIDE.md](./DOCS/DEV_GUIDE.md) — the guide index
-- [DOCS/SC/](./DOCS/SC/) — one doc per smart contract
-- [bin/README.md](./bin/README.md) — the bins
-- [tree](./tree) — the repo layout and file naming conventions
-
-## Packages
+## Usage
 
 ### @near-kit-tool-box/web
 
@@ -102,81 +92,7 @@ import {
 } from "@near-kit-tool-box/fun";
 ```
 
-## Development
-
-```bash
-# Build all packages
-bun run build
-
-# Build specific package
-bun run build:web
-bun run build:env
-bun run build:fun
-
-# Clean + build — use before publishing so dist/ matches src/ 1:1
-bun run clean
-bun run rebuild
-
-# TypeScript check
-cd packages/web && bun run tsc --noEmit
-cd packages/env && bun run tsc --noEmit
-cd packages/fun && bun run tsc --noEmit
-
-# Type-check the bins
-bun run typecheck:bin
-```
-
-### Updating dependencies
-
-```bash
-# Update every workspace package to its latest dependency versions
-bun update --latest --recursive
-
-# Update one package
-cd packages/fun && bun update --latest
-```
-
-> **The `--recursive` flag matters.** A plain `bun update --latest` at the root
-> only updates the root `package.json`'s dependencies — it leaves the three
-> packages' own dependencies alone. The same goes for `bun update` without
-> `--latest`.
-
-## Versioning
-
-The three packages share a version. `version:sync` moves all of them at once.
-
-```bash
-# Preview a bump (no files modified)
-bun run version:dry-run
-
-# Patch bump (default) — bumps all packages
-bun run version:sync
-
-# Minor or major
-bun run version:sync minor
-bun run version:sync major
-```
-
-To bump a single package, edit its `package.json` `version` field directly.
-
-## Publishing
-
-Each package is independent and can be published separately:
-
-```bash
-# Login to npm
-bunx npm login
-
-# Publish all three, in dependency order (env -> fun -> web)
-bun run publish:all
-
-# Or publish individual packages
-cd packages/env && bun publish --access public
-cd packages/fun && bun publish --access public
-cd packages/web && bun publish --access public
-```
-
-## Usage Example
+### Example
 
 ```js
 // Browser (web + fun)
@@ -196,6 +112,23 @@ const balance = await ft_balance_of_fun_json(
   "account.near",
 );
 ```
+
+## Documentation
+
+Development guides:
+
+- [DOCS/DEV_GUIDE.md](./DOCS/DEV_GUIDE.md) — the guide index
+  - [setup.md](./DOCS/setup.md) — install, build, env vars, type check
+  - [build.md](./DOCS/build.md) — the build pipeline, clean & rebuild
+  - [versioning.md](./DOCS/versioning.md) — version sync and publishing
+  - [packages.md](./DOCS/packages.md) — the packages, their deps and config
+  - [testing.md](./DOCS/testing.md) — the bins as the test harness
+
+Reference:
+
+- [DOCS/SC/](./DOCS/SC/) — one doc per smart contract
+- [bin/README.md](./bin/README.md) — the bins
+- [tree](./tree) — the repo layout and file naming conventions
 
 ==========================
 <br/>
