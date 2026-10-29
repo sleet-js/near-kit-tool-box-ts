@@ -19,7 +19,7 @@ import type {
 } from "../../types/intear_dex_xyk_types";
 
 // =================================================
-/** Reads a `FeeReceiver`. */
+// Reads a `FeeReceiver`.
 export function decode_fee_receiver(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_FEE_RECEIVER_TYPE {
@@ -39,7 +39,7 @@ export function decode_fee_receiver(
 }
 
 // =================================================
-/** Reads a `CurrentFees` — the pool's fees at the current block. */
+// Reads a `CurrentFees` — the pool's fees at the current block.
 export function decode_current_fees(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_CURRENT_FEES_TYPE {
@@ -54,7 +54,7 @@ export function decode_current_fees(
 }
 
 // =================================================
-/** Reads a `FeeAmount` — the v2 per-receiver fee rule. */
+// Reads a `FeeAmount` — the v2 per-receiver fee rule.
 export function decode_fee_amount(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_FEE_AMOUNT_TYPE {
@@ -84,7 +84,7 @@ export function decode_fee_amount(
 }
 
 // =================================================
-/** Reads a `FeeConfiguration`. */
+// Reads a `FeeConfiguration`.
 export function decode_fee_configuration(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_FEE_CONFIGURATION_TYPE {
@@ -110,7 +110,7 @@ export function decode_fee_configuration(
 }
 
 // =================================================
-/** Reads an `AssetWithBalance`. */
+// Reads an `AssetWithBalance`.
 export function decode_asset_with_balance(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_ASSET_WITH_BALANCE_TYPE {
@@ -120,7 +120,7 @@ export function decode_asset_with_balance(
 }
 
 // =================================================
-/** Reads a `PoolView`. */
+// Reads a `PoolView`.
 export function decode_pool_view(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_POOL_TYPE {
@@ -206,17 +206,14 @@ export function decode_pool_view(
 }
 
 // =================================================
-/**
- * Reads one element of the `Vec<Option<U128>>` that
- * `get_pool_shares` returns.
- *
- * The dex answers with one `Option` per pool:
- *   - `None`    — the pool is not a public pool, so it has no
- *                 per-account share map at all
- *   - `Some(n)` — the account holds `n` shares in that pool. `n` is
- *                 zero when the account has no entry in the pool's
- *                 share map.
- */
+// Reads one element of the `Vec<Option<U128>>` that
+// `get_pool_shares` returns.
+// The dex answers with one `Option` per pool:
+//   - `None`    — the pool is not a public pool, so it has no
+//                 per-account share map at all
+//   - `Some(n)` — the account holds `n` shares in that pool. `n` is
+//                 zero when the account has no entry in the pool's
+//                 share map.
 export function decode_pool_share(
   reader: borsh_reader,
 ): INTEAR_DEX_XYK_POOL_SHARE_TYPE {

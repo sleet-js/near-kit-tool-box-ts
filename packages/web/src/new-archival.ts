@@ -25,7 +25,7 @@ export function near_kit_client_archival() {
     network_id === "testnet"
       ? near_kit_testnet_archival
       : near_kit_mainnet_archival;
-  console.log("[near_kit_client] networkId:", network_id);
+  console.log("[near_kit_client] network_id:", network_id);
   console.log(
     "[near_kit_client] client:",
     network_id === "testnet"

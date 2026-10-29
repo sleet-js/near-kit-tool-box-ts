@@ -14,12 +14,9 @@
 import type { INTEAR_DEX_ACCOUNT_OR_DEX_ID } from "../../types/intear_dex_engine_types";
 
 // =================================================
-/**
- * Builds an `AccountOrDexId` from a plain string.
- *
- * A string holding a `/` is read as a dex id, anything else as an
- * account id — the same rule the INTEAR DEX management CLI uses.
- */
+// Builds an `AccountOrDexId` from a plain string.
+// A string holding a `/` is read as a dex id, anything else as an
+// account id — the same rule the INTEAR DEX management CLI uses.
 export function intear_dex_account_or_dex_id(
   value: string,
 ): INTEAR_DEX_ACCOUNT_OR_DEX_ID {

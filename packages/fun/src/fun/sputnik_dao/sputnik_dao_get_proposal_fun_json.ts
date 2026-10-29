@@ -34,9 +34,7 @@ export async function sputnik_dao_get_proposal_fun_json(
 }
 
 // =================================================
-/**
- * True when an error is the contract's "no such proposal" panic.
- */
+// True when an error is the contract's "no such proposal" panic.
 export function sputnik_dao_no_proposal_fun(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
   return message.includes("ERR_NO_PROPOSAL");

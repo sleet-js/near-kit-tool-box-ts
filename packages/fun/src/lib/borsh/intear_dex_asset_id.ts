@@ -26,10 +26,8 @@ export type INTEAR_DEX_ASSET_ID =
   | `nep171:${string}:${string}`;
 
 // =================================================
-/**
- * Parses an INTEAR DEX asset id string into its parts.
- * Throws when the string is not a valid asset id.
- */
+// Parses an INTEAR DEX asset id string into its parts.
+// Throws when the string is not a valid asset id.
 export function parse_intear_dex_asset_id(asset_id: string): {
   kind: "near" | "nep141" | "nep245" | "nep171";
   contract_id?: string;
@@ -75,26 +73,22 @@ export function parse_intear_dex_asset_id(asset_id: string): {
 }
 
 // =================================================
-/**
- * Returns the contract id used to look up token metadata for an
- * INTEAR DEX asset id.
- *
- * The asset id names the contract the token lives on:
- *   - `near`                            → `near` (native NEAR)
- *   - `nep141:<contract_id>`            → `<contract_id>`
- *   - `nep245:<contract_id>:<token_id>` → `<contract_id>`
- *   - `nep171:<contract_id>:<token_id>` → `<contract_id>`
- *
- * This is the id the token registry is asked about, so it is how a
- * balance held inside the engine is matched to the token's metadata.
- */
+// Returns the contract id used to look up token metadata for an
+// INTEAR DEX asset id.
+// The asset id names the contract the token lives on:
+//   - `near`                            → `near` (native NEAR)
+//   - `nep141:<contract_id>`            → `<contract_id>`
+//   - `nep245:<contract_id>:<token_id>` → `<contract_id>`
+//   - `nep171:<contract_id>:<token_id>` → `<contract_id>`
+// This is the id the token registry is asked about, so it is how a
+// balance held inside the engine is matched to the token's metadata.
 export function intear_dex_asset_token_id(asset_id: string): string {
   const parsed = parse_intear_dex_asset_id(asset_id);
   if (parsed.kind === "near") return "near";
   return parsed.contract_id as string;
 }
 
-/** Writes an asset id in borsh form. */
+// Writes an asset id in borsh form.
 export function write_intear_dex_asset_id(
   writer: borsh_writer,
   asset_id: string,
@@ -122,7 +116,7 @@ export function write_intear_dex_asset_id(
 }
 
 // =================================================
-/** Reads an asset id in borsh form. */
+// Reads an asset id in borsh form.
 export function read_intear_dex_asset_id(reader: borsh_reader): string {
   const variant = reader.u8();
   switch (variant) {

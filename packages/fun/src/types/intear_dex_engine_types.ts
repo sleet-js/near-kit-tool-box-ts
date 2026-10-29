@@ -12,25 +12,19 @@ import * as z from "zod";
 
 // ---------- AccountOrDexId ----------
 
-/**
- * The INTEAR DEX `AccountOrDexId`.
- *
- * JSON form (the engine's own JSON API) is externally tagged:
- * `{"Account": "alice.near"}` or `{"Dex": "slimedragon.near/xyk"}`.
- *
- * The dex variant carries the dex id in its string form — the
- * `<deployer>/<id>` shape — because `DexId` serializes as a string.
- */
+// The INTEAR DEX `AccountOrDexId`.
+// JSON form (the engine's own JSON API) is externally tagged:
+// `{"Account": "alice.near"}` or `{"Dex": "slimedragon.near/xyk"}`.
+// The dex variant carries the dex id in its string form — the
+// `<deployer>/<id>` shape — because `DexId` serializes as a string.
 export type INTEAR_DEX_ACCOUNT_OR_DEX_ID =
   { Account: string } | { Dex: string };
 
 // ---------- AssetId ----------
 
-/**
- * The INTEAR DEX `AssetId` string form.
- * `near`, `nep141:<contract_id>`, `nep245:<contract_id>:<token_id>`
- * or `nep171:<contract_id>:<token_id>`.
- */
+// The INTEAR DEX `AssetId` string form.
+// `near`, `nep141:<contract_id>`, `nep245:<contract_id>:<token_id>`
+// or `nep171:<contract_id>:<token_id>`.
 export type INTEAR_DEX_ASSET_ID_STRING =
   | "near"
   | `nep141:${string}`
@@ -102,32 +96,24 @@ export const INTEAR_DEX_TOTAL_STORAGE_BALANCES_TYPE_Z_CONST = z
 
 // ---------- balances ----------
 
-/**
- * One registered asset of an account or dex, with its inner balance.
- *
- * The engine returns these as `[asset_id, balance]` tuples, so the
- * type mirrors that.
- */
+// One registered asset of an account or dex, with its inner balance.
+// The engine returns these as `[asset_id, balance]` tuples, so the
+// type mirrors that.
 export type INTEAR_DEX_REGISTERED_ASSET_TYPE = [
   INTEAR_DEX_ASSET_ID_STRING,
   string,
 ];
 
-/**
- * A registered asset as an object, for callers who prefer named
- * fields. Built by the helpers from the tuple the contract returns.
- */
+// A registered asset as an object, for callers who prefer named
+// fields. Built by the helpers from the tuple the contract returns.
 export interface INTEAR_DEX_REGISTERED_ASSET_OBJECT_TYPE {
   asset_id: INTEAR_DEX_ASSET_ID_STRING;
   balance: string;
 }
 
-/**
- * A zod schema for the INTEAR DEX `AssetId` string form.
- *
- * `near`, `nep141:<contract_id>`, `nep245:<contract_id>:<token_id>` or
- * `nep171:<contract_id>:<token_id>`.
- */
+// A zod schema for the INTEAR DEX `AssetId` string form.
+// `near`, `nep141:<contract_id>`, `nep245:<contract_id>:<token_id>` or
+// `nep171:<contract_id>:<token_id>`.
 export const INTEAR_DEX_ASSET_ID_STRING_Z_CONST = z
   .string()
   .refine(

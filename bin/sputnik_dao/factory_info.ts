@@ -28,14 +28,13 @@ import {
   sputnik_dao_factory_get_owner_fun_json,
 } from "../../packages/fun/src/index.js";
 // =================================================
-const usage = "bun run bin/sputnik_dao/factory_info.ts [--contract-id <id>]";
 const args = parse_args();
 const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,
   sputnik_dao_factory_contractid(NEAR_KIT_NETWORK),
 );
 
-const [defaultVersion, defaultCodeHash, contractsMetadata, owner] =
+const [default_version, default_code_hash, contracts_metadata, owner] =
   await Promise.all([
     sputnik_dao_factory_get_default_version_fun_json(near_kit_env, contract_id),
     sputnik_dao_factory_get_default_code_hash_fun_json(
@@ -51,9 +50,9 @@ const [defaultVersion, defaultCodeHash, contractsMetadata, owner] =
 // =================================================
 log_result(`factory info @ ${contract_id}`, {
   owner,
-  default_version: defaultVersion,
-  default_code_hash: defaultCodeHash,
-  contracts_metadata: contractsMetadata,
+  default_version: default_version,
+  default_code_hash: default_code_hash,
+  contracts_metadata: contracts_metadata,
 });
 // =================================================
 // copyright 2026 by sleet.near

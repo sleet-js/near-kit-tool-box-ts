@@ -49,7 +49,7 @@ export function get_stored_network_id(): "mainnet" | "testnet" {
 export function near_kit_client() {
   const network_id = get_stored_network_id();
   const client = network_id === "testnet" ? near_kit_testnet : near_kit_mainnet;
-  console.log("[near_kit_client] networkId:", network_id);
+  console.log("[near_kit_client] network_id:", network_id);
   console.log(
     "[near_kit_client] client:",
     network_id === "testnet" ? "near_kit_testnet" : "near_kit_mainnet",
@@ -62,7 +62,7 @@ export function near_connect_client() {
   const network_id = get_stored_network_id();
   const client =
     network_id === "testnet" ? near_connect_testnet : near_connect_mainnet;
-  console.log("[near_connect_client] networkId:", network_id);
+  console.log("[near_connect_client] network_id:", network_id);
   console.log(
     "[near_connect_client] client:",
     network_id === "testnet" ? "near_connect_testnet" : "near_connect_mainnet",

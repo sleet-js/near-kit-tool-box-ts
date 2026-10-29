@@ -58,14 +58,11 @@ export const RHEA_AMMV2_POOL_SHARES_TYPE_Z_CONST = z
     ),
   })) satisfies z.ZodType<RHEA_AMMV2_POOL_SHARES_TYPE>;
 
-/**
- * The LP shares of one account in a batch of pools, in the order the
- * pools were asked for.
- *
- * Each entry is the same string `get_pool_shares` returns for one
- * pool — the LP token balance, or `"0"` when the account holds
- * nothing in that pool.
- */
+// The LP shares of one account in a batch of pools, in the order the
+// pools were asked for.
+// Each entry is the same string `get_pool_shares` returns for one
+// pool — the LP token balance, or `"0"` when the account holds
+// nothing in that pool.
 export type RHEA_AMMV2_POOL_SHARES_BATCH_TYPE = string[];
 
 export interface RHEA_AMMV2_POOL_TOTAL_SHARES_TYPE {

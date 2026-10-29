@@ -20,13 +20,10 @@ import {
   sputnik_dao_factory_contractid,
 } from "../_shared/env.js";
 import {
-  sputnik_dao_factory_get_dao_list_fun_json,
   sputnik_dao_factory_get_daos_fun_json,
   sputnik_dao_factory_get_number_daos_fun_json,
 } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/sputnik_dao/factory_daos.ts [--from-index <n>] [--limit <n>] [--contract-id <id>]";
 const args = parse_args();
 const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,

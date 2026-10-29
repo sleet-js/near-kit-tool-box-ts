@@ -64,7 +64,7 @@ export class borsh_writer {
     return this;
   }
 
-  /** Appends raw bytes without a length prefix. */
+  // Appends raw bytes without a length prefix.
   chunks_push(value: Uint8Array): this {
     this.chunks.push(value);
     return this;
@@ -169,14 +169,11 @@ export class borsh_reader {
     return out;
   }
 
-  /**
-   * Reads a near-crypto `PublicKey`.
-   *
-   * near-sdk's borsh serializer writes a `PublicKey` as a **String**
-   * whose content is the borsh bytes of `near_crypto::PublicKey`:
-   * a one byte tag (`0` ed25519, `1` secp256k1, `2` ml-dsa-65)
-   * followed by the raw key bytes.
-   */
+  // Reads a near-crypto `PublicKey`.
+  // near-sdk's borsh serializer writes a `PublicKey` as a **String**
+  // whose content is the borsh bytes of `near_crypto::PublicKey`:
+  // a one byte tag (`0` ed25519, `1` secp256k1, `2` ml-dsa-65)
+  // followed by the raw key bytes.
   public_key(): string {
     const raw = this.bytes();
     if (raw.length === 0) throw new Error("borsh: empty public key");

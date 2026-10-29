@@ -21,21 +21,17 @@
 import type { Near } from "near-kit";
 
 // =================================================
-/**
- * Calls one contract view method and returns its result.
- *
- * @param near - the NEAR client
- * @param contract_id - the contract account id
- * @param method_name - the view method to call
- * @param args - the JSON arguments; defaults to `{}`
- * @returns the parsed JSON result
- *
- * @remarks
- * - The returned type is a type assertion for convenience. No runtime
- *   validation is performed against it.
- * - A contract that answers with an empty response makes this throw,
- *   because an empty response is a broken read, not a value.
- */
+// Calls one contract view method and returns its result.
+// params:
+//   near: the NEAR client
+//   contract_id: the contract account id
+//   method_name: the view method to call
+//   args: the JSON arguments; defaults to `{}`
+// returns the parsed JSON result
+// - The returned type is a type assertion for convenience. No runtime
+//   validation is performed against it.
+// - A contract that answers with an empty response makes this throw,
+//   because an empty response is a broken read, not a value.
 export async function near_kit_contract_view_fun<T>(
   near: Near,
   contract_id: string,
@@ -50,18 +46,15 @@ export async function near_kit_contract_view_fun<T>(
 }
 
 // =================================================
-/**
- * Calls one contract view method and returns its JSON result.
- *
- * The JSON twin of {@link near_kit_contract_view_fun}, for callers
- * that think of the result as JSON rather than as a decoded value.
- *
- * @param near - the NEAR client
- * @param contract_id - the contract account id
- * @param method_name - the view method to call
- * @param args - the JSON arguments; defaults to `{}`
- * @returns the parsed JSON result
- */
+// Calls one contract view method and returns its JSON result.
+// The JSON twin of near_kit_contract_view_fun, for callers
+// that think of the result as JSON rather than as a decoded value.
+// params:
+//   near: the NEAR client
+//   contract_id: the contract account id
+//   method_name: the view method to call
+//   args: the JSON arguments; defaults to `{}`
+// returns the parsed JSON result
 export async function near_kit_contract_view_fun_json<T>(
   near: Near,
   contract_id: string,

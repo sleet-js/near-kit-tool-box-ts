@@ -16,8 +16,6 @@ import {
 } from "../_shared/env.js";
 import { rhea_ammv2_get_number_of_pools_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/rhea_ammv2/rhea_get_number_of_pools.ts [--contract-id <id>]";
 const args = parse_args();
 const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,

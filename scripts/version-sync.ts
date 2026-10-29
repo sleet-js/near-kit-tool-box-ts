@@ -1,15 +1,12 @@
-/**
- * Version Sync Script
- * Finds the highest version across all workspace packages and bumps everything to the next version.
- *
- * Usage:
- *   bun run scripts/version-sync.ts              # Patch bump (0.0.1 -> 0.0.2)
- *   bun run scripts/version-sync.ts patch        # Patch bump (0.0.1 -> 0.0.2)
- *   bun run scripts/version-sync.ts minor        # Minor bump (0.0.1 -> 0.1.0)
- *   bun run scripts/version-sync.ts major        # Major bump (0.0.1 -> 1.0.0)
- *   bun run scripts/version-sync.ts 1.2.3        # Set specific version
- *   bun run scripts/version-sync.ts --dry-run    # Preview without writing
- */
+// Version Sync Script
+// Finds the highest version across all workspace packages and bumps everything to the next version.
+// Usage:
+//   bun run scripts/version-sync.ts              # Patch bump (0.0.1 -> 0.0.2)
+//   bun run scripts/version-sync.ts patch        # Patch bump (0.0.1 -> 0.0.2)
+//   bun run scripts/version-sync.ts minor        # Minor bump (0.0.1 -> 0.1.0)
+//   bun run scripts/version-sync.ts major        # Major bump (0.0.1 -> 1.0.0)
+//   bun run scripts/version-sync.ts 1.2.3        # Set specific version
+//   bun run scripts/version-sync.ts --dry-run    # Preview without writing
 
 import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";

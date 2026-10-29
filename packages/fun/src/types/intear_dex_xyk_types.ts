@@ -1,4 +1,3 @@
-import * as z from "zod";
 // =================================================
 // Typed shapes returned by the INTEAR DEX `xyk` sub-dex views.
 //
@@ -25,13 +24,11 @@ export type INTEAR_DEX_XYK_FEE_AMOUNT_TYPE =
   | { Fixed: number }
   | {
       Scheduled: {
-        /**
-         * The schedule's start, as `[nanosecond timestamp, fee
-         * fraction]`. The timestamp is a decimal string — it does not
-         * fit a JS number.
-         */
+        // The schedule's start, as `[nanosecond timestamp, fee
+        // fraction]`. The timestamp is a decimal string — it does not
+        // fit a JS number.
         start: [string, number];
-        /** The schedule's end, as `[nanosecond timestamp, fee fraction]`. */
+        // The schedule's end, as `[nanosecond timestamp, fee fraction]`.
         end: [string, number];
         curve: "Linear";
       };
@@ -111,31 +108,24 @@ export type INTEAR_DEX_XYK_POOL_TYPE =
 
 // ---------- LP shares ----------
 
-/**
- * The LP share of one account in one pool.
- *
- * The xyk dex answers with one `Option` per pool:
- *   - `null`        — the pool is not a public pool, so it has no
- *                     per-account share map at all
- *   - `{ "0" }`     — the account has no entry in the pool's share
- *                     map, so it holds nothing
- *   - `{ "123456" }` — the account holds that many shares
- */
+// The LP share of one account in one pool.
+// The xyk dex answers with one `Option` per pool:
+//   - `null`        — the pool is not a public pool, so it has no
+//                     per-account share map at all
+//   - `{ "0" }`     — the account has no entry in the pool's share
+//                     map, so it holds nothing
+//   - `{ "123456" }` — the account holds that many shares
 export interface INTEAR_DEX_XYK_POOL_SHARE_TYPE {
   shares: string | null;
 }
 
-/**
- * The LP shares of one account across a list of pools, in the order
- * the pools were asked for.
- */
+// The LP shares of one account across a list of pools, in the order
+// the pools were asked for.
 export type INTEAR_DEX_XYK_POOL_SHARES_TYPE = INTEAR_DEX_XYK_POOL_SHARE_TYPE[];
 
 // ---------- pending fees ----------
 
-/**
- * The fees an account has collected but not withdrawn yet, per asset.
- */
+// The fees an account has collected but not withdrawn yet, per asset.
 export type INTEAR_DEX_XYK_PENDING_FEES_TYPE = Record<string, string>;
 // =================================================
 // copyright 2026 by sleet.near

@@ -12,14 +12,11 @@
 // =================================================
 
 // =================================================
-/**
- * Method name constants for the Sputnik DAO **factory**
- * (`sputnik-dao.near`).
- *
- * The factory creates the DAOs and keeps the list of them. Its
- * `get_dao_list` and `get_daos` answer the same thing — the list of
- * DAO account ids — the one unpaginated and the other paged.
- */
+// Method name constants for the Sputnik DAO **factory**
+// (`sputnik-dao.near`).
+// The factory creates the DAOs and keeps the list of them. Its
+// `get_dao_list` and `get_daos` answer the same thing — the list of
+// DAO account ids — the one unpaginated and the other paged.
 export const sputnik_dao_factory_methods_const = {
   // ---- views ----
   get_dao_list: "get_dao_list",
@@ -40,12 +37,9 @@ export const sputnik_dao_factory_methods_const = {
 } as const;
 
 // =================================================
-/**
- * Method name constants for a Sputnik DAO (`<name>.sputnik-dao.near`).
- *
- * The DAO holds its config, its policy (the roles and who is in
- * them), its proposals and its bounties.
- */
+// Method name constants for a Sputnik DAO (`<name>.sputnik-dao.near`).
+// The DAO holds its config, its policy (the roles and who is in
+// them), its proposals and its bounties.
 export const sputnik_dao_methods_const = {
   // ---- views: config and policy ----
   get_config: "get_config",

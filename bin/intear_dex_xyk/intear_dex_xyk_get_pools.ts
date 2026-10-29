@@ -17,8 +17,6 @@ import {
 } from "../_shared/env.js";
 import { intear_dex_xyk_get_pools_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/intear_dex_xyk/intear_dex_xyk_get_pools.ts [--start-index <n>] [--limit <n>] [--dex-id <deployer/id>] [--contract-id <id>]";
 const args = parse_args();
 const start_index = optional_number(args, "start-index", 0);
 const limit = optional_number(args, "limit", 10);

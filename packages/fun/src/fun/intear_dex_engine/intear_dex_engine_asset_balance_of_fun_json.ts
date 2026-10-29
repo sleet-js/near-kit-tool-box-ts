@@ -15,7 +15,6 @@
 // =================================================
 import type { Near } from "near-kit";
 import { intear_dex_engine_methods_const } from "../../lib/methods/methods_intear_dex_engine";
-import type { intear_dex_engine_args } from "../../lib/args/intear_dex_engine_args";
 import type {
   INTEAR_DEX_ACCOUNT_OR_DEX_ID,
   INTEAR_DEX_ASSET_ID_STRING,

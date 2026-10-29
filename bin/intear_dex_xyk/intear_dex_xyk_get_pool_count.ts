@@ -19,8 +19,6 @@ import {
 } from "../_shared/env.js";
 import { intear_dex_xyk_get_pool_count_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/intear_dex_xyk/intear_dex_xyk_get_pool_count.ts [--dex-id <deployer/id>] [--contract-id <id>]";
 const args = parse_args();
 const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,

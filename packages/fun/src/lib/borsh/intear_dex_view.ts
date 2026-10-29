@@ -23,16 +23,14 @@ import {
 import { intear_dex_engine_methods_const } from "../methods/methods_intear_dex_engine";
 
 // =================================================
-/**
- * Calls a sub-dex view through the engine and returns the raw borsh
- * bytes of the response.
- *
- * @param near - the NEAR client
- * @param engine_contract_id - the engine account id (`dex.intear.near`)
- * @param dex_id - the sub-dex id, `<deployer>/<id>`
- * @param method - the sub-dex view method name
- * @param args - the borsh-encoded sub-dex arguments
- */
+// Calls a sub-dex view through the engine and returns the raw borsh
+// bytes of the response.
+// params:
+//   near: the NEAR client
+//   engine_contract_id: the engine account id (`dex.intear.near`)
+//   dex_id: the sub-dex id, `<deployer>/<id>`
+//   method: the sub-dex view method name
+//   args: the borsh-encoded sub-dex arguments
 export async function intear_dex_view_raw(
   near: Near,
   engine_contract_id: string,
@@ -63,10 +61,8 @@ export async function intear_dex_view_raw(
 }
 
 // =================================================
-/**
- * Calls a sub-dex view through the engine and decodes the borsh
- * response with `decode`.
- */
+// Calls a sub-dex view through the engine and decodes the borsh
+// response with `decode`.
 export async function intear_dex_view<T>(
   near: Near,
   engine_contract_id: string,

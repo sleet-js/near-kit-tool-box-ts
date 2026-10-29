@@ -18,18 +18,14 @@ export interface INTEAR_DEX_OTC_STORAGE_BALANCE_TYPE {
 
 // ---------- authorized key ----------
 
-/**
- * The public key an account authorized to sign its own trade intents.
- * `null` when the account has not authorized any key.
- */
+// The public key an account authorized to sign its own trade intents.
+// `null` when the account has not authorized any key.
 export type INTEAR_DEX_OTC_AUTHORIZED_KEY_TYPE = string | null;
 
 // ---------- balances ----------
 
-/**
- * The otc dex's internal balance of one asset for one account.
- * `null` when the account has no balance entry for that asset.
- */
+// The otc dex's internal balance of one asset for one account.
+// `null` when the account has no balance entry for that asset.
 export type INTEAR_DEX_OTC_BALANCE_TYPE = string | null;
 // =================================================
 // copyright 2026 by sleet.near

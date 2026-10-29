@@ -22,7 +22,6 @@ import { log_result, near_kit_env } from "../_shared/env.js";
 import {
   sputnik_dao_account_id,
   sputnik_dao_get_bounties_fun_json,
-  sputnik_dao_get_bounty_number_of_claims_fun_json,
   sputnik_dao_get_last_bounty_id_fun_json,
 } from "../../packages/fun/src/index.js";
 // =================================================
@@ -33,13 +32,13 @@ const dao_id = sputnik_dao_account_id(require_string(args, "dao", usage));
 const from_index = optional_number(args, "from-index", 0);
 const limit = optional_number(args, "limit", 50);
 
-const [bounties, lastBountyId] = await Promise.all([
+const [bounties, last_bounty_id] = await Promise.all([
   sputnik_dao_get_bounties_fun_json(near_kit_env, dao_id, from_index, limit),
   sputnik_dao_get_last_bounty_id_fun_json(near_kit_env, dao_id),
 ]);
 // =================================================
 log_result(`get_bounties ${dao_id} from ${from_index} limit ${limit}`, {
-  last_bounty_id: lastBountyId,
+  last_bounty_id: last_bounty_id,
   bounties,
 });
 // =================================================

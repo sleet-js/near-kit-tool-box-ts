@@ -24,8 +24,6 @@ import {
   intear_dex_engine_untracked_near_fun_json,
 } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/intear_dex_engine/intear_dex_engine_info.ts [--contract-id <id>]";
 const args = parse_args();
 const contract_id = resolve_contract_id(
   typeof args["contract-id"] === "string" ? args["contract-id"] : undefined,

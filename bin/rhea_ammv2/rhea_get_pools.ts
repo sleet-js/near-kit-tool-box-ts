@@ -16,8 +16,6 @@ import {
 } from "../_shared/env.js";
 import { rhea_ammv2_get_pools_fun_json } from "../../packages/fun/src/index.js";
 // =================================================
-const usage =
-  "bun run bin/rhea_ammv2/rhea_get_pools.ts [--from-index <n>] [--limit <n>] [--contract-id <id>]";
 const args = parse_args();
 const from_index = optional_number(args, "from-index", 0);
 const limit = optional_number(args, "limit", 10);
