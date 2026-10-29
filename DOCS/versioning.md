@@ -93,7 +93,7 @@ bun run publish:all
 
 The manual steps above are automated by
 [`.github/workflows/release.yml`](../.github/workflows/release.yml). Run it from
-**GitHub → Actions → Release → Run workflow**.
+**GitHub → Actions → RELEASE → Run workflow**.
 
 ### What it does
 

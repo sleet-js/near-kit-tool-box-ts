@@ -1,4 +1,4 @@
-name: Release
+name: RELEASE
 
 # Manual release. Bumps every workspace package to one version, commits,
 # tags, builds, and publishes to npm with trusted publishing (OIDC).
@@ -13,6 +13,10 @@ name: Release
 #     Workflow filename    : release.yml
 #     Allowed actions      : npm publish
 #   The config must complete its first publish within 2 days or it expires.
+#
+# NOTE: this `name:` is only the label shown in the Actions UI. npm matches the
+# trusted publisher on the workflow FILENAME (release.yml) and the repository,
+# never on this field. Renaming it here does not affect publishing.
 
 on:
   workflow_dispatch:
