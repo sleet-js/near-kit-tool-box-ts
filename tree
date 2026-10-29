@@ -36,7 +36,6 @@ near-kit-tool-box/
 │   ├── packages.md                           # the three packages, their deps and config
 │   ├── testing.md                            # the bins as the test harness
 │   ├── live_responses.md                     # captured live mainnet contract responses
-│   ├── session_notes_2026_10_28.md           # the naming sweep and the response-type fixes
 │   └── FILES.md                              # Top-level folder index
 ├── package.json                              # Root workspace config
 └── tsconfig.bin.json                         # Type-check config for the bins
