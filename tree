@@ -29,8 +29,12 @@ near-kit-tool-box/
 ├── scripts/                                  # Development utilities (version sync)
 ├── DOCS/
 │   ├── SC/                                   # Per-contract documentation, one .md per smart contract
-│   ├── DEV_GUIDE.md                          # The full development guide
-│   ├── DEV_GUIDE_CONCISE.md                  # Command cheatsheet
+│   ├── DEV_GUIDE.md                          # The guide index
+│   ├── setup.md                              # install, build, env vars, type check
+│   ├── build.md                              # the build pipeline, clean & rebuild
+│   ├── versioning.md                         # version sync, bump types, publishing
+│   ├── packages.md                           # the three packages, their deps and config
+│   ├── testing.md                            # the bins as the test harness
 │   └── FILES.md                              # Top-level folder index
 ├── package.json                              # Root workspace config
 └── tsconfig.bin.json                         # Type-check config for the bins

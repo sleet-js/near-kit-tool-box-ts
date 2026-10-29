@@ -14,6 +14,13 @@ bun update --latest
 bun run build
 ```
 
+## Documentation
+
+- [DOCS/DEV_GUIDE.md](./DOCS/DEV_GUIDE.md) — the guide index
+- [DOCS/SC/](./DOCS/SC/) — one doc per smart contract
+- [bin/README.md](./bin/README.md) — the bins
+- [tree](./tree) — the repo layout and file naming conventions
+
 ## Packages
 
 ### @near-kit-tool-box/web
@@ -104,11 +111,36 @@ bun run build:web
 bun run build:env
 bun run build:fun
 
+# Clean + build — use before publishing so dist/ matches src/ 1:1
+bun run clean
+bun run rebuild
+
 # TypeScript check
 cd packages/web && bun run tsc --noEmit
 cd packages/env && bun run tsc --noEmit
 cd packages/fun && bun run tsc --noEmit
+
+# Type-check the bins
+bun run typecheck:bin
 ```
+
+## Versioning
+
+The three packages share a version. `version:sync` moves all of them at once.
+
+```bash
+# Preview a bump (no files modified)
+bun run version:dry-run
+
+# Patch bump (default) — bumps all packages
+bun run version:sync
+
+# Minor or major
+bun run version:sync minor
+bun run version:sync major
+```
+
+To bump a single package, edit its `package.json` `version` field directly.
 
 ## Publishing
 
@@ -118,10 +150,13 @@ Each package is independent and can be published separately:
 # Login to npm
 bunx npm login
 
-# Publish individual packages
-cd packages/web && bun publish --access public
+# Publish all three, in dependency order (env -> fun -> web)
+bun run publish:all
+
+# Or publish individual packages
 cd packages/env && bun publish --access public
 cd packages/fun && bun publish --access public
+cd packages/web && bun publish --access public
 ```
 
 ## Usage Example
