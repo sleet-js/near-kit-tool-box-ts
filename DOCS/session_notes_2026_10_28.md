@@ -30,15 +30,15 @@ constants. The drift was repo-wide, not just in `packages/fun/src/lib/borsh/`.
 
 **`packages/fun/src/lib/borsh/`** — the folder that started this:
 
-| before | after |
-|---|---|
-| `BorshReader` / `BorshWriter` | `borsh_reader` / `borsh_writer` |
-| `base58Encode` / `bytesToBase64` / `base64ToBytes` | `base58_encode` / `bytes_to_base64` / `base64_to_bytes` |
+| before                                                                     | after                                                                                  |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `BorshReader` / `BorshWriter`                                              | `borsh_reader` / `borsh_writer`                                                        |
+| `base58Encode` / `bytesToBase64` / `base64ToBytes`                         | `base58_encode` / `bytes_to_base64` / `base64_to_bytes`                                |
 | `parseIntearDexAssetId` / `readIntearDexAssetId` / `writeIntearDexAssetId` | `parse_intear_dex_asset_id` / `read_intear_dex_asset_id` / `write_intear_dex_asset_id` |
-| `intearDexAssetTokenId` / `intearDexAccountOrDexId` | `intear_dex_asset_token_id` / `intear_dex_account_or_dex_id` |
-| `intearDexView` / `intearDexViewRaw` | `intear_dex_view` / `intear_dex_view_raw` |
-| the seven `decode*` helpers | `decode_*` |
-| `chunksPush` / `toBytes` / `publicKey` | `chunks_push` / `to_bytes` / `public_key` |
+| `intearDexAssetTokenId` / `intearDexAccountOrDexId`                        | `intear_dex_asset_token_id` / `intear_dex_account_or_dex_id`                           |
+| `intearDexView` / `intearDexViewRaw`                                       | `intear_dex_view` / `intear_dex_view_raw`                                              |
+| the seven `decode*` helpers                                                | `decode_*`                                                                             |
+| `chunksPush` / `toBytes` / `publicKey`                                     | `chunks_push` / `to_bytes` / `public_key`                                              |
 
 **Elsewhere**: `packages/web/src` (`toggleNetwork` → `toggle_network`,
 `getStoredNetworkId` → `get_stored_network_id`, `setNetwork_*` →
@@ -51,15 +51,15 @@ constants. The drift was repo-wide, not just in `packages/fun/src/lib/borsh/`.
 
 These mirror an external API and must keep their spelling:
 
-| name | owner |
-|---|---|
-| `attachedDeposit` | near-kit `CallOptions` |
-| `receiverId`, `methodNames` | near-kit `AccessKeyPermission` (TS type) |
-| `rpcUrl`, `privateKey`, `defaultSignerId` | near-kit `Near` options |
-| `footerBranding`, `linkText` | @hot-labs/near-connect options |
-| `network`, `wallet` | near-kit `Near` options |
-| `Account`, `Dex`, `Pool`, `Community`, `Fixed`, `Scheduled`, `Dynamic`, `V1`, `V2`, `Private`, `Public`, `Launch`, `LaunchV2`, `FunctionCall`, `Transfer`, `UpgradeSelf`, `UpgradeRemote`, `SetStakingContract`, `AddBounty`, `BountyDone`, `Vote`, `FactoryInfoUpdate`, `ChangeConfig`, `ChangePolicy`, `AddMemberToRole`, `RemoveMemberFromRole` | contract wire format |
-| `InProgress`, `Approved`, `Rejected`, `Removed`, `Expired`, `Moved`, `Failed`, `Approve`, `Reject`, `Unknown` | contract wire format |
+| name                                                                                                                                                                                                                                                                                                                                               | owner                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `attachedDeposit`                                                                                                                                                                                                                                                                                                                                  | near-kit `CallOptions`                   |
+| `receiverId`, `methodNames`                                                                                                                                                                                                                                                                                                                        | near-kit `AccessKeyPermission` (TS type) |
+| `rpcUrl`, `privateKey`, `defaultSignerId`                                                                                                                                                                                                                                                                                                          | near-kit `Near` options                  |
+| `footerBranding`, `linkText`                                                                                                                                                                                                                                                                                                                       | @hot-labs/near-connect options           |
+| `network`, `wallet`                                                                                                                                                                                                                                                                                                                                | near-kit `Near` options                  |
+| `Account`, `Dex`, `Pool`, `Community`, `Fixed`, `Scheduled`, `Dynamic`, `V1`, `V2`, `Private`, `Public`, `Launch`, `LaunchV2`, `FunctionCall`, `Transfer`, `UpgradeSelf`, `UpgradeRemote`, `SetStakingContract`, `AddBounty`, `BountyDone`, `Vote`, `FactoryInfoUpdate`, `ChangeConfig`, `ChangePolicy`, `AddMemberToRole`, `RemoveMemberFromRole` | contract wire format                     |
+| `InProgress`, `Approved`, `Rejected`, `Removed`, `Expired`, `Moved`, `Failed`, `Approve`, `Reject`, `Unknown`                                                                                                                                                                                                                                      | contract wire format                     |
 
 The tricky one: near-kit's **TypeScript type** for `AccessKeyPermission`
 uses camelCase (`receiverId`, `methodNames`) while its **zod runtime
@@ -78,12 +78,12 @@ comments.
 
 JSDoc-only constructs were rewritten for the new form:
 
-| JSDoc | now |
-|---|---|
-| `@param near - the NEAR client` | a `params:` heading with `near: the NEAR client` |
-| `@returns the parsed JSON result` | `returns the parsed JSON result` |
-| `@remarks` | dropped, its content kept |
-| `{@link near_kit_contract_view_fun}` | `near_kit_contract_view_fun` |
+| JSDoc                                | now                                              |
+| ------------------------------------ | ------------------------------------------------ |
+| `@param near - the NEAR client`      | a `params:` heading with `near: the NEAR client` |
+| `@returns the parsed JSON result`    | `returns the parsed JSON result`                 |
+| `@remarks`                           | dropped, its content kept                        |
+| `{@link near_kit_contract_view_fun}` | `near_kit_contract_view_fun`                     |
 
 Also removed the unused declarations (`noUnusedLocals` is `false` in the
 package tsconfigs, so they were invisible by default):
@@ -122,19 +122,19 @@ reference updates whenever you want them.
 
 **This was the important part, and it should have come first.** The
 types were hand-written and had drifted from what the contracts
-actually return. The Zod work was only the mechanism that *found* the
+actually return. The Zod work was only the mechanism that _found_ the
 drift.
 
 ### `rhea_ammv2` — two types were flat wrong
 
 Verified live against `v2.ref-finance.near`:
 
-| view | live response | was |
-|---|---|---|
-| `get_account_basic_info` | `{ near_amount, storage_used }` | `{ account_id, registered_tokens, storage_usage }` ❌ |
-| `metadata` | `version` + 10 more fields, **no** `name`/`symbol` | declared `name`/`symbol` ❌ |
-| `get_pool_share_price` | `"101421689"` (one string) | typed `string[]` ❌ |
-| `get_account_basic_info` on an unregistered account | `null` | threw ❌ |
+| view                                                | live response                                      | was                                                   |
+| --------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------- |
+| `get_account_basic_info`                            | `{ near_amount, storage_used }`                    | `{ account_id, registered_tokens, storage_usage }` ❌ |
+| `metadata`                                          | `version` + 10 more fields, **no** `name`/`symbol` | declared `name`/`symbol` ❌                           |
+| `get_pool_share_price`                              | `"101421689"` (one string)                         | typed `string[]` ❌                                   |
+| `get_account_basic_info` on an unregistered account | `null`                                             | threw ❌                                              |
 
 Every declared field was landing in `extra` while the named fields were
 always `undefined`.
@@ -238,13 +238,13 @@ the rhea_ammv2 drift survived.
 
 1. **`RHEA_DCLV2_POOL_TYPE` is unverified.** The field list is
    hand-written and was never confirmed against a live response. Six
-   fields are *required* in the schema (`pool_id`, `token_x`,
+   fields are _required_ in the schema (`pool_id`, `token_x`,
    `token_y`, `fee`, `total_x`, `total_y`), so if a live pool uses
    different names the helper **throws** rather than degrading. Same
    for `RHEA_DCLV2_LIQUIDITY_TYPE` and `RHEA_DCLV2_USER_ASSET_TYPE`.
    `RHEA_DCLV2_USER_ASSETS_TYPE` was added by analogy with the AMM's
    `get_deposits`, not observed.
-   → *Next thing to check.* The factory-list approach worked well for
+   → _Next thing to check._ The factory-list approach worked well for
    finding a DAO with bounties; the same idea may find a live DCL pool.
 
 2. **`RHEA_DCLV2_METADATA_TYPE` is lossy.** Correct, but
@@ -307,7 +307,9 @@ const res = await fetch("https://rpc.mainnet.fastnear.com", {
   method: "POST",
   headers: { "content-type": "application/json" },
   body: JSON.stringify({
-    jsonrpc: "2.0", id: 1, method: "query",
+    jsonrpc: "2.0",
+    id: 1,
+    method: "query",
     params: {
       request_type: "call_function",
       account_id: "v2.ref-finance.near",
