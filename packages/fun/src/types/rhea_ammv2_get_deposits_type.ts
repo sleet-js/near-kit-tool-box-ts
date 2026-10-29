@@ -1,3 +1,4 @@
+import * as z from "zod";
 // =================================================
 // RHEA_AMMV2_GET_DEPOSITS_TYPE
 //
@@ -13,5 +14,10 @@
 export interface RHEA_AMMV2_GET_DEPOSITS_TYPE {
   [token_id: string]: string;
 }
+
+export const RHEA_AMMV2_GET_DEPOSITS_TYPE_Z_CONST = z.record(
+  z.string(),
+  z.string(),
+) satisfies z.ZodType<RHEA_AMMV2_GET_DEPOSITS_TYPE>;
 // =================================================
 // copyright 2026 by sleet.near

@@ -6,6 +6,7 @@
 // JSON `number`.
 import type { Near } from "near-kit";
 import { rhea_ammv2_methods_const } from "../../lib/methods/methods_rhea_ammv2";
+import { RHEA_AMMV2_POOL_COUNT_Z_CONST } from "../../types/rhea_ammv2_view_types";
 // =================================================
 export async function rhea_ammv2_get_number_of_pools_fun_json(
   near: Near,
@@ -16,7 +17,7 @@ export async function rhea_ammv2_get_number_of_pools_fun_json(
     rhea_ammv2_methods_const.get_number_of_pools,
     {},
   );
-  return result as number;
+  return RHEA_AMMV2_POOL_COUNT_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near

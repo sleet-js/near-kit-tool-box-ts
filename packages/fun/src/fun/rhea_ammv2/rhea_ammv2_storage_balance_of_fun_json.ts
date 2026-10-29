@@ -9,7 +9,10 @@
 import type { Near } from "near-kit";
 import { rhea_ammv2_methods_const } from "../../lib/methods/methods_rhea_ammv2";
 import type { rhea_ammv2_args } from "../../lib/args/rhea_ammv2_args";
-import type { STORAGE_BALANCE_OF_RESPONSE_TYPE } from "../../types/storage_balance_of_response_type";
+import {
+  STORAGE_BALANCE_OF_RESPONSE_TYPE_Z_CONST,
+  type STORAGE_BALANCE_OF_RESPONSE_TYPE,
+} from "../../types/storage_balance_of_response_type";
 // =================================================
 export async function rhea_ammv2_storage_balance_of_fun_json(
   near: Near,
@@ -21,7 +24,7 @@ export async function rhea_ammv2_storage_balance_of_fun_json(
     rhea_ammv2_methods_const.storage_balance_of,
     { account_id },
   );
-  return result as STORAGE_BALANCE_OF_RESPONSE_TYPE;
+  return STORAGE_BALANCE_OF_RESPONSE_TYPE_Z_CONST.parse(result);
 }
 // =================================================
 // copyright 2026 by sleet.near
