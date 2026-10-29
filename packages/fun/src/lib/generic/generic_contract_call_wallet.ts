@@ -24,6 +24,8 @@ import type {
 // =================================================
 // The wallet shape needed by this helper.
 // `signAndSendTransactions` (plural) is the batched browser wallet API.
+// The outcome shape is intentionally loose so near-kit, near-connect, and
+// other wallet adapters all fit without extra casts.
 // =================================================
 export interface generic_contract_wallet_type {
   getAccounts(): Promise<Array<{ accountId: string }>>;
@@ -33,7 +35,7 @@ export interface generic_contract_wallet_type {
       receiverId: string;
       actions: Array<generic_contract_wallet_action_type>;
     }>;
-  }): Promise<Array<{ transaction?: { hash?: string } }>>;
+  }): Promise<Array<unknown>>;
 }
 
 // =================================================
@@ -95,9 +97,14 @@ export async function generic_contract_call_wallet(
     signerId: signer_id,
     transactions: wallet_transactions,
   });
+  if (outcomes.length !== list.length) {
+    throw new Error(
+      `The wallet returned ${outcomes.length} outcomes for ${list.length} transactions`,
+    );
+  }
 
   const results = outcomes.map((outcome, index) => {
-    const transaction_hash = outcome.transaction?.hash;
+    const transaction_hash = get_transaction_hash(outcome);
     if (!transaction_hash) {
       throw new Error(
         `The generic contract transaction ${index} was sent without a transaction hash`,
@@ -107,6 +114,23 @@ export async function generic_contract_call_wallet(
   });
 
   return Array.isArray(transactions) ? results : results[0]!;
+}
+
+// =================================================
+// Reads the transaction hash from a wallet outcome. Wallets return the
+// near-kit `FinalExecutionOutcome` shape, but the type is kept loose so
+// any wallet adapter fits.
+// =================================================
+function get_transaction_hash(outcome: unknown): string | undefined {
+  if (typeof outcome !== "object" || outcome === null) {
+    return undefined;
+  }
+  const transaction = (outcome as { transaction?: unknown }).transaction;
+  if (typeof transaction !== "object" || transaction === null) {
+    return undefined;
+  }
+  const hash = (transaction as { hash?: unknown }).hash;
+  return typeof hash === "string" ? hash : undefined;
 }
 
 // =================================================
@@ -130,6 +154,11 @@ function to_wallet_transaction(
   const actions = transaction.actions.map((action) => {
     if (action.kind !== "function_call") {
       throw new Error(`Unsupported generic contract action: ${action.kind}`);
+    }
+    if (action.contract_id !== first_action.contract_id) {
+      throw new Error(
+        `A generic contract transaction must target one contract; found "${first_action.contract_id}" and "${action.contract_id}"`,
+      );
     }
     return {
       type: "FunctionCall" as const,

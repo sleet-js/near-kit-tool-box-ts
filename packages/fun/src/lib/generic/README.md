@@ -60,8 +60,13 @@ const results = await generic_contract_call_fun(near, transactions);
 
 One input transaction becomes one NEAR transaction. The actions in that
 transaction run in array order, so a transaction can hold one function call
-or several function calls. An input array is a list of separate
-transactions; the helper never merges separate transactions into one.
+or several function calls to the **same** contract. A NEAR transaction has
+one receiver, so all actions in one transaction must target the same
+`contract_id`. Calls to different contracts belong in different
+transactions.
+
+An input array is a list of separate transactions; the helper never merges
+separate transactions into one.
 
 Transactions are sent sequentially by default. This avoids nonce conflicts
 when one private key signs several transactions. Send them concurrently with:
@@ -89,8 +94,8 @@ const wallet = await near_connect_client().wallet();
 const results = await generic_contract_call_wallet(wallet, transactions);
 ```
 
-The whole transaction list is handed to the wallet in one call. The signer
-is the connected wallet account.
+The whole transaction list is handed to the wallet in one call, so the user
+approves the list in one popup. The signer is the connected wallet account.
 
 ## Using the types
 

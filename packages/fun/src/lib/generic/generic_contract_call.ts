@@ -86,6 +86,15 @@ async function send_generic_contract_transaction(
   }
 
   const signer_id = await resolve_signer_id(near);
+  const receiver_id = transaction.actions[0]!.contract_id;
+  for (const action of transaction.actions) {
+    if (action.contract_id !== receiver_id) {
+      throw new Error(
+        `A generic contract transaction must target one contract; found "${receiver_id}" and "${action.contract_id}"`,
+      );
+    }
+  }
+
   const builder = near.transaction(signer_id);
   for (const action of transaction.actions) {
     if (action.kind !== "function_call") {

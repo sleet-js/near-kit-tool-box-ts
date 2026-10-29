@@ -34,6 +34,10 @@ export type generic_contract_action_type =
 // =================================================
 // One generic transaction. The actions execute in array order.
 // A transaction may contain one action or several actions.
+//
+// A NEAR transaction has one receiver. The first action's
+// `contract_id` is that receiver, so every action in the transaction
+// must target the same contract.
 // =================================================
 export interface generic_contract_transaction_type {
   actions: generic_contract_action_type[];
