@@ -13,7 +13,13 @@
 
 // =================================================
 // Method name constants for the Sputnik DAO **factory**
-// (`sputnik-dao.near`).
+// (`sputnik-dao.near` on mainnet, `sputnikv2.testnet` on testnet).
+//
+// The two deployments do NOT have the same method set. The mainnet
+// factory has `contract_source_metadata` and `store`; the testnet
+// factory has `store_contract_self`, `remove_contract_self` and
+// `on_remove_contract_self`, and no `contract_source_metadata`.
+//
 // The factory creates the DAOs and keeps the list of them. Its
 // `get_dao_list` and `get_daos` answer the same thing — the list of
 // DAO account ids — the one unpaginated and the other paged.
@@ -68,10 +74,11 @@ export const sputnik_dao_methods_const = {
   delegation_balance_of: "delegation_balance_of",
   delegation_balance_ratio: "delegation_balance_ratio",
   delegation_total_supply: "delegation_total_supply",
-  get_user_weight: "get_user_weight",
   // ---- views: blobs ----
   has_blob: "has_blob",
   // ---- calls ----
+  // `store_blob` and `update` are raw-byte methods: the input is the
+  // blob / new WASM, not JSON. They do not appear in the ABI.
   add_proposal: "add_proposal",
   act_proposal: "act_proposal",
   on_proposal_callback: "on_proposal_callback",
@@ -83,6 +90,7 @@ export const sputnik_dao_methods_const = {
   register_delegation: "register_delegation",
   delegate: "delegate",
   undelegate: "undelegate",
+  update: "update",
   migrate: "migrate",
 } as const;
 // =================================================

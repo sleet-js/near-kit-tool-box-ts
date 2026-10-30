@@ -677,8 +677,11 @@ export type SPUTNIK_DAO_DELEGATION_BALANCE_TYPE = string;
 
 export const SPUTNIK_DAO_DELEGATION_BALANCE_TYPE_Z_CONST =
   AMOUNT_STRING_Z_CONST;
-// The delegation balance and the voting power it carries, from
-// `delegation_balance_ratio`.
+// The delegated voting balance of one account and the DAO's total
+// delegated voting power, from `delegation_balance_ratio`.
+//
+// The contract answers `[balance, total]` — it does not divide them
+// into a ratio.
 export type SPUTNIK_DAO_DELEGATION_BALANCE_RATIO_TYPE = [string, string];
 
 export const SPUTNIK_DAO_DELEGATION_BALANCE_RATIO_TYPE_Z_CONST = z.tuple([

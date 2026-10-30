@@ -24,6 +24,18 @@ contracts with different versions — the factory publishes five builds
 of the dao contract, `[2,0]` `[2,1]` `[3,0]` `[3,1]` and `[3,2]`, and a
 dao can be pinned to an older one.
 
+a dao's `version` view answers the **crate version** of the build it
+runs, e.g. `2.3.1`. that string does not identify the build — a dao on
+the `[3,1]` build also answers `2.3.1`. to know the build, read the
+dao's code hash and match it against the factory's
+`get_contracts_metadata` pairs.
+
+the mainnet and testnet factories are different deployments with
+different method sets. the mainnet factory has
+`contract_source_metadata` and `store`; the testnet factory has
+`store_contract_self`, `remove_contract_self` and
+`on_remove_contract_self`, and no `contract_source_metadata`.
+
 **CONTRACT ID PER NETWORK**
 
 - MAINNET: sputnik-dao.near (factory), `<name>.sputnik-dao.near` (a dao)
@@ -33,7 +45,13 @@ dao can be pinned to an older one.
 # near cli - get a list of methods
 near contract inspect sputnik-dao.near network-config mainnet now
 near contract inspect huggies.sputnik-dao.near network-config mainnet now
+near contract inspect sputnikovv2.testnet network-config testnet now
+near contract inspect genesis.sputnikv2.testnet network-config testnet now
 ```
+
+some methods take their input as **raw bytes**, not JSON — the
+factory's `store`, the DAO's `store_blob`, and the DAO's `update`. they
+do not appear in the contract's ABI.
 
 #### THE ARGS ARE JSON
 

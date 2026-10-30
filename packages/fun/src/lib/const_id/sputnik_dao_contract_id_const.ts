@@ -9,7 +9,11 @@
 //     bounties. It is `<name>.sputnik-dao.near` on mainnet and
 //     `<name>.sputnikv2.testnet` on testnet.
 //
-// Both networks have a deployment.
+// Both networks have a deployment, but they are DIFFERENT deployments
+// with different method sets. The mainnet factory has
+// `contract_source_metadata` and `store`; the testnet factory has
+// `store_contract_self`, `remove_contract_self` and
+// `on_remove_contract_self`, and no `contract_source_metadata`.
 // =================================================
 import type {
   CONTRACT_ID_CONST_TYPE,

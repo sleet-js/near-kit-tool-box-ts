@@ -136,7 +136,6 @@ export { sputnik_dao_has_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_has
 export { sputnik_dao_delegation_balance_of_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_of_fun_json";
 export { sputnik_dao_delegation_balance_ratio_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_ratio_fun_json";
 export { sputnik_dao_delegation_total_supply_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_total_supply_fun_json";
-export { sputnik_dao_get_user_weight_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_user_weight_fun_json";
 
 // ---------- sputnik dao calls ----------
 // ===========================================

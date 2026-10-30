@@ -2,8 +2,11 @@
 // sputnik_dao_delegation_balance_ratio_fun_json
 //
 // View: the DAO's `delegation_balance_ratio`. Returns an account's
-// delegated voting power and the share of the DAO's total it is, as
-// a pair of strings.
+// delegated voting power and the DAO's total delegated voting power,
+// as a pair of strings.
+//
+// The contract answers `[balance, total]` — it does not divide them
+// into a ratio.
 //
 // The arg is `account_id`.
 // =================================================
