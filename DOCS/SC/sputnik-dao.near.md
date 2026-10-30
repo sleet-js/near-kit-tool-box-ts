@@ -83,6 +83,11 @@ a proposal's `status` is one of:
 
 `InProgress` `Approved` `Rejected` `Removed` `Expired` `Moved` `Failed`
 
+a `FunctionCall` proposal's action `args` are the target method's
+arguments as **base64-encoded bytes**. the toolbox's
+`sputnik_dao_add_function_call_proposal_fun_json` helper takes plain
+JSON and base64-encodes it for you.
+
 a proposal's `vote_counts` maps a role name to `[yes, no, spam]`, as
 strings. `votes` maps an account id to `Approve`, `Reject`, `Remove` or
 `Unknown`.

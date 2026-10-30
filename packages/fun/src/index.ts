@@ -140,6 +140,10 @@ export { sputnik_dao_delegation_total_supply_fun_json } from "./fun/sputnik_dao/
 // ---------- sputnik dao calls ----------
 // ===========================================
 export { sputnik_dao_add_proposal_fun_json } from "./fun/sputnik_dao/sputnik_dao_add_proposal_fun_json";
+export {
+  sputnik_dao_add_function_call_proposal_fun_json,
+  type SPUTNIK_DAO_FUNCTION_CALL_ACTION_INPUT_TYPE,
+} from "./fun/sputnik_dao/sputnik_dao_add_function_call_proposal_fun_json";
 export { sputnik_dao_act_proposal_fun_json } from "./fun/sputnik_dao/sputnik_dao_act_proposal_fun_json";
 export { sputnik_dao_bounty_claim_fun_json } from "./fun/sputnik_dao/sputnik_dao_bounty_claim_fun_json";
 export { sputnik_dao_bounty_done_fun_json } from "./fun/sputnik_dao/sputnik_dao_bounty_done_fun_json";
@@ -375,11 +379,12 @@ export {
   intear_dex_asset_id_from_decoded,
 } from "./lib/borsh/intear_dex_asset_id";
 export { intear_dex_account_or_dex_id } from "./lib/borsh/intear_dex_account_or_dex_id";
+export { base58_encode } from "./lib/borsh/intear_dex_borsh";
 export {
-  base58_encode,
   base64_to_bytes,
   bytes_to_base64,
-} from "./lib/borsh/intear_dex_borsh";
+  json_to_base64,
+} from "./lib/borsh/base64";
 export { intear_dex_public_key_to_string } from "./lib/borsh/intear_dex_public_key";
 
 // ---------- shared method-name constants ----------

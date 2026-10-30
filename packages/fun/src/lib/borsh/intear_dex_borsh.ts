@@ -30,43 +30,10 @@
 // =================================================
 
 // ---------- base64 (the engine's `dex_view` envelope) ----------
+// The base64 helpers moved to `lib/borsh/base64.ts` — the engine's
+// envelope is not the only one that needs them.
 
-export function bytes_to_base64(bytes: Uint8Array): string {
-  let binary = "";
-  for (const byte of bytes) binary += String.fromCharCode(byte);
-  if (typeof btoa === "function") return btoa(binary);
-  // Node runtimes without a global `btoa`.
-  const global_buffer = (
-    globalThis as {
-      Buffer?: {
-        from(
-          data: string,
-          encoding: string,
-        ): { toString(encoding: string): string };
-      };
-    }
-  ).Buffer;
-  if (global_buffer)
-    return global_buffer.from(binary, "binary").toString("base64");
-  throw new Error("intear dex: no base64 encoder available in this runtime");
-}
-
-export function base64_to_bytes(value: string): Uint8Array {
-  if (typeof atob === "function") {
-    const binary = atob(value);
-    const out = new Uint8Array(binary.length);
-    for (let index = 0; index < binary.length; index++)
-      out[index] = binary.charCodeAt(index);
-    return out;
-  }
-  const global_buffer = (
-    globalThis as {
-      Buffer?: { from(data: string, encoding: string): Uint8Array };
-    }
-  ).Buffer;
-  if (global_buffer) return new Uint8Array(global_buffer.from(value, "base64"));
-  throw new Error("intear dex: no base64 decoder available in this runtime");
-}
+export { base64_to_bytes, bytes_to_base64 } from "./base64";
 
 // ---------- base58 (NEAR public key format) ----------
 
