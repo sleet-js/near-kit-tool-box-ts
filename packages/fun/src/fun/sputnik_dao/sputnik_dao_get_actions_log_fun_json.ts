@@ -1,11 +1,12 @@
 // =================================================
 // sputnik_dao_get_actions_log_fun_json
 //
-// View: the DAO's `get_actions_log`. Returns every action the DAO
-// has recorded — who did what, to which proposal, and in which block.
+// View: the DAO's `get_actions_log`. Returns the DAO's latest 20
+// recorded actions — who did what, to which proposal, and in which
+// block.
 //
-// The actions are things like `AddProposal`, `VoteApprove` and
-// `ActProposal`.
+// The actions are `AddProposal`, `RemoveProposal`, `VoteApprove`,
+// `VoteReject`, `VoteRemove`, `Finalize` and `MoveToHub`.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";

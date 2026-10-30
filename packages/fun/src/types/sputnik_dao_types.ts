@@ -50,13 +50,13 @@ export interface SPUTNIK_DAO_CONFIG_TYPE {
   // the DAO's metadata, base64-encoded JSON.
   // it decodes to things like `{ primaryColor, flagLogo }` — the
   // fields the DAO's own site uses.
-  metadata: string | null;
+  metadata: string;
 }
 
 export const SPUTNIK_DAO_CONFIG_TYPE_Z_CONST = z.object({
   name: z.string(),
   purpose: z.string(),
-  metadata: z.string().nullable(),
+  metadata: z.string(),
 }) satisfies z.ZodType<SPUTNIK_DAO_CONFIG_TYPE>;
 
 // =================================================
@@ -66,7 +66,9 @@ export type SPUTNIK_DAO_ROLE_KIND_TYPE =
   // the role names the accounts in it.
   | { Group: string[] }
   // the role is open to every account, so it names none.
-  | "Everyone";
+  | "Everyone"
+  // the role is open to accounts holding at least this delegated balance.
+  | { Member: string };
 
 // The vote policy of ONE ROLE, for one kind of proposal.
 //
@@ -87,7 +89,7 @@ export type SPUTNIK_DAO_ROLE_KIND_TYPE =
 // policy have a count or a ratio" checks the variant; a caller that
 // wants the number narrows first.
 export interface SPUTNIK_DAO_VOTE_POLICY_TYPE {
-  // `RoleWeight`, `TokenWeight` or `FixedWeight`.
+  // `RoleWeight` or `TokenWeight`.
   weight_kind: string;
   // the quorum, as a string.
   quorum: string;
@@ -131,7 +133,7 @@ export interface SPUTNIK_DAO_VOTE_POLICY_TYPE {
 // types stays — they are still different contract types — but each
 // threshold is narrowed only where the live data actually narrows it.
 export interface SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE {
-  // `RoleWeight`, `TokenWeight` or `FixedWeight`.
+  // `RoleWeight` or `TokenWeight`.
   weight_kind: string;
   // the quorum, as a string.
   quorum: string;
@@ -185,6 +187,7 @@ export interface SPUTNIK_DAO_POLICY_TYPE {
 export const SPUTNIK_DAO_ROLE_KIND_TYPE_Z_CONST = z.union([
   z.object({ Group: z.array(z.string()) }),
   z.literal("Everyone"),
+  z.object({ Member: AMOUNT_STRING_Z_CONST }),
 ]) satisfies z.ZodType<SPUTNIK_DAO_ROLE_KIND_TYPE>;
 
 export const SPUTNIK_DAO_ROLE_TYPE_Z_CONST = z.object({
@@ -350,6 +353,11 @@ export const SPUTNIK_DAO_POLICY_PARAMETERS_TYPE_Z_CONST = z.object({
   bounty_forgiveness_period: z.string().nullable(),
 }) satisfies z.ZodType<SPUTNIK_DAO_POLICY_PARAMETERS_TYPE>;
 
+// The policy shape stored in a DAO. It may also be the legacy default
+// policy form: a list of council account ids.
+export type SPUTNIK_DAO_VERSIONED_POLICY_TYPE =
+  SPUTNIK_DAO_POLICY_TYPE | string[];
+
 // The kind of a proposal.
 // Every variant the contract knows is listed here. The contract
 // answers with the variant name as the key, so the shape is
@@ -365,7 +373,7 @@ export const SPUTNIK_DAO_POLICY_PARAMETERS_TYPE_Z_CONST = z.object({
 // carrying the whole policy the way `ChangePolicy` does.
 export type SPUTNIK_DAO_PROPOSAL_KIND_TYPE =
   | { ChangeConfig: { config: SPUTNIK_DAO_CONFIG_TYPE } }
-  | { ChangePolicy: { policy: SPUTNIK_DAO_POLICY_TYPE } }
+  | { ChangePolicy: { policy: SPUTNIK_DAO_VERSIONED_POLICY_TYPE } }
   | { AddMemberToRole: { member_id: string; role: string } }
   | { RemoveMemberFromRole: { member_id: string; role: string } }
   | {
@@ -476,7 +484,9 @@ const sputnik_dao_proposal_kind_z_const = z.union([
     }),
   }),
   z.object({
-    ChangePolicy: z.object({ policy: SPUTNIK_DAO_POLICY_TYPE_Z_CONST }),
+    ChangePolicy: z.object({
+      policy: z.union([SPUTNIK_DAO_POLICY_TYPE_Z_CONST, z.array(z.string())]),
+    }),
   }),
   z.object({
     AddMemberToRole: z.object({
@@ -585,13 +595,22 @@ export const SPUTNIK_DAO_PROPOSALS_TYPE_Z_CONST = z.array(
 // =================================================
 // --- LOG ---------------------------------
 // One entry of the DAO's actions log.
+export type SPUTNIK_DAO_ACTION_LOG_ACTION_TYPE =
+  | "AddProposal"
+  | "RemoveProposal"
+  | "VoteApprove"
+  | "VoteReject"
+  | "VoteRemove"
+  | "Finalize"
+  | "MoveToHub";
+
 export interface SPUTNIK_DAO_ACTION_LOG_TYPE {
   // who acted.
   account_id: string;
   // the proposal the action belongs to.
   proposal_id: string;
-  // what they did, e.g. `AddProposal`, `VoteApprove`.
-  action: string;
+  // what they did.
+  action: SPUTNIK_DAO_ACTION_LOG_ACTION_TYPE;
   // the block the action landed in.
   block_height: string;
 }
@@ -599,7 +618,15 @@ export interface SPUTNIK_DAO_ACTION_LOG_TYPE {
 export const SPUTNIK_DAO_ACTION_LOG_TYPE_Z_CONST = z.object({
   account_id: z.string(),
   proposal_id: z.string(),
-  action: z.string(),
+  action: z.enum([
+    "AddProposal",
+    "RemoveProposal",
+    "VoteApprove",
+    "VoteReject",
+    "VoteRemove",
+    "Finalize",
+    "MoveToHub",
+  ]),
   block_height: z.string(),
 }) satisfies z.ZodType<SPUTNIK_DAO_ACTION_LOG_TYPE>;
 
@@ -630,6 +657,11 @@ export const SPUTNIK_DAO_CONTRACT_METADATA_TYPE_Z_CONST = z.object({
   changelog_url: z.string().nullable(),
 }) satisfies z.ZodType<SPUTNIK_DAO_CONTRACT_METADATA_TYPE>;
 
+// The factory's `get_contracts_metadata` answers with pairs shaped as
+// `[code_hash, metadata]`. The current code also exposes the metadata
+// as a flat `{ code_hash, metadata }` object in some clients, so keep
+// the pair and the object forms distinct.
+
 // The factory answers with `[code_hash, metadata]` pairs.
 export const SPUTNIK_DAO_CONTRACT_METADATA_PAIR_TYPE_Z_CONST = z.tuple([
   z.string(),
@@ -643,14 +675,15 @@ export const SPUTNIK_DAO_CONTRACT_METADATA_PAIRS_TYPE_Z_CONST = z.array(
 // The delegation balance of one account, from `delegation_balance_of`.
 export type SPUTNIK_DAO_DELEGATION_BALANCE_TYPE = string;
 
-export const SPUTNIK_DAO_DELEGATION_BALANCE_TYPE_Z_CONST = z.string();
+export const SPUTNIK_DAO_DELEGATION_BALANCE_TYPE_Z_CONST =
+  AMOUNT_STRING_Z_CONST;
 // The delegation balance and the voting power it carries, from
 // `delegation_balance_ratio`.
 export type SPUTNIK_DAO_DELEGATION_BALANCE_RATIO_TYPE = [string, string];
 
 export const SPUTNIK_DAO_DELEGATION_BALANCE_RATIO_TYPE_Z_CONST = z.tuple([
-  z.string(),
-  z.string(),
+  AMOUNT_STRING_Z_CONST,
+  AMOUNT_STRING_Z_CONST,
 ]);
 
 // =================================================

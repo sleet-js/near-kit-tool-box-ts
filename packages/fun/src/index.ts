@@ -136,6 +136,20 @@ export { sputnik_dao_has_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_has
 export { sputnik_dao_delegation_balance_of_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_of_fun_json";
 export { sputnik_dao_delegation_balance_ratio_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_ratio_fun_json";
 export { sputnik_dao_delegation_total_supply_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_total_supply_fun_json";
+export { sputnik_dao_get_user_weight_fun_json } from "./fun/sputnik_dao/sputnik_dao_get_user_weight_fun_json";
+
+// ---------- sputnik dao calls ----------
+// ===========================================
+export { sputnik_dao_add_proposal_fun_json } from "./fun/sputnik_dao/sputnik_dao_add_proposal_fun_json";
+export { sputnik_dao_act_proposal_fun_json } from "./fun/sputnik_dao/sputnik_dao_act_proposal_fun_json";
+export { sputnik_dao_bounty_claim_fun_json } from "./fun/sputnik_dao/sputnik_dao_bounty_claim_fun_json";
+export { sputnik_dao_bounty_done_fun_json } from "./fun/sputnik_dao/sputnik_dao_bounty_done_fun_json";
+export { sputnik_dao_bounty_giveup_fun_json } from "./fun/sputnik_dao/sputnik_dao_bounty_giveup_fun_json";
+export { sputnik_dao_remove_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_remove_blob_fun_json";
+export { sputnik_dao_store_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_store_blob_fun_json";
+export { sputnik_dao_register_delegation_fun_json } from "./fun/sputnik_dao/sputnik_dao_register_delegation_fun_json";
+export { sputnik_dao_delegate_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegate_fun_json";
+export { sputnik_dao_undelegate_fun_json } from "./fun/sputnik_dao/sputnik_dao_undelegate_fun_json";
 
 // ---------- sputnik dao factory ----------
 // ===========================================
@@ -146,6 +160,18 @@ export { sputnik_dao_factory_get_default_version_fun_json } from "./fun/sputnik_
 export { sputnik_dao_factory_get_default_code_hash_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_default_code_hash_fun_json";
 export { sputnik_dao_factory_get_contracts_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_contracts_metadata_fun_json";
 export { sputnik_dao_factory_get_owner_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_owner_fun_json";
+export { sputnik_dao_factory_get_code_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_code_fun_json";
+
+// ---------- sputnik dao factory calls ----------
+// ===========================================
+export { sputnik_dao_factory_create_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_create_fun_json";
+export { sputnik_dao_factory_set_owner_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_set_owner_fun_json";
+export { sputnik_dao_factory_set_default_code_hash_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_set_default_code_hash_fun_json";
+export { sputnik_dao_factory_store_contract_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_store_contract_metadata_fun_json";
+export { sputnik_dao_factory_delete_contract_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_delete_contract_fun_json";
+export { sputnik_dao_factory_update_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_update_fun_json";
+export { sputnik_dao_factory_store_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_store_fun_json";
+export { sputnik_dao_factory_delete_contract_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_delete_contract_metadata_fun_json";
 
 // ---------- shared types ----------
 // ===========================================
@@ -207,6 +233,7 @@ export type {
 // ---------- sputnik dao types ----------
 // ===========================================
 export type {
+  SPUTNIK_DAO_ACTION_LOG_ACTION_TYPE,
   SPUTNIK_DAO_ACTION_LOG_TYPE,
   SPUTNIK_DAO_BOUNTY_CLAIM_TYPE,
   SPUTNIK_DAO_BOUNTY_IN_PROPOSAL_TYPE,
@@ -224,6 +251,7 @@ export type {
   SPUTNIK_DAO_PROPOSAL_KIND_TYPE,
   SPUTNIK_DAO_PROPOSAL_STATUS_TYPE,
   SPUTNIK_DAO_PROPOSAL_TYPE,
+  SPUTNIK_DAO_VERSIONED_POLICY_TYPE,
   SPUTNIK_DAO_ROLE_KIND_TYPE,
   SPUTNIK_DAO_ROLE_TYPE,
   SPUTNIK_DAO_VOTE_POLICY_TYPE,

@@ -18,9 +18,9 @@ import {
   parse_args,
   require_string,
 } from "../_shared/args.js";
-import { log_result, near_kit_env } from "../_shared/env.js";
+import { log_result, near_kit_env, NEAR_KIT_NETWORK } from "../_shared/env.js";
 import {
-  sputnik_dao_account_id,
+  sputnik_dao_account_id_for_network,
   sputnik_dao_get_bounties_fun_json,
   sputnik_dao_get_last_bounty_id_fun_json,
 } from "../../packages/fun/src/index.js";
@@ -28,7 +28,10 @@ import {
 const usage =
   "bun run bin/sputnik_dao/dao_bounties.ts --dao <name|account-id> [--from-index <n>] [--limit <n>]";
 const args = parse_args();
-const dao_id = sputnik_dao_account_id(require_string(args, "dao", usage));
+const dao_id = sputnik_dao_account_id_for_network(
+  require_string(args, "dao", usage),
+  NEAR_KIT_NETWORK,
+);
 const from_index = optional_number(args, "from-index", 0);
 const limit = optional_number(args, "limit", 50);
 

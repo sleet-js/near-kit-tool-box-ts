@@ -7,14 +7,10 @@
 // The list is paginated: paging through every proposal means
 // repeating the call with `from_index` moving on by `limit`.
 //
-// The current contract version answers an empty list with `[]`, which
-// is the ordinary case. Some rpc endpoints answer it with a wasm
-// failure that carries no result field at all, and a caller that reads
-// only the result sees "no proposals" as a failure.
-//
-// This helper reads both shapes as "no proposals" and throws for
-// every other error, so a DAO with no proposals is never mistaken for
-// a broken contract.
+// The current contract answers an empty page with `[]`. An RPC failure
+// is not an empty page: method-not-found, execution failures, and
+// malformed responses all throw so they stay distinguishable from a
+// DAO that simply has no proposals.
 // =================================================
 import type { Near } from "near-kit";
 import { sputnik_dao_methods_const } from "../../lib/methods/methods_sputnik_dao";
@@ -26,32 +22,17 @@ import {
 // =================================================
 
 // =================================================
-// True when an error means "the contract answered with no result",
-// which is how some rpc endpoints report an empty list.
-function is_no_result_fun(error: unknown): boolean {
-  const message = error instanceof Error ? error.message : String(error);
-  return message.includes("no result") || message.includes("returned no value");
-}
-
-// =================================================
 export async function sputnik_dao_get_proposals_fun_json(
   near: Near,
   dao_contract_id: string,
   from_index: sputnik_dao_args["from_index"],
   limit: sputnik_dao_args["limit"],
 ): Promise<SPUTNIK_DAO_PROPOSAL_TYPE[]> {
-  let result: unknown;
-  try {
-    result = await near.view(
-      dao_contract_id,
-      sputnik_dao_methods_const.get_proposals,
-      { from_index, limit },
-    );
-  } catch (error) {
-    if (is_no_result_fun(error)) return [];
-    throw error;
-  }
-  if (result === undefined) return [];
+  const result = await near.view(
+    dao_contract_id,
+    sputnik_dao_methods_const.get_proposals,
+    { from_index, limit },
+  );
   return SPUTNIK_DAO_PROPOSALS_TYPE_Z_CONST.parse(result);
 }
 // =================================================

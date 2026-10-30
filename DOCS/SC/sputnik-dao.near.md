@@ -9,10 +9,12 @@ the **daos** themselves.
 
 there are two kinds of account and they are not interchangeable.
 
-the **factory** is `sputnik-dao.near`. it deploys the daos and keeps
-the list of them. it has no dao state of its own.
+the **factory** is `sputnik-dao.near` on mainnet and
+`sputnikv2.testnet` on testnet. it deploys the daos and keeps the list
+of them. it has no dao state of its own.
 
-a **dao** is `<name>.sputnik-dao.near` — `huggies.sputnik-dao.near`,
+a **dao** is `<name>.sputnik-dao.near` on mainnet and
+`<name>.sputnikv2.testnet` on testnet — `huggies.sputnik-dao.near`,
 `onsocial.sputnik-dao.near`, `sleet.sputnik-dao.near`.
 
 calling the factory as if it were a dao fails with a
@@ -25,7 +27,7 @@ dao can be pinned to an older one.
 **CONTRACT ID PER NETWORK**
 
 - MAINNET: sputnik-dao.near (factory), `<name>.sputnik-dao.near` (a dao)
-- TESTNET: (none — mainnet only)
+- TESTNET: sputnikv2.testnet (factory), `<name>.sputnikv2.testnet` (a dao)
 
 ```sh
 # near cli - get a list of methods
@@ -42,11 +44,13 @@ with `Failed to deserialize input from JSON`.
 
 #### TYPES
 
-a role's `kind` is an enum with two shapes:
+a role's `kind` is an enum with three shapes:
 
 - `{ "Group": ["a.near", "b.near"] }` — the accounts in the role
 - `"Everyone"` — a bare string, meaning any account may act in the
   role. it names no accounts, so it has no member list
+- `{ "Member": "1000000000000000000000000" }` — accounts holding at
+  least this much delegated balance
 
 a proposal's `kind` is an enum, one of:
 
@@ -80,7 +84,7 @@ member lists, and an account in three roles is one member, not three.
 #### FILES
 
 - `packages/fun/src/lib/methods/methods_sputnik_dao.ts` — the factory and dao method-name constants
-- `packages/fun/src/lib/const_id/sputnik_dao_contract_id_const.ts` — the factory id, plus `sputnik_dao_account_id` / `sputnik_dao_name`
+- `packages/fun/src/lib/const_id/sputnik_dao_contract_id_const.ts` — the factory id per network, plus `sputnik_dao_account_id` / `sputnik_dao_testnet_account_id` / `sputnik_dao_name`
 - `packages/fun/src/lib/args/sputnik_dao_args.ts` — the parameter type map
 - `packages/fun/src/types/sputnik_dao_types.ts` — the response shapes
 - `packages/fun/src/fun/sputnik_dao/` — one helper per view

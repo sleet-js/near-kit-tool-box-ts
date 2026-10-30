@@ -26,13 +26,16 @@ export const sputnik_dao_factory_methods_const = {
   get_default_code_hash: "get_default_code_hash",
   get_contracts_metadata: "get_contracts_metadata",
   get_owner: "get_owner",
-  contract_source_metadata: "contract_source_metadata",
   // ---- calls ----
   set_owner: "set_owner",
   set_default_code_hash: "set_default_code_hash",
   get_code: "get_code",
   delete_contract: "delete_contract",
   store_contract_metadata: "store_contract_metadata",
+  delete_contract_metadata: "delete_contract_metadata",
+  store: "store",
+  create: "create",
+  update: "update",
   on_create: "on_create",
 } as const;
 
@@ -45,7 +48,6 @@ export const sputnik_dao_methods_const = {
   get_config: "get_config",
   get_policy: "get_policy",
   version: "version",
-  contract_source_metadata: "contract_source_metadata",
   // ---- views: proposals ----
   get_proposals: "get_proposals",
   get_proposal: "get_proposal",
@@ -66,6 +68,7 @@ export const sputnik_dao_methods_const = {
   delegation_balance_of: "delegation_balance_of",
   delegation_balance_ratio: "delegation_balance_ratio",
   delegation_total_supply: "delegation_total_supply",
+  get_user_weight: "get_user_weight",
   // ---- views: blobs ----
   has_blob: "has_blob",
   // ---- calls ----
@@ -78,6 +81,8 @@ export const sputnik_dao_methods_const = {
   store_blob: "store_blob",
   remove_blob: "remove_blob",
   register_delegation: "register_delegation",
+  delegate: "delegate",
+  undelegate: "undelegate",
   migrate: "migrate",
 } as const;
 // =================================================
