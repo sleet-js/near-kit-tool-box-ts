@@ -43,6 +43,11 @@ export const sputnik_dao_factory_methods_const = {
   create: "create",
   update: "update",
   on_create: "on_create",
+  // ---- views: the contract's own build metadata ----
+  // `contract_source_metadata` is not the contract's own method — it
+  // comes from near-sdk 5.24's NEP-330 support. The mainnet factory
+  // answers it; the testnet factory does not.
+  contract_source_metadata: "contract_source_metadata",
 } as const;
 
 // =================================================
@@ -76,6 +81,10 @@ export const sputnik_dao_methods_const = {
   delegation_total_supply: "delegation_total_supply",
   // ---- views: blobs ----
   has_blob: "has_blob",
+  // ---- views: the contract's own build metadata ----
+  // `contract_source_metadata` comes from near-sdk 5.24's NEP-330
+  // support, not from the contract itself.
+  contract_source_metadata: "contract_source_metadata",
   // ---- calls ----
   // `store_blob` and `update` are raw-byte methods: the input is the
   // blob / new WASM, not JSON. They do not appear in the ABI.

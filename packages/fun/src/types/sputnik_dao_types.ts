@@ -228,6 +228,67 @@ export const SPUTNIK_DAO_FACTORY_INFO_TYPE_Z_CONST = z.object({
 }) satisfies z.ZodType<SPUTNIK_DAO_FACTORY_INFO_TYPE>;
 
 // =================================================
+// --- SOURCE METADATA ----------------------
+// The contract's own build metadata, from `contract_source_metadata`.
+//
+// This method is not the contract's — near-sdk 5.24 provides it on
+// every contract that sets the `nep330` standard. The Sputnik DAO
+// contract and the factory both answer it.
+//
+// The shape is the NEP-330 `ContractSourceMetadata`:
+//   `version`, `link`, `standards`, `build_info`.
+//
+// Verified live against `sputnik-dao.near` (the factory, version
+// `0.2.1`) and `huggies.sputnik-dao.near` (a dao, version `2.3.1`).
+export interface SPUTNIK_DAO_SOURCE_METADATA_TYPE {
+  // the contract's version — the crate version for the dao, e.g.
+  // `2.3.1`. this is NOT the factory's `[major, minor]` build number.
+  version: string;
+  // the url of the contract's source at that version.
+  link: string;
+  // the standards the contract implements, each with its version.
+  // the Sputnik contracts answer with `nep330` at `1.3.0`.
+  standards: { standard: string; version: string }[];
+  // how the contract was built.
+  build_info: SPUTNIK_DAO_BUILD_INFO_TYPE;
+}
+
+// The build details inside `contract_source_metadata`.
+export interface SPUTNIK_DAO_BUILD_INFO_TYPE {
+  // the toolchain that built the contract.
+  build_environment: string;
+  // the command that built it.
+  build_command: string[];
+  // the crate it was built from — `sputnikdao2` for a dao,
+  // `sputnikdao-factory2` for the factory.
+  contract_path: string;
+  // the source snapshot it was built from.
+  source_code_snapshot: string;
+  // where the wasm was written.
+  output_wasm_path: string;
+}
+
+export const SPUTNIK_DAO_BUILD_INFO_TYPE_Z_CONST = z.object({
+  build_environment: z.string(),
+  build_command: z.array(z.string()),
+  contract_path: z.string(),
+  source_code_snapshot: z.string(),
+  output_wasm_path: z.string(),
+}) satisfies z.ZodType<SPUTNIK_DAO_BUILD_INFO_TYPE>;
+
+export const SPUTNIK_DAO_SOURCE_METADATA_TYPE_Z_CONST = z.object({
+  version: z.string(),
+  link: z.string(),
+  standards: z.array(
+    z.object({
+      standard: z.string(),
+      version: z.string(),
+    }),
+  ),
+  build_info: SPUTNIK_DAO_BUILD_INFO_TYPE_Z_CONST,
+}) satisfies z.ZodType<SPUTNIK_DAO_SOURCE_METADATA_TYPE>;
+
+// =================================================
 // --- BOUNTIES ----------------------------
 // One bounty, from `get_bounties` / `get_bounty`.
 //

@@ -56,6 +56,12 @@ bun run bin/sputnik_dao/factory_daos.ts --from-index 0 --limit 50
 # view: the factory's own settings
 bun run bin/sputnik_dao/factory_info.ts
 
+# view: a dao's own build metadata — version, source link, standards
+bun run bin/sputnik_dao/dao_source_metadata.ts --dao huggies
+
+# view: the factory's own build metadata
+bun run bin/sputnik_dao/factory_source_metadata.ts
+
 # call: add a signaling proposal — the deposit must equal the DAO bond
 bun run bin/sputnik_dao/dao_add_proposal.ts --dao huggies --description "Signal" --kind '"Vote"' --deposit "1 NEAR"
 
@@ -94,8 +100,10 @@ bun run bin/sputnik_dao/dao_add_function_call_proposal.ts \
 | `dao_info.ts`                       | `--dao` (required)                                                                                                                         |
 | `dao_bounties.ts`                   | `--dao` (required), `--from-index`, `--limit` (optional)                                                                                   |
 | `dao_actions_log.ts`                | `--dao` (required)                                                                                                                         |
+| `dao_source_metadata.ts`            | `--dao` (required)                                                                                                                         |
 | `factory_daos.ts`                   | `--from-index`, `--limit` (both optional), `--contract-id` (optional)                                                                      |
 | `factory_info.ts`                   | `--contract-id` (optional)                                                                                                                 |
+| `factory_source_metadata.ts`        | `--contract-id` (optional)                                                                                                                 |
 | `dao_add_proposal.ts`               | `--dao`, `--description`, `--kind`, `--deposit` (all required)                                                                             |
 | `dao_add_function_call_proposal.ts` | `--dao`, `--description`, `--receiver-id`, `--method`, `--deposit` (all required), `--args`, `--action-deposit`, `--action-gas` (optional) |
 | `dao_act_proposal.ts`               | `--dao`, `--proposal-id`, `--action`, `--proposal-kind` (all required)                                                                     |

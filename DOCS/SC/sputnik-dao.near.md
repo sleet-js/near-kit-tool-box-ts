@@ -45,13 +45,26 @@ different method sets. the mainnet factory has
 # near cli - get a list of methods
 near contract inspect sputnik-dao.near network-config mainnet now
 near contract inspect huggies.sputnik-dao.near network-config mainnet now
-near contract inspect sputnikovv2.testnet network-config testnet now
+near contract inspect sputnikv2.testnet network-config testnet now
 near contract inspect genesis.sputnikv2.testnet network-config testnet now
 ```
 
 some methods take their input as **raw bytes**, not JSON — the
 factory's `store`, the DAO's `store_blob`, and the DAO's `update`. they
 do not appear in the contract's ABI.
+
+#### CONTRACT SOURCE METADATA
+
+`contract_source_metadata` is not the contract's own method — near-sdk
+5.24 provides it on every contract that carries the `nep330` standard.
+the dao contract and the factory both answer it, with the contract's
+version, the link to its source, the standards it implements and how it
+was built.
+
+the dao answers with its crate version, e.g. `2.3.1` — not the
+factory's `[major, minor]` build number. the factory answers with its
+own version, `0.2.1` on mainnet. the mainnet factory has the method;
+the testnet factory does not.
 
 #### THE ARGS ARE JSON
 

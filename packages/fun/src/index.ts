@@ -136,6 +136,7 @@ export { sputnik_dao_has_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_has
 export { sputnik_dao_delegation_balance_of_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_of_fun_json";
 export { sputnik_dao_delegation_balance_ratio_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_balance_ratio_fun_json";
 export { sputnik_dao_delegation_total_supply_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegation_total_supply_fun_json";
+export { sputnik_dao_contract_source_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_contract_source_metadata_fun_json";
 
 // ---------- sputnik dao calls ----------
 // ===========================================
@@ -153,6 +154,7 @@ export { sputnik_dao_store_blob_fun_json } from "./fun/sputnik_dao/sputnik_dao_s
 export { sputnik_dao_register_delegation_fun_json } from "./fun/sputnik_dao/sputnik_dao_register_delegation_fun_json";
 export { sputnik_dao_delegate_fun_json } from "./fun/sputnik_dao/sputnik_dao_delegate_fun_json";
 export { sputnik_dao_undelegate_fun_json } from "./fun/sputnik_dao/sputnik_dao_undelegate_fun_json";
+export { sputnik_dao_update_fun_json } from "./fun/sputnik_dao/sputnik_dao_update_fun_json";
 
 // ---------- sputnik dao factory ----------
 // ===========================================
@@ -164,6 +166,7 @@ export { sputnik_dao_factory_get_default_code_hash_fun_json } from "./fun/sputni
 export { sputnik_dao_factory_get_contracts_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_contracts_metadata_fun_json";
 export { sputnik_dao_factory_get_owner_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_owner_fun_json";
 export { sputnik_dao_factory_get_code_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_get_code_fun_json";
+export { sputnik_dao_factory_contract_source_metadata_fun_json } from "./fun/sputnik_dao/sputnik_dao_factory_contract_source_metadata_fun_json";
 
 // ---------- sputnik dao factory calls ----------
 // ===========================================
@@ -241,6 +244,7 @@ export type {
   SPUTNIK_DAO_BOUNTY_CLAIM_TYPE,
   SPUTNIK_DAO_BOUNTY_IN_PROPOSAL_TYPE,
   SPUTNIK_DAO_BOUNTY_TYPE,
+  SPUTNIK_DAO_BUILD_INFO_TYPE,
   SPUTNIK_DAO_CONFIG_TYPE,
   SPUTNIK_DAO_CONTRACT_METADATA_TYPE,
   SPUTNIK_DAO_DEFAULT_VOTE_POLICY_TYPE,
@@ -254,6 +258,7 @@ export type {
   SPUTNIK_DAO_PROPOSAL_KIND_TYPE,
   SPUTNIK_DAO_PROPOSAL_STATUS_TYPE,
   SPUTNIK_DAO_PROPOSAL_TYPE,
+  SPUTNIK_DAO_SOURCE_METADATA_TYPE,
   SPUTNIK_DAO_VERSIONED_POLICY_TYPE,
   SPUTNIK_DAO_ROLE_KIND_TYPE,
   SPUTNIK_DAO_ROLE_TYPE,
@@ -325,6 +330,7 @@ export {
   SPUTNIK_DAO_BOUNTY_CLAIMS_TYPE_Z_CONST,
   SPUTNIK_DAO_BOUNTY_CLAIM_TYPE_Z_CONST,
   SPUTNIK_DAO_BOUNTY_TYPE_Z_CONST,
+  SPUTNIK_DAO_BUILD_INFO_TYPE_Z_CONST,
   SPUTNIK_DAO_CONFIG_TYPE_Z_CONST,
   SPUTNIK_DAO_CONTRACT_METADATA_PAIRS_TYPE_Z_CONST,
   SPUTNIK_DAO_CONTRACT_METADATA_TYPE_Z_CONST,
@@ -342,6 +348,7 @@ export {
   SPUTNIK_DAO_PROPOSAL_TYPE_Z_CONST,
   SPUTNIK_DAO_ROLE_KIND_TYPE_Z_CONST,
   SPUTNIK_DAO_ROLE_TYPE_Z_CONST,
+  SPUTNIK_DAO_SOURCE_METADATA_TYPE_Z_CONST,
   SPUTNIK_DAO_VERSION_PAIR_Z_CONST,
   SPUTNIK_DAO_VOTE_POLICY_TYPE_Z_CONST,
 } from "./types/sputnik_dao_types";
