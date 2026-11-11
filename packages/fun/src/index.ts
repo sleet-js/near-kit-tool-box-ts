@@ -5,6 +5,49 @@
 // and the per-network contract id constants.
 // ===========================================
 
+// ---------- chess game (app.chess-game.near) ----------
+// ===========================================
+export { chess_game_get_board_fun_json } from "./fun/chess_game/chess_game_get_board_fun_json";
+export { chess_game_render_board_fun_json } from "./fun/chess_game/chess_game_render_board_fun_json";
+export { chess_game_game_info_fun_json } from "./fun/chess_game/chess_game_game_info_fun_json";
+export { chess_game_get_game_ids_fun_json } from "./fun/chess_game/chess_game_get_game_ids_fun_json";
+export { chess_game_get_account_fun_json } from "./fun/chess_game/chess_game_get_account_fun_json";
+export { chess_game_get_accounts_fun_json } from "./fun/chess_game/chess_game_get_accounts_fun_json";
+export { chess_game_get_elo_ratings_fun_json } from "./fun/chess_game/chess_game_get_elo_ratings_fun_json";
+export { chess_game_get_elo_ratings_by_ids_fun_json } from "./fun/chess_game/chess_game_get_elo_ratings_by_ids_fun_json";
+export { chess_game_get_owner_fun_json } from "./fun/chess_game/chess_game_get_owner_fun_json";
+export { chess_game_get_fees_fun_json } from "./fun/chess_game/chess_game_get_fees_fun_json";
+export { chess_game_get_token_whitelist_fun_json } from "./fun/chess_game/chess_game_get_token_whitelist_fun_json";
+export { chess_game_storage_balance_bounds_fun_json } from "./fun/chess_game/chess_game_storage_balance_bounds_fun_json";
+export { chess_game_storage_balance_of_fun_json } from "./fun/chess_game/chess_game_storage_balance_of_fun_json";
+
+// ---------- chess game calls ----------
+// ===========================================
+export {
+  chess_game_storage_deposit_fun_json,
+  CHESS_GAME_STORAGE_DEPOSIT_MIN_YOCTONEAR,
+} from "./fun/chess_game/chess_game_storage_deposit_fun_json";
+export {
+  chess_game_create_ai_game_fun_json,
+  CHESS_GAME_DIFFICULTY_GAS_TGAS,
+  CHESS_GAME_HUMAN_GAME_GAS_TGAS,
+  type CHESS_GAME_CREATE_OUTCOME_TYPE,
+} from "./fun/chess_game/chess_game_create_ai_game_fun_json";
+export { chess_game_play_move_fun_json } from "./fun/chess_game/chess_game_play_move_fun_json";
+export { chess_game_play_move_with_gas_fun_json } from "./fun/chess_game/chess_game_play_move_with_gas_fun_json";
+export { chess_game_resign_fun_json } from "./fun/chess_game/chess_game_resign_fun_json";
+export { chess_game_cancel_fun_json } from "./fun/chess_game/chess_game_cancel_fun_json";
+export { chess_game_challenge_fun_json } from "./fun/chess_game/chess_game_challenge_fun_json";
+export { chess_game_accept_challenge_fun_json } from "./fun/chess_game/chess_game_accept_challenge_fun_json";
+export { chess_game_reject_challenge_fun_json } from "./fun/chess_game/chess_game_reject_challenge_fun_json";
+export { chess_game_challenge_id } from "./fun/chess_game/chess_game_challenge_id";
+export { chess_game_join_matchmaking_fun_json } from "./fun/chess_game/chess_game_join_matchmaking_fun_json";
+export { chess_game_cancel_matchmaking_fun_json } from "./fun/chess_game/chess_game_cancel_matchmaking_fun_json";
+export { chess_game_claim_points_fun_json } from "./fun/chess_game/chess_game_claim_points_fun_json";
+export { chess_game_set_is_agent_fun_json } from "./fun/chess_game/chess_game_set_is_agent_fun_json";
+export { chess_game_storage_withdraw_fun_json } from "./fun/chess_game/chess_game_storage_withdraw_fun_json";
+export { chess_game_withdraw_token_fun_json } from "./fun/chess_game/chess_game_withdraw_token_fun_json";
+
 // ---------- rhea_ammv2 ----------
 // ===========================================
 export { rhea_ammv2_get_number_of_pools_fun_json } from "./fun/rhea_ammv2/rhea_ammv2_get_number_of_pools_fun_json";
@@ -185,6 +228,20 @@ export type { AMOUNT_INPUT } from "./types/amount_input_type";
 export type { FT_METADATA_TYPE } from "./types/ft_metadata_get_response_type";
 export type { RHEA_AMMV2_GET_POOL_TYPE } from "./types/rhea_ammv2_get_pool_type";
 export type { RHEA_AMMV2_GET_DEPOSITS_TYPE } from "./types/rhea_ammv2_get_deposits_type";
+
+// ---------- chess game types ----------
+// ===========================================
+export type {
+  CHESS_GAME_ACCOUNT_TYPE,
+  CHESS_GAME_DIFFICULTY_TYPE,
+  CHESS_GAME_ELO_RATING_TYPE,
+  CHESS_GAME_FT_METADATA_TYPE,
+  CHESS_GAME_ID_TYPE,
+  CHESS_GAME_INFO_TYPE,
+  CHESS_GAME_PLAYER_TYPE,
+  CHESS_GAME_PPP_BALANCE_TYPE,
+  CHESS_GAME_STORAGE_BOUNDS_TYPE,
+} from "./types/chess_game_types";
 export type {
   RHEA_AMMV2_ACCOUNT_BASIC_INFO_TYPE,
   RHEA_AMMV2_METADATA_TYPE,
@@ -285,6 +342,17 @@ export {
 } from "./types/pool_types";
 export { RHEA_AMMV2_GET_DEPOSITS_TYPE_Z_CONST } from "./types/rhea_ammv2_get_deposits_type";
 export {
+  CHESS_GAME_ACCOUNT_TYPE_Z_CONST,
+  CHESS_GAME_DIFFICULTY_Z_CONST,
+  CHESS_GAME_ELO_RATING_TYPE_Z_CONST,
+  CHESS_GAME_FT_METADATA_TYPE_Z_CONST,
+  CHESS_GAME_ID_TYPE_Z_CONST,
+  CHESS_GAME_INFO_TYPE_Z_CONST,
+  CHESS_GAME_PLAYER_TYPE_Z_CONST,
+  CHESS_GAME_PPP_BALANCE_TYPE_Z_CONST,
+  CHESS_GAME_STORAGE_BOUNDS_TYPE_Z_CONST,
+} from "./types/chess_game_types";
+export {
   RHEA_AMMV2_GET_POOL_TYPE_Z_CONST,
   RHEA_AMMV2_GET_POOLS_TYPE_Z_CONST,
 } from "./types/rhea_ammv2_get_pool_type";
@@ -366,6 +434,7 @@ export {
 } from "./types/scalar_type";
 export type { greeting_args } from "./lib/args/greeting_args";
 export type { ft_args } from "./lib/args/ft_args";
+export type { chess_game_args } from "./lib/args/chess_game_args";
 export type {
   rhea_ammv2_args,
   rhea_ammv2_swap_action_type,

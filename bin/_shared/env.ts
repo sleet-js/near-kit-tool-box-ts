@@ -15,6 +15,7 @@ import {
   near_kit_env,
 } from "../../packages/env/src/index.js";
 import {
+  chess_game_contractid,
   greeting_contractid,
   intear_dex_engine_contractid,
   intear_dex_xyk_dex_id,
@@ -31,6 +32,7 @@ export {
   NEAR_KIT_ACCOUNT_ID,
   NEAR_KIT_NETWORK,
   near_kit_env,
+  chess_game_contractid,
   greeting_contractid,
   intear_dex_engine_contractid,
   intear_dex_xyk_dex_id,

@@ -53,7 +53,7 @@ const id = rhea_ammv2_contractid(NEAR_KIT_NETWORK);
 ### @near-kit-tool-box/fun
 
 Contract functions (greeting, Rhea/Ref, FT, wrapNEAR, pumpopoly world,
-staking pool, NEAR TLD, Sputnik DAO, INTEAR DEX).
+staking pool, NEAR TLD, Sputnik DAO, INTEAR DEX, app.chess-game.near).
 
 ```js
 import {
@@ -85,6 +85,10 @@ import {
   sputnik_dao_get_config_fun_json,
   sputnik_dao_get_proposals_fun_json,
   sputnik_dao_factory_get_dao_list_fun_json,
+  // Chess — app.chess-game.near
+  chess_game_get_board_fun_json,
+  chess_game_game_info_fun_json,
+  chess_game_play_move_fun_json,
   // Generic view/call — for any contract not in the toolbox
   generic_contract_view_fun_json,
   generic_contract_call_fun,

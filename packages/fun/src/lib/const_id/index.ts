@@ -13,6 +13,7 @@
 
 // =================================================
 export * from "./contract_id_const_type";
+export * from "./chess_game_contract_id_const";
 export * from "./rhea_ammv2_contract_id_const";
 export * from "./rhea_dclv2_contract_id_const";
 export * from "./intear_dex_engine_contract_id_const";

@@ -5,6 +5,7 @@
 // =================================================
 
 // =================================================
+export * from "./methods_chess_game";
 export * from "./methods_rhea_ammv2";
 export * from "./methods_rhea_dclv2";
 export * from "./methods_intear_dex_engine";

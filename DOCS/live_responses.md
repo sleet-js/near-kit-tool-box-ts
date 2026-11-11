@@ -70,3 +70,34 @@ Same `default_vote_policy` shape on `ref-finance.sputnik-dao.near` and
 ## wrap.near (ft / wrap_near)
 
 - `ft_metadata` -> `{ spec, name, symbol, icon, reference, reference_hash, decimals }`
+
+## app.chess-game.near (chess_game)
+
+- `get_board` -> an array of 8 strings, one per rank; row 0 is rank 8,
+  the pieces are `KQRBNP` / `kqrbnp` and a space is an empty square
+- `render_board` -> one string, the same board with unicode pieces and
+  chessboard squares
+- `game_info` -> `{ white, black, turn_color, last_block_height, has_bets }`
+  - `white` / `black` -> `{ type: "Human" | "Ai", value: <string> }`; the
+    tag field is named **`type`** on the wire
+  - `turn_color` -> `"White"` or `"Black"`
+  - `last_block_height` is a JSON number
+- `get_game_ids` -> an array of `[height, white, black|null]` arrays
+- `get_account` -> 13 fields:
+  `near_amount, is_agent, points, pending_points, elo, wins, win_streak,
+max_win_streak, bets_placed, bets_won, wagers_played, wager_wins,
+challenges_sent`
+  - `near_amount`, `points` and `pending_points` are decimal strings
+  - `elo` is a JSON number, e.g. `969.548032325438`
+- `get_accounts` -> an array of account id strings
+- `get_elo_ratings` / `get_elo_ratings_by_ids` -> an array of
+  `[account_id, elo]` arrays; the elo is a JSON number
+- `get_owner` -> an account id string
+- `get_fees` -> a JSON number, in basis points (150 today)
+- `get_token_whitelist` -> an array of token contract ids
+- `storage_balance_bounds` -> `{ max: null, min: "50000000000000000000000" }`
+  (0.05 NEAR)
+- `storage_balance_of` -> `{ total, available }`, both decimal strings
+- `ft_metadata` -> `{ spec, name, symbol, icon, reference, reference_hash,
+decimals }`; the symbol is `PPP`, the decimals are `6`, the name is
+  `Protocol Pawns Points` and the `icon` is a large data url

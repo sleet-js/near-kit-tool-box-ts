@@ -29,6 +29,10 @@ governance - sputnik dao
 
 - [sputnik-dao.near.md](./sputnik-dao.near.md) — the factory and the daos it deploys
 
+gaming - protocol pawns
+
+- [app.chess-game.near.md](./app.chess-game.near.md) — the on-chain chess contract
+
 ==========================
 <br/>
 copyright 2026 by sleet.near

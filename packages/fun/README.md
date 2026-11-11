@@ -29,6 +29,10 @@ import {
   // wrapNEAR
   wrap_near_deposit_fun_json,
   wrap_near_withdraw_fun_json,
+  // app.chess-game.near on-chain chess
+  chess_game_get_board_fun_json,
+  chess_game_game_info_fun_json,
+  chess_game_play_move_fun_json,
 } from "@near-kit-tool-box/fun";
 ```
 
@@ -41,6 +45,7 @@ import {
 - INTEAR DEX engine and sub-dex functions
 - Sputnik DAO factory and DAO functions
 - Staking pool, pumpopoly world, and NEAR TLD functions
+- app.chess-game.near on-chain chess functions (view & call)
 - `generic_contract_view_fun_json` — a generic view for any contract
 - `generic_contract_call_fun` — generic contract-call helper for a near-kit client
 - `generic_contract_call_wallet` — generic contract-call helper for a browser wallet

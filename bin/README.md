@@ -36,6 +36,7 @@ work without a signer; call bins need `NEAR_KIT_ACCOUNT_ID` and
 
 | folder                   | what it covers                        | readme                                                               |
 | ------------------------ | ------------------------------------- | -------------------------------------------------------------------- |
+| `chess_game/`            | app.chess-game.near on-chain chess    | [chess_game/README.md](./chess_game/README.md)                       |
 | `ft/`                    | NEP-141 / NEP-145 fungible tokens     | [ft/README.md](./ft/README.md)                                       |
 | `hello/`                 | greeting contract                     | [hello/README.md](./hello/README.md)                                 |
 | `intear_dex_engine/`     | INTEAR DEX engine (`dex.intear.near`) | [intear_dex_engine/README.md](./intear_dex_engine/README.md)         |
