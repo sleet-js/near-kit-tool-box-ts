@@ -6,7 +6,14 @@
 // `min_elo` and `max_elo` are the rating range of the opponent to
 // match and are required. They are FLOATS on the contract, not
 // integers. The caller must be registered, and must not already be in
-// a challenge or in the queue. The queue holds 200 entries.
+// a challenge or in the queue. The queue holds 500 entries.
+//
+// A queue entry expires after ONE HOUR, and the expired entries are
+// purged lazily — when the queue is next walked.
+//
+// The elo test is MUTUAL: the joiner's band and the queued player's
+// band must both accept the other player, so a band is an agreement
+// between two players rather than a search range.
 //
 // The call attaches NO deposit — the queue entry costs the contract
 // nothing to store.
