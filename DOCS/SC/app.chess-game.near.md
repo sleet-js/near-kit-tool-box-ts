@@ -37,8 +37,10 @@ that json array.
 
 `play_move` takes **coordinate notation**, not san. `"Nf3"` and
 `"Qxe4"` fail. the accepted forms are `"e2e4"`, `"e2 e4"`, `"e2 to e4"`,
-`"O-O"`, `"O-O-O"` and a promotion like `"e7 to e8 Q"`. the columns are
-a–h and the rows are 1–8, counted from white's side.
+`"O-O"`, `"O-O-O"` and a promotion like `"e7 to e8 queen"`. a promotion
+spells the piece out in full — `"e7 to e8 Q"` is refused with
+`invalid piece name`. the columns are a–h and the rows are 1–8,
+counted from white's side.
 
 **GAS AND DEPOSITS**
 

@@ -4,7 +4,8 @@
 // Call: plays a move in a chess game.
 //
 // `mv` is COORDINATE NOTATION, not san — "e2e4", "e2 e4", "e2 to e4",
-// "O-O", "O-O-O", "e7 to e8 Q".
+// "O-O", "O-O-O", "e7 to e8 queen". a promotion spells the piece out
+// in full.
 //
 // The gas depends on the opponent: 50 Tgas against the `Easy` ai, 150
 // against the `Medium` ai or a human game, 250 against `Hard` and 400

@@ -27,7 +27,7 @@ export interface chess_game_args {
   // the account being challenged
   challenged_id: string;
   // the move, in coordinate notation — "e2e4", "e2 e4", "e2 to e4",
-  // "O-O", "O-O-O", "e7 to e8 Q"
+  // "O-O", "O-O-O", "e7 to e8 queen"
   mv: string;
   // the ai difficulty — "Easy" | "Medium" | "Hard" | "VeryHard"
   difficulty: string;

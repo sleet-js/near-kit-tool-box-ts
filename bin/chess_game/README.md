@@ -20,7 +20,8 @@ the bins take the game id either as `--game-id '<json array>'` or as
 the loose flags `--height`, `--white` and `--black`.
 
 moves are **coordinate notation**, not san — `"e2e4"`, `"e2 e4"`,
-`"e2 to e4"`, `"O-O"`, `"O-O-O"`, `"e7 to e8 Q"`.
+`"e2 to e4"`, `"O-O"`, `"O-O-O"`, `"e7 to e8 queen"`. a promotion
+spells the piece out in full.
 
 ---
 
